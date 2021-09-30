@@ -1,0 +1,15 @@
+.analytic-wrapper {
+  background-color: #faf8f4;
+  border-radius: 30px;
+}
+
+.col-7.col-md-8 #card-text-number {
+  font-weight: 800;
+  font-size: 40px;
+}
+
+.col-5.col-md-4 #card-icon {
+  background-color: #e3e1d4;
+  padding: 10px;
+  border-radius: 25px;
+}
