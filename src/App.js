@@ -1,11 +1,12 @@
 import "./App.css";
 import Dashboard from "./pages/Admin/Dashboard";
-
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 function App() {
   return (
-    <>
-      <Dashboard></Dashboard>
-    </>
+    
+    <Router>
+        <Route path = "/admin/dashboard" component = {Dashboard} ></Route>
+      </Router>
   );
 }
 
