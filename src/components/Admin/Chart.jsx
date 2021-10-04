@@ -11,7 +11,8 @@ const data = (canvas) => {
 
   var gradientFill = ctx.createLinearGradient(0, 570, 0, 100);
   gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
-  gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
+  // gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
+  gradientFill.addColorStop(1, "rgba(233, 140, 137, 0.70)");
   return {
     labels: [
       "Jan",

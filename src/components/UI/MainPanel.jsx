@@ -1,10 +1,7 @@
 import React from "react";
-import Analytic from "../Admin/Analytic.jsx";
-import CalendarEmb from "../Admin/Calendar.jsx";
-import Chart from "../Admin/Chart.jsx";
-import TopDistributor from "../Admin/TopDistributor.jsx";
 import "./MainPanel.css";
-export default function MainPanel() {
+
+export default function MainPanel({ username, site, siteContent }) {
   return (
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
@@ -13,7 +10,7 @@ export default function MainPanel() {
             class="fas fa-align-left primary-text fs-4 me-3 d-none"
             id="menu-toggle"
           ></i>
-          <h2 class="fs-2 m-0 fw-bold">Dashboard</h2>
+          <h2 class="fs-2 m-0 fw-bold">{site}</h2>
         </div>
 
         <button
@@ -48,7 +45,8 @@ export default function MainPanel() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="fas fa-user me-2"></i>MinhLD
+                <i class="fas fa-user me-2"></i>
+                {username}
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
@@ -71,19 +69,7 @@ export default function MainPanel() {
           </ul>
         </div>
       </nav>
-
-      <div class="container-fluid px-4">
-        <div className="row">
-          <div className="col-sm-9">
-            <Analytic />
-            <Chart />
-            <TopDistributor />
-          </div>
-          <div className="col-sm-3">
-            <CalendarEmb />
-          </div>
-        </div>
-      </div>
+      {siteContent}
     </div>
   );
 }

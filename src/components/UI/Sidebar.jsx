@@ -1,6 +1,6 @@
 import React from "react";
 import "./SidebarStyle.css";
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 export default function Sidebar() {
   return (
     <div class="text-white text-center" id="sidebar-wrapper">
@@ -9,18 +9,20 @@ export default function Sidebar() {
           <i class=""></i>Zappy
         </div>
         <div class="list-group list-group-flush">
-          <a
-            href="#"
+          <Link
+            to="/admin"
+            title="Dashboard"
             class="list-group-item list-group-item-action bg-transparent active"
           >
-            <i class="fas fa-tachometer-alt"></i>
-          </a>
-          <a
-            href="#"
+            <i class="fas fa-tachometer-alt fa-2x"></i>
+          </Link>
+          <Link
+            to="/admin/accMng"
+            title="Account Management"
             class="list-group-item list-group-item-action bg-transparent"
           >
             <i class="fas fa-project-diagram"></i>
-          </a>
+          </Link>
 
           <a
             href="#"
