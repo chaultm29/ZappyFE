@@ -10,14 +10,14 @@ export default function Sidebar() {
         </div>
         <div class="list-group list-group-flush">
           <Link
-            to="/admin"
+            to="/admin/dashboard"
             title="Dashboard"
             class="list-group-item list-group-item-action bg-transparent active"
           >
             <i class="fas fa-tachometer-alt fa-2x"></i>
           </Link>
           <Link
-            to="/admin/accMng"
+            to="/admin/acc-mng"
             title="Account Management"
             class="list-group-item list-group-item-action bg-transparent"
           >
