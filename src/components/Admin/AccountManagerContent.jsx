@@ -4,7 +4,7 @@ import Schedule from "../Admin/Schedule.jsx";
 import AccountModal from "./AccountModal.jsx";
 
 export default function AccountManagerContent() {
-  const [type, setType] = useState("0");
+  const [type, setType] = useState("-1");
   const onUserClickButton = (e) => {
     setType(e.currentTarget.value);
     console.log(type);
@@ -13,7 +13,15 @@ export default function AccountManagerContent() {
     <div class="container-fluid px-4">
       <div className="row">
         <div className="col-sm-9 accountManagerContent-wrapper">
-          <button class="btn btn-primary" id="addbutton" title="Add">
+          <button
+            class="btn btn-primary"
+            id="addbutton"
+            data-bs-toggle="modal"
+            data-bs-target="#ViewModal"
+            value="0"
+            title="Add"
+            onClick={onUserClickButton}
+          >
             <span class="fa fa-plus-square"></span>
           </button>
           <table id="account-table" class="table table-striped">
