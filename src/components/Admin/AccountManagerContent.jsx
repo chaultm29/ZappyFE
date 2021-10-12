@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CalendarEmb from "../Admin/Calendar.jsx";
 import Schedule from "../Admin/Schedule.jsx";
 import AccountModal from "./AccountModal.jsx";
@@ -9,6 +9,7 @@ export default function AccountManagerContent() {
     setType(e.currentTarget.value);
     console.log(type);
   };
+
   return (
     <div class="container-fluid px-4">
       <div className="row">
@@ -24,6 +25,7 @@ export default function AccountManagerContent() {
           >
             <span class="fa fa-plus-square"></span>
           </button>
+
           <table id="account-table" class="table table-striped">
             <thead>
               <tr>
