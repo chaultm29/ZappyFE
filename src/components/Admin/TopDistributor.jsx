@@ -8,14 +8,15 @@ createTheme("solarized", {
     secondary: "#2aa198",
   },
   background: {
-    default: "#FAF8F4",
+    default: "#ffffff",
   },
   context: {
     background: "#cb4b16",
-    text: "#FFFFFF",
+    text: "#3B393D",
   },
   divider: {
-    default: "#073642",
+    // default: "#073642",
+    default: "#3B393D",
   },
   action: {
     button: "rgba(0,0,0,.54)",

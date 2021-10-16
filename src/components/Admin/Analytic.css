@@ -1,6 +1,9 @@
 .analytic-wrapper {
-  background-color: #faf8f4;
+  /* background-color: #faf8f4; */
+  /* background-color: #c8b0c6; */
+  background-color: #ffffff;
   border-radius: 30px;
+  box-shadow: rgba(0, 0, 0, 0.01) 0px 3px 6px, rgba(0, 0, 0, 0.1) 0px 3px 6px;
 }
 
 .col-7.col-md-8 #card-text-number {

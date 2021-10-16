@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import DashboardContent from "../../components/Admin/DashboardContent";
+import AccountManagerContent from "../../components/Admin/AccountManagerContent";
 import MainPanel from "../../components/UI/MainPanel";
 import Sidebar from "../../components/UI/Sidebar";
 
-export default function Dashboard() {
+export default function AccountManager() {
   const { username, setUserName } = useState("MinhLD");
-  const [site, setSite] = useState("Dashboard");
-  const [siteContent, setSiteContent] = useState(<DashboardContent />);
+  const [site, setSite] = useState("Account Manager");
+  const [siteContent, setSiteContent] = useState(<AccountManagerContent />);
   return (
     <div class="d-flex flex-row" id="wrapper">
       <Sidebar />
