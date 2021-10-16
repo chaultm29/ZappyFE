@@ -75,7 +75,58 @@
     margin-top: 10px;
     height: 70px;
 }
+.boxTwo{
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 10px;
+    height: 120px;
+}
 h3 {
     font-weight: 900;
     font-family: 'Times New Roman', Times, serif;
+}
+.skill{
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    stroke-linecap: round;
+    list-style: none;
+}
+/* .pro {
+    display: block;
+    height: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    
+}
+.pro span{
+    height: 2px;
+    float: left;
+    background: pink;
+} */
+.pro{
+    width: 100%;
+}
+.progress-line {
+    position: relative;
+    height: 10px;
+    width: 100%;
+    background: pink;
+    
+}
+.progress-line span{
+    height: 100%;
+    width: 80%;
+    background: #6665ee;
+    position: absolute;
+    border-radius: 10px;
 }

@@ -1,0 +1,76 @@
+.tit {
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+}
+
+h3{
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 550;
+}
+.practice {
+    bottom: 20px;
+    right: 50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    position: fixed;
+}
+.my-card {
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    margin-left: 5px;
+}
+.my-card .cha{
+    font-size: 120px;
+    font-family: 'MS Mincho';
+    font-weight: 900;
+    width: 25%;
+}
+.kanji-attribute {
+    width: 25%;
+    
+}
+.kanji-attribute ul{
+    list-style-type: none;
+    margin-top: 35px;
+    padding-left: 0px;
+}
+.kanji-gif{
+    width: 50%;
+}
+.kanji-image{
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.my-card img{
+    width: 50%;
+    height: 100%;
+    margin: auto;
+}
+.my-card .des{
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 300;
+
+}
+.prev{
+    margin-top: 20px;
+    margin-left: 30%;
+    margin-right: 20%;
+}
+
+.next{
+    margin-top: 20px;
+}
+.prog{
+    margin: 20px 0;
+}

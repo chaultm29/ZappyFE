@@ -16,7 +16,7 @@ class Navigation extends Component {
             //     </div>
             // </nav>
             // <!-- Navbar -->
-            <nav class="navbar navbar-expand-lg navbar-light fixed-top" style={{backgroundColor: "#e98c89"}}>
+            <nav class="navbar navbar-expand-lg navbar-light" style={{backgroundColor: "#ff9999"}}>
                 {/* <!-- Container wrapper --> */}
                 <div class="container-fluid">
                     {/* <!-- Toggle button --> */}
