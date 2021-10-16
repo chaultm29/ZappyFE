@@ -2,11 +2,12 @@
   justify-content: end;
   width: 350px;
   max-width: 100%;
-  background: #f6f8f9;
-  border: 1px solid #f6f8f9;
+  /* background: #f6f8f9; */
+  background: #ffffff;
   line-height: 0.8em;
   border-radius: 15px;
   color: #3b393d;
+  box-shadow: rgba(0, 0, 0, 0.01) 0px 3px 6px, rgba(0, 0, 0, 0.1) 0px 3px 6px;
 }
 .react-calendar--doubleView {
   width: 700px;
