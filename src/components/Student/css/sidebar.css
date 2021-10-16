@@ -1,0 +1,132 @@
+.box {
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    stroke-linecap: round;
+    
+}
+.box .percent
+{
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin-top: 10px;
+}
+
+.box .percent svg circle{
+    width: 130px;
+    height: 130px;
+    fill: none;
+    stroke-width: 10;
+    stroke: #000;
+    transform: translate(5px,5px);
+    stroke-dasharray: 440;
+    stroke-dashoffset: 440;
+}
+
+.box .percent svg circle:nth-child(1){
+    stroke-dashoffset: 0;
+    stroke: #f3f3f3;
+}
+
+.box .percent svg circle:nth-child(2){
+    stroke-dashoffset: calc(440 - (440*87)/100);
+    stroke: pink;
+}
+
+.box .percent .number{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+}
+
+.box .percent .number h2{
+    font-size: 30px;
+
+}
+.box .percent .number h2 span{
+    font-size: 24px;
+}
+.box .text{
+    padding: 1px 0 0;
+    color: #999;
+    font-weight: 700;
+    letter-spacing: 0px;
+    padding-bottom: 0;
+}
+
+.boxBig{
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 10px;
+    height: 70px;
+}
+.boxTwo{
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    margin-top: 10px;
+    height: 120px;
+}
+h3 {
+    font-weight: 900;
+    font-family: 'Times New Roman', Times, serif;
+}
+.skill{
+    border-radius: 10px;
+    border: grey 1px;
+    box-shadow: 2px 2px 5px 1px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    stroke-linecap: round;
+    list-style: none;
+}
+/* .pro {
+    display: block;
+    height: 2px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    
+}
+.pro span{
+    height: 2px;
+    float: left;
+    background: pink;
+} */
+.pro{
+    width: 100%;
+}
+.progress-line {
+    position: relative;
+    height: 10px;
+    width: 100%;
+    background: pink;
+    
+}
+.progress-line span{
+    height: 100%;
+    width: 80%;
+    background: #6665ee;
+    position: absolute;
+    border-radius: 10px;
+}
