@@ -1,42 +1,57 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-export default function AccountForm() {
+export default function AccountForm({ onSubmitData }) {
   const { register, handleSubmit } = useForm();
-  const onSubmit = () => {};
+  const onAddHandleSubmit = (data) => {
+    console.log(data);
+    onSubmitData(data);
+  };
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onAddHandleSubmit)}>
         <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">
-            Email address
+          <label for="inputUsername" class="form-label">
+            Username
           </label>
           <input
-            type="email"
+            name="username"
+            type="text"
             class="form-control"
-            id="exampleInputEmail1"
-            aria-describedby="emailHelp"
+            id="inputUsername"
+            {...register("username", { required: true })}
           />
         </div>
         <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">
+          <label for="inputPassword" class="form-label">
             Password
           </label>
           <input
+            name="password"
             type="password"
             class="form-control"
-            id="exampleInputPassword1"
+            id="inputPassword"
+            {...register("password", { required: true })}
           />
         </div>
         <div class="mb-3 form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-          <label class="form-check-label" for="exampleCheck1">
-            Check me out
+          <input
+            name="enabled"
+            type="checkbox"
+            class="form-check-input"
+            id="isActived"
+            {...register("enabled", { required: true })}
+          />
+          <label class="form-check-label" for="isActived">
+            Active
           </label>
         </div>
-        {/* <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary end-0">
           Submit
-        </button> */}
+        </button>
+        <button type="reset" class="btn btn-secondary end-0 mx-2">
+          Reset
+        </button>
       </form>
     </>
   );

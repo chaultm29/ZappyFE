@@ -1,7 +1,7 @@
 import React from "react";
 import AccountForm from "./AccountForm";
 
-export default function AccountModal({ type }) {
+export default function AccountModal({ type, onSubmitDataInContent }) {
   const modalTitle =
     type == 0
       ? "Add Account"
@@ -10,6 +10,11 @@ export default function AccountModal({ type }) {
       : type == 2
       ? "Edit Account"
       : "Delete Account";
+
+  const onSubmitData = (submitData) => {
+    console.log("AccountModal", submitData);
+    onSubmitDataInContent(submitData);
+  };
   return (
     <>
       {/* Modal add account */}
@@ -35,16 +40,7 @@ export default function AccountModal({ type }) {
                 ></button>
               </div>
               <div class="modal-body">
-                <AccountForm />
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
+                <AccountForm onSubmitData={onSubmitData} />
               </div>
             </div>
           </div>
@@ -72,15 +68,6 @@ export default function AccountModal({ type }) {
                 ></button>
               </div>
               <div class="modal-body">View</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-              </div>
             </div>
           </div>
         </div>

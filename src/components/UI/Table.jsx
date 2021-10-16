@@ -92,10 +92,12 @@ function Table({ columns, data }) {
     nextPage,
     previousPage,
     setPageSize,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
+      initialState: { pageIndex: 0 },
     },
     useFilters,
     useGlobalFilter,
@@ -219,33 +221,27 @@ function Table({ columns, data }) {
               <i class="fas fa-angle-double-right"></i>
             </a>
           </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              1
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              2
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              3
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">
-              Next
-            </a>
-          </li>
         </ul>
 
         <span>
-          Page{" "}
+          Page
           <strong>
             {state.pageIndex + 1} of {pageOptions.length}
-          </strong>{" "}
+          </strong>
+        </span>
+        <span>
+          | Go to page:
+          <input
+            type="number"
+            min="1"
+            max={pageOptions.length}
+            defaultValue={pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
+            }}
+            style={{ width: "100px" }}
+          />
         </span>
         <select
           value={state.pageSize}
