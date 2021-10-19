@@ -4,16 +4,59 @@ import Schedule from "../Admin/Schedule.jsx";
 import Table, { SelectColumnFilter } from "../UI/Table.jsx";
 import AccountModal from "./AccountModal.jsx";
 import AccountServices from "../../services/AccountServices.jsx";
+import { useHistory } from "react-router-dom";
 
 export default function AccountManagerContent() {
   const [type, setType] = useState("-1");
   const [dataAcc, setDataAcc] = useState([]);
+  const [accountId, setAccountId] = useState(0);
+  const [account, setAccount] = useState([]);
+  const [isDelete, setIsDelete] = useState(false);
+  const history = useHistory();
 
-  const onUserClickButton = (e) => {
+  const onUserClickAddButton = (e) => {
     setType(e.currentTarget.value);
-    console.log(type);
+  };
+  const onSubmitDataAccount = (submitData) => {
+    if (submitData.id) {
+      AccountServices.editAccount(submitData, submitData.id);
+      history.go(0);
+    } else {
+      AccountServices.addAccount(submitData);
+      history.go(0);
+    }
   };
 
+  // view account
+  const onUserClickViewButton = (e) => {
+    setType(e.currentTarget.value);
+    setAccountId(e.currentTarget.id);
+  };
+  useEffect(() => {
+    if (accountId > 0) {
+      AccountServices.getAccountByID(accountId).then((res) => {
+        setAccount(res.data);
+      });
+    }
+  }, [accountId]);
+
+  const onUserClickEditButton = (e) => {
+    setAccountId(e.currentTarget.id);
+    setType(e.currentTarget.value);
+  };
+
+  const onUserClickDeleteButton = (e) => {
+    setType(e.currentTarget.value);
+    setAccountId(e.currentTarget.id);
+  };
+  useEffect(() => {
+    if (isDelete) {
+      AccountServices.deleteAccount(accountId);
+      history.go(0);
+    }
+  }, [isDelete]);
+
+  // get list account
   useEffect(() => {
     AccountServices.getListAccount()
       .then((res) => {
@@ -22,51 +65,47 @@ export default function AccountManagerContent() {
             <div>
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-primary mx-1"
                 data-bs-toggle="modal"
                 data-bs-target="#ViewModal"
                 value="1"
-                onClick={onUserClickButton}
+                id={record.id}
+                onClick={onUserClickViewButton}
               >
                 <i class="far fa-eye"></i>
               </button>
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn btn-success mx-1"
                 data-bs-toggle="modal"
                 data-bs-target="#ViewModal"
                 value="2"
-                onClick={onUserClickButton}
+                id={record.id}
+                onClick={onUserClickEditButton}
               >
                 <i class="fas fa-user-edit"></i>
               </button>
               <button
                 type="button"
-                class="btn btn-danger"
+                class="btn btn-danger mx-1"
                 data-bs-toggle="modal"
                 data-bs-target="#ViewModal"
                 value="3"
-                onClick={onUserClickButton}
+                id={record.id}
+                onClick={onUserClickDeleteButton}
               >
                 <i class="far fa-minus-square"></i>
               </button>
             </div>
           );
           setDataAcc((dataAcc) => [...dataAcc, record]);
-          console.log(dataAcc);
         });
       })
       .catch((err) => console.error(err));
   }, []);
 
-  const addAccount = (account) => {
-    AccountServices.addAccount(account);
-  };
+  // get value from form
 
-  const onSubmitDataInContent = (submitData) => {
-    console.log("Content", submitData);
-    addAccount(submitData);
-  };
   const getData = () => {
     return [...dataAcc];
   };
@@ -110,7 +149,7 @@ export default function AccountManagerContent() {
             data-bs-target="#ViewModal"
             value="0"
             title="Add"
-            onClick={onUserClickButton}
+            onClick={onUserClickAddButton}
           >
             <span class="fa fa-plus-square"></span>
           </button>
@@ -120,7 +159,9 @@ export default function AccountManagerContent() {
         {/* View Modal */}
         <AccountModal
           type={type}
-          onSubmitDataInContent={onSubmitDataInContent}
+          onSubmitDataAccount={onSubmitDataAccount}
+          account={account}
+          setIsDelete={setIsDelete}
         />
         <div className="col-sm-3">
           <CalendarEmb />

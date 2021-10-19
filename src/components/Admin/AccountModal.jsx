@@ -1,19 +1,25 @@
 import React from "react";
-import AccountForm from "./AccountForm";
+import AccountAddForm from "./AccountAddForm";
+import AccountViewDetail from "./AccountViewDetail";
+import AccountEditForm from "./AccountEditForm";
 
-export default function AccountModal({ type, onSubmitDataInContent }) {
+export default function AccountModal({
+  type,
+  account,
+  onSubmitDataAccount,
+  setIsDelete,
+}) {
   const modalTitle =
     type == 0
       ? "Add Account"
       : type == 1
-      ? "Account Detai"
+      ? "Account Detail"
       : type == 2
       ? "Edit Account"
       : "Delete Account";
 
   const onSubmitData = (submitData) => {
-    console.log("AccountModal", submitData);
-    onSubmitDataInContent(submitData);
+    onSubmitDataAccount(submitData);
   };
   return (
     <>
@@ -40,7 +46,7 @@ export default function AccountModal({ type, onSubmitDataInContent }) {
                 ></button>
               </div>
               <div class="modal-body">
-                <AccountForm onSubmitData={onSubmitData} />
+                <AccountAddForm onSubmitData={onSubmitData} />
               </div>
             </div>
           </div>
@@ -67,7 +73,9 @@ export default function AccountModal({ type, onSubmitDataInContent }) {
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">View</div>
+              <div class="modal-body">
+                <AccountViewDetail account={account} />
+              </div>
             </div>
           </div>
         </div>
@@ -93,18 +101,11 @@ export default function AccountModal({ type, onSubmitDataInContent }) {
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">Edit</div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button type="button" class="btn btn-primary">
-                  Save changes
-                </button>
+              <div class="modal-body">
+                <AccountEditForm
+                  accountBeforeEdit={account}
+                  onSubmitData={onSubmitData}
+                />
               </div>
             </div>
           </div>
@@ -131,16 +132,20 @@ export default function AccountModal({ type, onSubmitDataInContent }) {
                   aria-label="Close"
                 ></button>
               </div>
-              <div class="modal-body">Delete</div>
-              <div class="modal-footer">
+              <div class="modal-body">Do you want to delete this account?</div>
+              <div class="modal-footer border-0">
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  class="btn btn-primary"
                   data-bs-dismiss="modal"
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  onClick={() => setIsDelete(true)}
+                >
                   Yes
                 </button>
               </div>
