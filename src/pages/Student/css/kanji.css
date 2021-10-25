@@ -17,16 +17,17 @@ h3{
     border-radius: 50%;
     position: fixed;
 }
-.my-card {
+.kanji-card {
     border-radius: 10px;
     border: grey 1px;
     box-shadow: 2px 2px 5px 1px;
     width: 100%;
     padding: 10px;
-    display: flex;
+    display: none;
     margin-left: 5px;
+  
 }
-.my-card .cha{
+.kanji-card .cha{
     font-size: 120px;
     font-family: 'MS Mincho';
     font-weight: 900;
