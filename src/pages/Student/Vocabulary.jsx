@@ -4,7 +4,6 @@ import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
 import gif from '../../assets/img/pagebg.gif'
 import StudyService from '../../services/StudyService';
-import { FlashcardComponent } from 'react-flashcard'
 
 class Vocabulary extends Component {
     constructor(props) {
