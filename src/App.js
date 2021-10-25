@@ -12,6 +12,8 @@ import Kanji from "./pages/Student/Kanji";
 
 import AccountManager from "./pages/Admin/AccountManager";
 import useScript from "./services/useScript";
+import Vocabulary from "./pages/Student/Vocabulary";
+import { Redirect } from "react-router/cjs/react-router.min";
 
 function App() {
   return (
@@ -20,11 +22,13 @@ function App() {
       <Switch>
         <Route path = "/admin/dashboard" component = {Dashboard} ></Route>
         <Route path = "/home" component = {Homepage} ></Route>
-        <Route path = "/study" component = {Study} exact ></Route>
+        <Route exact path = "/study" component = {Study} ></Route>
         <Route path = "/study/alphabet" component = {Alphabet}></Route>
         <Route path = "/study/hiragana" component = {Hiragana}></Route>
         <Route path = "/study/katakana" component = {Katakana}></Route>
-        <Route path = "/study/kanji" component = {Kanji}></Route>
+        <Route exact path = "/study/kanji/lesson/:id" component = {Kanji}></Route>
+        <Route path = "/study/vocabulary/lesson/:id" component = {Vocabulary}></Route>
+        
         </Switch>
 
       <Route

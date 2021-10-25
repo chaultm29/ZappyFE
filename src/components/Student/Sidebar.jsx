@@ -3,18 +3,25 @@ import './css/sidebar.css';
 import { BrowserRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { push } from 'react-router';
+import StudyService from '../../services/StudyService';
+import Kanji from '../../pages/Student/Kanji';
 // import Hiragana from './Hiragana';
 // import Alphabet from './Alphabet';
 
 class Sidebar extends Component {
 
     constructor(props) {
-        super(props);
+        super(props);   
         this.learning = this.learning.bind(this);
         this.display = this.display.bind(this);
         this.displayLesson = this.displayLesson.bind(this);
         this.renderDefault = this.renderDefault.bind(this);
-       
+        this.gotoLesson = this.gotoLesson.bind(this);
+        this.state = {
+            lessons: [],
+            currentSkill: "",
+            displaySkill: ""
+        }
     }
 
     renderDefault() {
@@ -51,6 +58,7 @@ class Sidebar extends Component {
                 break;
             case 'vocabulary':
                 text = 'Từ vựng';
+                
                 break;
             case 'grammar':
                 text = 'Ngữ pháp';
@@ -71,14 +79,42 @@ class Sidebar extends Component {
         else elem.style.display = "none"
 
     }
-    displayLesson(skill) {
-        var elem = document.getElementById("lesson");
-        if (elem.style.display == "none") {
-            elem.style.display = "flex";
-        }
-        else elem.style.display = "none";
-        this.learning(skill)
+
+    gotoLesson(skill, id) {
+        var url = "/study/" + skill + "/lesson/" + id
+        this.props.history.push(url)
+        window.location.reload(true)
     }
+    displayLesson(skill) {
+        if (this.state.displaySkill !== "") {
+            var lesson = document.getElementById(this.state.displaySkill + "Lesson")
+            if (this.state.displaySkill === skill)
+                lesson.style.display = lesson.style.display == "none" ? "flex" : "none";
+            else {
+                lesson.style.display = "none";
+                document.getElementById(skill + "Lesson").style.display = "flex";
+                this.state.displaySkill = skill;
+            }
+        } else {
+            document.getElementById(skill + "Lesson").style.display = "flex";
+            this.state.displaySkill = skill;
+        }
+    }
+    componentDidMount() {
+        StudyService.getLesson().then((res) => {
+            this.setState({ lessons: res.data })
+        });
+        var elem = window.location.pathname.split("/");
+        if (elem.length >= 3 && (elem[2] === "vocabulary" || elem[2] === "grammar" || elem[2] === "kanji")) {
+            this.state.currentSkill = this.state.displaySkill = elem[2];
+            document.getElementById(this.state.currentSkill + "Lesson").style.display = "flex";
+        }
+        if(elem.length>=3 && (elem[2] === "alphabet" || elem[2] === "hiragana" || elem[2] === "katakana")){
+            document.getElementById("alphabet").style.display = "flex";
+        }
+
+    }
+
     render() {
         return (
             <>
@@ -154,16 +190,33 @@ class Sidebar extends Component {
                     <button class="col-md-4 boxTwo" onClick={() => this.displayLesson('grammar')}><h3>Ngữ pháp</h3></button>
                     <button class="col-md-4 boxTwo" onClick={() => this.displayLesson('kanji')}><h3>Chữ hán</h3></button>
                 </div>
-                <div id="lesson" class="row" style={{ display: "none" }}>
-                    <button class="col-md-12 boxBig"><h3>Bài 1</h3></button>
-                    <button class="col-md-12 boxBig"><h3>Bài 2</h3></button>
-                    <button class="col-md-12 boxBig"><h3>Bài 3</h3></button>
+
+                <div id="vocabularyLesson" class="row" style={{ display: "none" }}>
+                    {this.state.lessons.map(
+                        lesson =>
+                            <button class="col-md-12 boxBig btnLesson" key={lesson.id} onClick={() => this.gotoLesson("vocabulary", lesson.id)}>
+                                <h3>{lesson.lessonName}</h3>
+                            </button>
+                    )}
+                </div>
+                <div id="grammarLesson" class="row" style={{ display: "none" }}>
+                    {this.state.lessons.map(
+                        lesson =>
+                            <button class="col-md-12 boxBig btnLesson" key={lesson.id} onClick={() => this.gotoLesson("grammar", lesson.id)}>
+                                <h3>{lesson.lessonName}</h3></button>
+                    )}
+                </div>
+                <div id="kanjiLesson" class="row" style={{ display: "none" }}>
+                    {this.state.lessons.map(
+                        lesson =>
+                            <button class="col-md-12 boxBig btnLesson" key={lesson.id} onClick={() => this.gotoLesson("kanji", lesson.id)}>
+                                <h3>{lesson.lessonName}</h3></button>
+                    )}
                 </div>
             </div>
-            {/* <div class ='rightContent' style={{ display: "none" }}> <Alphabet/> </div>
-            <div class ='rightContent' style={{ display: "none" }}> <Hiragana/> </div> */}
+
             </>
-             
+
         );
     }
 }

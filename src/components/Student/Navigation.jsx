@@ -127,13 +127,13 @@ class Navigation extends Component {
                                 class="dropdown-menu"
                                 aria-labelledby="navbarDropdownMenuLink">
                                 <li>
-                                    <a class="dropdown-item" href="#">Thông tin cá nhân</a>
+                                    <a class="dropdown-item list" href="#">Thông tin cá nhân</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">Settings</a>
+                                    <a class="dropdown-item list" href="#">Settings</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">Đăng xuất</a>
+                                    <a class="dropdown-item list" href="#">Đăng xuất</a>
                                 </li>
                             </ul>
                         </div>
