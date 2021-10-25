@@ -1,0 +1,44 @@
+{
+  "bank": [
+    {
+      "lesson": "1",
+      "type": "multiplechoice",
+      "question": "Ai xynk nhut ? ",
+      "imgLink": "1.png",
+      "correct_answer": "Nhung",
+      "incorrect_answers": ["X", "Y", "Z"]
+    },
+    {
+      "lesson": "1",
+      "type": "multiplechoice",
+      "question": "Ai sau' nhut ? ",
+      "imgLink": "1.png",
+      "correct_answer": "AAAAAAAAA",
+      "incorrect_answers": ["X", "Y", "Z"]
+    },
+    {
+      "lesson": "1",
+      "type": "arrangement",
+      "question": "は / の / 私 / しゃいん / です / ABC",
+      "imgLink": "hiragana.png",
+      "correct_answer": "私はABCのしゃいんです",
+      "incorrect_answers": []
+    },
+    {
+      "lesson": "1",
+      "type": "truefalse",
+      "question": "Nhung xynk nhut ? ",
+      "imgLink": "katakana.png",
+      "correct_answer": "いいえ",
+      "incorrect_answers": ["の"]
+    },
+    {
+      "lesson": "1",
+      "type": "fillblank",
+      "question": "___ xynk nhut ? ",
+      "imgLink": "katakana.png",
+      "correct_answer": "Nhung",
+      "incorrect_answers": []
+    }
+  ]
+}

@@ -1,10 +1,4 @@
 import React from "react";
-import {
-  ChevronDoubleLeftIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronDoubleRightIcon,
-} from "@heroicons/react/solid";
 
 import {
   useTable,
@@ -135,7 +129,7 @@ function Table({ columns, data }) {
                 className="text-center"
                 style={{ width: "100%" }}
               >
-                <thead className="bg-gray-50">
+                <thead className="bg-light">
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                       {headerGroup.headers.map((column) => (
