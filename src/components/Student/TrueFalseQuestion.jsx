@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function TrueFalseQuestion({ record, index, onHandleResult }) {
+export default function TrueFalseQuestion({
+  record,
+  index,
+  onHandleResult,
+  isShow,
+}) {
+  const [userAnswer, setUserAnswer] = useState("");
+  var correctAnswer = record.answer;
+
   const onChange = (e) => {
-    let userAnswer = e.target.id;
-    let correctAnswer = record.answer;
-    if (correctAnswer === userAnswer) {
+    setUserAnswer(e.target.id);
+    let userAnswer2 = e.target.id;
+    if (correctAnswer === userAnswer2) {
       onHandleResult(record.id, true);
     } else {
       onHandleResult(record.id, false);
@@ -23,12 +31,21 @@ export default function TrueFalseQuestion({ record, index, onHandleResult }) {
             <div class="row row-cols-2">
               {record.option.map((option) => (
                 <div class="col">
-                  <label class="btn btn-outline-secondary mt-2 w-100 text-start">
+                  <label
+                    class={
+                      option === correctAnswer && isShow
+                        ? "btn btn-outline-success bg-success bg-opacity-10 mt-2 w-100 text-start"
+                        : option === userAnswer && isShow
+                        ? "btn btn-outline-danger bg-danger bg-opacity-10 mt-2 w-100 text-start"
+                        : "btn btn-outline-secondary mt-2 w-100 text-start"
+                    }
+                  >
                     <input
                       type="radio"
                       name="options"
                       id={option}
                       onChange={onChange}
+                      disabled={isShow}
                     />{" "}
                     {option}
                   </label>

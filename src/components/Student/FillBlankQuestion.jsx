@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function FillBlankQuestion({ record, index, onHandleResult }) {
+export default function FillBlankQuestion({
+  record,
+  index,
+  onHandleResult,
+  isShow,
+}) {
+  const [userAnswer, setUserAnswer] = useState("");
+  var correctAnswer = record.answer;
   const onHandleChange = (e) => {
-    let userAnswer = e.target.value.trim();
-    let correctAnswer = record.answer;
-    if (correctAnswer === userAnswer) {
+    setUserAnswer(e.target.value.trim());
+    let userAnswer2 = e.target.value.trim();
+    if (
+      correctAnswer.toLowerCase().trim() === userAnswer2.toLowerCase().trim()
+    ) {
       onHandleResult(record.id, true);
     } else {
       onHandleResult(record.id, false);
@@ -20,9 +29,26 @@ export default function FillBlankQuestion({ record, index, onHandleResult }) {
           <div class="card-text mt-2">
             <input
               type="text"
-              class="form-control"
+              class={
+                userAnswer.toLowerCase().trim() ===
+                  correctAnswer.toLowerCase().trim() && isShow
+                  ? "form-control border-success bg-success bg-opacity-10"
+                  : userAnswer.toLowerCase().trim() !==
+                      correctAnswer.toLowerCase().trim() && isShow
+                  ? "form-control border-danger bg-danger bg-opacity-10"
+                  : "form-control"
+              }
               onChange={onHandleChange}
+              disabled={isShow}
             ></input>
+
+            {isShow && (
+              <>
+                {" "}
+                <p class="text-muted mt-2 m-0">Đáp án đúng</p>
+                <h5 class="mb-0"> {record.answer} </h5>
+              </>
+            )}
           </div>
         </div>
       </div>

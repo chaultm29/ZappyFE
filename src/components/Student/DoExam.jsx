@@ -66,6 +66,7 @@ export default function DoExam() {
             record={record}
             index={index}
             onHandleResult={onHandleResult}
+            isShow={isShow}
           />
         );
       case "arrangement":
@@ -74,6 +75,7 @@ export default function DoExam() {
             record={record}
             index={index}
             onHandleResult={onHandleResult}
+            isShow={isShow}
           />
         );
       case "truefalse":
@@ -82,6 +84,7 @@ export default function DoExam() {
             record={record}
             index={index}
             onHandleResult={onHandleResult}
+            isShow={isShow}
           />
         );
       case "fillblank":
@@ -90,6 +93,7 @@ export default function DoExam() {
             record={record}
             index={index}
             onHandleResult={onHandleResult}
+            isShow={isShow}
           />
         );
     }
