@@ -4,7 +4,6 @@ import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
 
-import useScript from "./services/useScript";
 import { Redirect } from "react-router/cjs/react-router.min";
 
 import Study from "./pages/Student/Study";
@@ -15,26 +14,32 @@ import Vocabulary from "./pages/Student/Vocabulary";
 import Exam from "./pages/Student/Exam";
 import Hiragana from "./pages/Student/Hiragana";
 import Kanji from "./pages/Student/Kanji";
+import Login from "./pages/User/Login";
+import Register from "./pages/User/Register";
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path = "/admin/dashboard" component = {Dashboard} ></Route>
+        <Route path="/admin/dashboard" component={Dashboard}></Route>
         <Route path="/admin/acc-mng" component={AccountManager}></Route>
 
-        <Route path = "/home" component = {Homepage} ></Route>
-        <Route exact path = "/study" component = {Study} ></Route>
-        <Route path = "/study/alphabet" component = {Alphabet}></Route>
-        <Route path = "/study/hiragana" component = {Hiragana}></Route>
-        <Route path = "/study/katakana" component = {Katakana}></Route>
-        <Route exact path = "/study/kanji/lesson/:id" component = {Kanji}></Route>
-        <Route path = "/study/vocabulary/lesson/:id" component = {Vocabulary}></Route>
-        
-        
+        <Route path="/home" component={Homepage}></Route>
+        <Route exact path="/study" component={Study}></Route>
+        <Route path="/study/alphabet" component={Alphabet}></Route>
+        <Route path="/study/hiragana" component={Hiragana}></Route>
+        <Route path="/study/katakana" component={Katakana}></Route>
+        <Route exact path="/study/kanji/lesson/:id" component={Kanji}></Route>
+        <Route
+          path="/study/vocabulary/lesson/:id"
+          component={Vocabulary}
+        ></Route>
+
+        <Route path="/login" component={Login}></Route>
+        <Route path="/register" component={Register}></Route>
+
         <Route path="/study/exam" component={Exam}></Route>
       </Switch>
-
     </Router>
   );
 }

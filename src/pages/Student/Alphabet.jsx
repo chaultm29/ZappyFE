@@ -10,13 +10,14 @@ class Alphabet extends Component {
   render() {
     return (
       <div
-        style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}
+      //  style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}
       >
         <Navigation />
-        <div className="container" style={{ backgroundColor: "#fceced" }}>
-          <div class="row">
+        <div className="container">
+          <div class="row mt-2">
             <Sidebar />
-            <div class="col-md-8">
+
+            <div class="col-md-9">
               <h1 class="tit"> Bảng chữ cái </h1>
               <div class="content">
                 <h3>Bảng chữ cái Hiragana</h3>

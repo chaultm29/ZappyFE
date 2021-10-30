@@ -1,7 +1,6 @@
 import React from "react";
 
 export default function AccountViewDetail(account) {
-  console.log("view", account.account.id);
   return (
     <>
       <div class="card mb-3">
@@ -26,9 +25,13 @@ export default function AccountViewDetail(account) {
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">Username : {account.account.username}</h5>
-              <p class="card-text">Password : {account.account.password}</p>
-              <p class="card-text">Active : {account.account.enabled}</p>
+              <h5 class="card-title">Tài khoản : {account.account.username}</h5>
+              <p class="card-text">Họ và tên : {account.account.fullName}</p>
+              <p class="card-text">Ngày sinh : {account.account.dateOfBirth}</p>
+              <p class="card-text">Email : {account.account.email}</p>
+              <p class="card-text">Số điện thoại : {account.account.phone}</p>
+              <p class="card-text">Vai trò : {account.account.role}</p>
+
               <p class="card-text">
                 <small class="text-muted">Created date : 01/01/2020</small>
               </p>
