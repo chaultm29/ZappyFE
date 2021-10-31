@@ -8,6 +8,7 @@ class Kanji extends Component {
     constructor(props) {
         super(props)
         this.changeToCard = this.changeToCard.bind(this);
+        this.countProgress = this.countProgress.bind(this);
         this.state = {
             kanjis: [],
             index: 0,
@@ -18,11 +19,26 @@ class Kanji extends Component {
         var lengthMax = this.state.kanjis.length;
         var currIndex = this.state.index;
         var nextIndex = this.state.index += i;
-        if (nextIndex >= lengthMax) {this.state.index = 0;}
-        else if (nextIndex < 0) {this.state.index = lengthMax-1;}
         var cards = document.getElementsByClassName("kanji-card")
-        cards[currIndex].style.display = "none"
+        if (nextIndex === lengthMax) {
+            cards[this.state.index-1].style.display = "none";
+            document.getElementById("finishLearning").style.display = "flex";
+            document.getElementById("nextButton").disabled = true;
+        }
+        
+        else if (nextIndex < 0) {this.state.index = lengthMax-1;
+            cards[currIndex].style.display = "none"
         cards[this.state.index].style.display = "flex"
+        }
+
+        else{
+            if(currIndex===lengthMax){
+                document.getElementById("finishLearning").style.display = "none";
+                document.getElementById("nextButton").disabled = false;
+            }
+            cards[currIndex].style.display = "none"
+        cards[this.state.index].style.display = "flex"}
+        this.countProgress();
     }
 
     componentDidMount() {
@@ -31,8 +47,15 @@ class Kanji extends Component {
             var cards = document.getElementsByClassName("kanji-card")
             cards[this.state.index].style.display = "flex"
         });
-        
     }
+    countProgress(){
+        var lengthMax = this.state.kanjis.length;
+        var currentIndex = this.state.index;
+        var progress = ((currentIndex + 1)/lengthMax)*100;
+        document.getElementById("progress-kanji").setAttribute("aria-valuenow", progress);
+        document.getElementById("progress-kanji").style.width = progress + "%";
+    }    
+
 
     render() {
         return (
@@ -64,12 +87,16 @@ class Kanji extends Component {
                             </div>
                             
                                 )}
+                                <div id="finishLearning" class="kanji-card" style = {{display: "none"}}>
+                                    <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
+                                    <button>Luyện tập</button>
+                                </div>
                             <div>
-                                <button class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>
-                                <button class="btn btn-primary next" onClick={() => this.changeToCard(1)}>Tiếp theo</button>
+                                <button id="prevButton" class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>
+                                <button id="nextButton"class="btn btn-primary next" onClick={() => this.changeToCard(1)}>Tiếp theo</button>
                             </div>
                             <div class="progress prog">
-                                <div class="progress-bar bg-info" role="progressbar" style={{ width: "50%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info" id = "progress-kanji" role="progressbar" style={{ width: "10%" }} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                             <div class="row">
                                 <button class="btn btn-danger practice">Luyện tập</button>

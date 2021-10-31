@@ -15,6 +15,7 @@ import Vocabulary from "./pages/Student/Vocabulary";
 import Exam from "./pages/Student/Exam";
 import Hiragana from "./pages/Student/Hiragana";
 import Kanji from "./pages/Student/Kanji";
+import Grammar from "./pages/Student/Grammar";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
         <Route path = "/study/katakana" component = {Katakana}></Route>
         <Route exact path = "/study/kanji/lesson/:id" component = {Kanji}></Route>
         <Route path = "/study/vocabulary/lesson/:id" component = {Vocabulary}></Route>
-        
+        <Route path = "/study/grammar/lesson/:id" component = {Grammar}></Route>
         
         <Route path="/study/exam" component={Exam}></Route>
       </Switch>

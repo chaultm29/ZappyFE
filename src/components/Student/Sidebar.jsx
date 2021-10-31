@@ -112,13 +112,15 @@ class Sidebar extends Component {
         if(elem.length>=3 && (elem[2] === "alphabet" || elem[2] === "hiragana" || elem[2] === "katakana")){
             document.getElementById("alphabet").style.display = "flex";
         }
+    }
+    countTotalProgress(){
 
     }
 
     render() {
         return (
             <>
-            <div class="col-md-4">
+            <div class="col-md-3">
 
                 <h3 id="title" class="text-lg-center lh-base font-normal text-lg text-decoration-none text-reset">
                     Hướng dẫn

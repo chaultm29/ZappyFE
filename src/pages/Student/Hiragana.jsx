@@ -28,7 +28,7 @@ class Hiragana extends Component {
                     <div class="row">
                         <Sidebar />
 
-                        <div class="col-md-8">
+                        <div class="col-md-9">
                             <h1 class="tit"> Cùng nhớ Hiragana nào </h1>
                             {
                                 this.state.hiras.map(

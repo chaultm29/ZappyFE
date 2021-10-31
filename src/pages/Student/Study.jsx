@@ -18,14 +18,9 @@ class Study extends Component {
                 <div className="container" style={{ backgroundColor: "#fceced" }}>
                     <div class="row">
                         <Sidebar />
-                        {/* <Router>
-                            <Switch>
-                                <Route path="/study/alphabet" component={Alphabet}></Route>
-                                <Route path="/study/hiragana" component={Hiragana}></Route>
-                                <Route path="/study/katakana" component={Katakana}></Route>
-                                <Route path="/study/kanji" component={Kanji}></Route>
-                            </Switch>
-                        </Router> */}
+                        <div class="col-md-9">
+                        <h1>Hướng dẫn học tập cho mọi người</h1>
+                        </div>
                     </div>
                 </div>
             </div>
