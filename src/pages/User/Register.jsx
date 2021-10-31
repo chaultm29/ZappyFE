@@ -36,12 +36,10 @@ export default function Register() {
             <div class="modal-header border-bottom-0">
               <button
                 type="button"
-                class="close"
+                class="btn-close"
                 data-dismiss="modal"
                 aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              ></button>
             </div>
             <div class="modal-body">
               <div class="form-title text-center">
@@ -51,7 +49,7 @@ export default function Register() {
               <div class="d-flex flex-column text-center">
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fa fa-user"></i>{" "}
@@ -82,7 +80,7 @@ export default function Register() {
                   </div>
 
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fa fa-envelope"></i>{" "}
@@ -108,7 +106,7 @@ export default function Register() {
                     )}
                   </div>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fa fa-phone"></i>{" "}
@@ -136,7 +134,7 @@ export default function Register() {
                     )}
                   </div>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fas fa-calendar-day"></i>{" "}
@@ -152,7 +150,7 @@ export default function Register() {
                   </div>
                   <div class="text-start mb-2"></div>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fas fa-user-circle"></i>{" "}
@@ -180,7 +178,7 @@ export default function Register() {
                     )}
                   </div>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fa fa-lock"></i>{" "}
@@ -208,7 +206,7 @@ export default function Register() {
                     )}
                   </div>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fa fa-lock"></i>{" "}
@@ -236,7 +234,7 @@ export default function Register() {
                     <button
                       type="submit"
                       id="buttonLogin"
-                      class="btn btn-block"
+                      class="btn btn-block w-100"
                     >
                       Đăng kí
                     </button>

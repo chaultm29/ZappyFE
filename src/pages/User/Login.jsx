@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { useForm } from "react-hook-form";
-import validator from "validator";
 
 export default function Login() {
   const {
@@ -36,12 +35,10 @@ export default function Login() {
             <div class="modal-header border-bottom-0">
               <button
                 type="button"
-                class="close"
+                class="btn-close"
                 data-dismiss="modal"
                 aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
+              ></button>
             </div>
             <div class="modal-body">
               <div class="form-title text-center">
@@ -50,7 +47,7 @@ export default function Login() {
               <div class="d-flex flex-column text-center">
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fas fa-user-circle"></i>{" "}
@@ -79,7 +76,7 @@ export default function Login() {
                   </div>
 
                   <div class="form-group input-group mb-0">
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
                         {" "}
                         <i class="fa fa-lock"></i>{" "}
@@ -110,7 +107,7 @@ export default function Login() {
                   <button
                     type="submit"
                     id="buttonLogin"
-                    class="btn btn-block mt-0"
+                    class="btn btn-block mt-0 w-100"
                   >
                     Đăng nhập
                   </button>

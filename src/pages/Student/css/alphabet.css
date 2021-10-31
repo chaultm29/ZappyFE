@@ -18,15 +18,15 @@ h3 {
   position: fixed;
 }
 .my-card {
-  border-radius: 10px;
-  border: grey 1px;
-  box-shadow: 2px 2px 5px 1px;
+  border-radius: 15px;
+  border: white solid 1px;
+  background-color: white;
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
 }
 .my-card .cha {
   font-size: 120px;
+  color: #f6b0a6;
   font-family: "MS Mincho";
   font-weight: 900;
   width: 30%;
@@ -37,7 +37,15 @@ h3 {
   margin: auto;
 }
 .my-card .des {
-  font-size: 30px;
+  font-size: 20px;
 
   font-weight: 300;
+}
+
+.fa-volume-up {
+  cursor: pointer;
+}
+.fa-volume-up:hover {
+  transform: scale(1.2);
+  transition: 0.1s;
 }

@@ -5,6 +5,7 @@ import hira from "../../assets/img/hiragana.png";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
 import gif from "../../assets/img/pagebg.gif";
+import Footer from "../../components/Student/Footer";
 
 class Alphabet extends Component {
   render() {
@@ -31,6 +32,7 @@ class Alphabet extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }

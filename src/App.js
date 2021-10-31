@@ -4,8 +4,6 @@ import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
 
-import { Redirect } from "react-router/cjs/react-router.min";
-
 import Study from "./pages/Student/Study";
 import Katakana from "./pages/Student/Katakana";
 import Alphabet from "./pages/Student/Alphabet";
@@ -16,6 +14,7 @@ import Hiragana from "./pages/Student/Hiragana";
 import Kanji from "./pages/Student/Kanji";
 import Login from "./pages/User/Login";
 import Register from "./pages/User/Register";
+import QuestionManager from "./pages/ContentManager/QuestionManager";
 
 function App() {
   return (
@@ -34,11 +33,16 @@ function App() {
           path="/study/vocabulary/lesson/:id"
           component={Vocabulary}
         ></Route>
+        <Route
+          path="/content-mng/question-mng"
+          component={QuestionManager}
+        ></Route>
+        {/* <Route path="/content-mng/lesson-mng" component={}></Route> */}
 
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
 
-        <Route path="/study/exam" component={Exam}></Route>
+        <Route path="/exam" component={Exam}></Route>
       </Switch>
     </Router>
   );
