@@ -64,6 +64,7 @@ class Hiragana extends Component {
                     alt="hiragana"
                   />
                   <div class="des">{hira.description}</div>
+
                 </div>
               ))}
               <div class="row">

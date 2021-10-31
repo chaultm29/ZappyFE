@@ -14,7 +14,7 @@ class Vocabulary extends Component {
             vocabularies: [],
             //cardDatas : [],
             index: 0,
-            id:this.props.match.params.id
+            id: this.props.match.params.id
 
         }
 
@@ -40,12 +40,47 @@ class Vocabulary extends Component {
         var lengthMax = this.state.vocabularies.length;
         var currIndex = this.state.index;
         var nextIndex = this.state.index += i;
-        if (nextIndex >= lengthMax) { this.state.index = 0; }
-        else if (nextIndex < 0) { this.state.index = lengthMax - 1; }
         var cards = document.getElementsByClassName("vocabulary-card")
-        cards[currIndex].style.display = "none"
-        cards[this.state.index].style.display = "flex"
+        if (nextIndex === lengthMax) {
+            cards[this.state.index - 1].style.display = "none";
+            document.getElementById("finishLearning").style.display = "flex";
+            document.getElementById("nextButton").disabled = true;
+        }
+
+        else if (nextIndex < 0) {
+            this.state.index = lengthMax - 1;
+            cards[currIndex].style.display = "none"
+            cards[this.state.index].style.display = "flex"
+        }
+
+        else {
+            if (currIndex === lengthMax) {
+                document.getElementById("finishLearning").style.display = "none";
+                document.getElementById("nextButton").disabled = false;
+            }
+            cards[currIndex].style.display = "none"
+            cards[this.state.index].style.display = "flex"
+        }
+        this.countProgress();
     }
+
+    countProgress() {
+        var lengthMax = this.state.vocabularies.length;
+        var currentIndex = this.state.index;
+        var progress = ((currentIndex + 1) / lengthMax) * 100;
+        document.getElementById("progress-vocabulary").setAttribute("aria-valuenow", progress);
+        document.getElementById("progress-vocabulary").style.width = progress + "%";
+    }
+    // changeToCard(i) {
+    //     var lengthMax = this.state.vocabularies.length;
+    //     var currIndex = this.state.index;
+    //     var nextIndex = this.state.index += i;
+    //     if (nextIndex >= lengthMax) { this.state.index = 0; }
+    //     else if (nextIndex < 0) { this.state.index = lengthMax - 1; }
+    //     var cards = document.getElementsByClassName("vocabulary-card")
+    //     cards[currIndex].style.display = "none"
+    //     cards[this.state.index].style.display = "flex"
+    // }
 
     componentDidMount() {
         //this.addCardDatas();this.setState({ kanjis: res.data })
@@ -85,14 +120,18 @@ class Vocabulary extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                    )}
+                                    )}<div id="finishLearning" class="vocabulary-card" style={{ display: "none" }}>
+                                        <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
+                                        <button>Luyện tập</button>
+                                    </div>
                                 <div>
+                                    
 
-                                    <button class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>
-                                    <button class="btn btn-primary next" onClick={() => this.changeToCard(1)}>Tiếp theo</button>
+                                    <button id="prevButton" class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>
+                                    <button id="nextButton" class="btn btn-primary next" onClick={() => this.changeToCard(1)}>Tiếp theo</button>
                                 </div>
                                 <div class="progress prog">
-                                    <div class="progress-bar bg-info" role="progressbar" style={{ width: "50%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-info" id="progress-vocabulary" role="progressbar" style={{ width: "0%" }} aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                                 {
                                     this.state.vocabularies.map(

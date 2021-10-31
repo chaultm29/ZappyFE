@@ -18,6 +18,7 @@ h3 {
   position: fixed;
 }
 .my-card {
+
   border-radius: 15px;
   border: white solid 1px;
   background-color: white;
@@ -38,7 +39,6 @@ h3 {
 }
 .my-card .des {
   font-size: 20px;
-
   font-weight: 300;
 }
 
