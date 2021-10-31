@@ -26,6 +26,7 @@ export function SelectColumnFilter({
     <select
       name={id}
       id={id}
+      class="form-select d-inline w-75"
       value={filterValue}
       onChange={(e) => {
         setFilter(e.target.value || undefined);
@@ -54,8 +55,10 @@ function GlobalFilter({
 
   return (
     <span>
-      Search:{" "}
+      Tìm kiếm:{" "}
       <input
+        className="form-control w-25 inline"
+        style={{ display: "inline" }}
         value={value || ""}
         onChange={(e) => {
           setValue(e.target.value);
@@ -102,22 +105,28 @@ function Table({ columns, data }) {
   return (
     <>
       <br />
-      <GlobalFilter
-        preGlobalFilteredRows={preGlobalFilteredRows}
-        globalFilter={state.globalFilter}
-        setGlobalFilter={setGlobalFilter}
-      />
-      {headerGroups.map((headerGroup) =>
-        headerGroup.headers.map((column) =>
-          column.Filter ? (
-            <div key={column.id}>
-              <label for={column.id}>{column.render("Header")}: </label>
-              {column.render("Filter")}
-            </div>
-          ) : null
-        )
-      )}
-      <div className="mt-2 flex flex-col">
+      <div class="row mt-2">
+        <div class="col-sm-6">
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
+        </div>
+        <div class="col-sm-6 d-flex flex-row-reverse">
+          {headerGroups.map((headerGroup) =>
+            headerGroup.headers.map((column) =>
+              column.Filter ? (
+                <div key={column.id}>
+                  <label for={column.id}>{column.render("Header")} : </label>
+                  {column.render("Filter")}
+                </div>
+              ) : null
+            )
+          )}
+        </div>
+      </div>
+      <div className=" flex flex-col">
         <div className="-my-2 overflow-x-auto -mx-4 sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div
@@ -180,75 +189,89 @@ function Table({ columns, data }) {
           </div>
         </div>
       </div>
-      <div className="pagination">
-        <ul class="pagination justify-content-end">
-          <li
-            class={!canPreviousPage ? "page-item disabled" : "page-item"}
-            onClick={() => gotoPage(0)}
-          >
-            <a class="page-link" href="#" tabindex="-1">
-              <i class="fas fa-angle-double-left"></i>
-            </a>
-          </li>
-          <li
-            class={!canPreviousPage ? "page-item disabled" : "page-item"}
-            onClick={() => previousPage()}
-          >
-            <a class="page-link" href="#" tabindex="-1">
-              <i class="fas fa-angle-left"></i>
-            </a>
-          </li>
+      <div class="row mx-0 ">
+        <div className="pagination">
+          <div class="col-3">
+            <select
+              value={state.pageSize}
+              class="form-select d-inline w-50"
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {[5, 10, 20].map((pageSize) => (
+                <option key={pageSize} value={pageSize}>
+                  Hiển thị {pageSize}
+                </option>
+              ))}
+            </select>
+          </div>
 
-          <li
-            class={!canNextPage ? "page-item disabled" : "page-item"}
-            onClick={() => nextPage()}
-          >
-            <a class="page-link" href="#" tabindex="-1">
-              <i class="fas fa-angle-right"></i>
-            </a>
-          </li>
-          <li
-            class={!canNextPage ? "page-item disabled" : "page-item"}
-            onClick={() => gotoPage(pageCount - 1)}
-          >
-            <a class="page-link" href="#" tabindex="-1">
-              <i class="fas fa-angle-double-right"></i>
-            </a>
-          </li>
-        </ul>
+          <div class="col-3 d-flex justify-content-center">
+            <span>
+              Trang{" "}
+              <strong>
+                {state.pageIndex + 1} của {pageOptions.length}
+              </strong>
+            </span>
+          </div>
 
-        <span>
-          Page
-          <strong>
-            {state.pageIndex + 1} of {pageOptions.length}
-          </strong>
-        </span>
-        <span>
-          | Go to page:
-          <input
-            type="number"
-            min="1"
-            max={pageOptions.length}
-            defaultValue={pageIndex + 1}
-            onChange={(e) => {
-              const page = e.target.value ? Number(e.target.value) - 1 : 0;
-              gotoPage(page);
-            }}
-            style={{ width: "100px" }}
-          />
-        </span>
-        <select
-          value={state.pageSize}
-          onChange={(e) => {
-            setPageSize(Number(e.target.value));
-          }}
-        >
-          {[5, 10, 20].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
+          <div class="col-3 d-flex justify-content-center">
+            <span>
+              Đến trang :
+              <input
+                type="number"
+                min="1"
+                class="form-control d-inline"
+                max={pageOptions.length}
+                defaultValue={pageIndex + 1}
+                onChange={(e) => {
+                  const page = e.target.value ? Number(e.target.value) - 1 : 0;
+                  gotoPage(page);
+                }}
+                style={{ width: "100px" }}
+              />
+            </span>
+          </div>
+
+          <div class="col-3 d-flex flex-row-reverse">
+            <ul class="pagination ">
+              <li
+                class={!canPreviousPage ? "page-item disabled" : "page-item"}
+                onClick={() => gotoPage(0)}
+              >
+                <a class="page-link" href="#" tabindex="-1">
+                  <i class="fas fa-angle-double-left"></i>
+                </a>
+              </li>
+              <li
+                class={!canPreviousPage ? "page-item disabled" : "page-item"}
+                onClick={() => previousPage()}
+              >
+                <a class="page-link" href="#" tabindex="-1">
+                  <i class="fas fa-angle-left"></i>
+                </a>
+              </li>
+
+              <li
+                class={!canNextPage ? "page-item disabled" : "page-item"}
+                onClick={() => nextPage()}
+              >
+                <a class="page-link" href="#" tabindex="-1">
+                  <i class="fas fa-angle-right"></i>
+                </a>
+              </li>
+              <li
+                class={!canNextPage ? "page-item disabled" : "page-item"}
+                onClick={() => gotoPage(pageCount - 1)}
+              >
+                <a class="page-link" href="#" tabindex="-1">
+                  <i class="fas fa-angle-double-right"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </>
   );

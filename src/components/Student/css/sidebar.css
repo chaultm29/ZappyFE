@@ -1,104 +1,108 @@
 .box {
-    border-radius: 10px;
-    border: grey 1px;
-    box-shadow: 2px 2px 5px 1px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    stroke-linecap: round;
-    
+  border-radius: 10px;
+  border: white;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  stroke-linecap: round;
+  background-color: #ffffff;
 }
-.box .percent
-{
-    position: relative;
-    width: 150px;
-    height: 150px;
-    margin-top: 10px;
+.box .percent {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-top: 10px;
 }
 
-.box .percent svg circle{
-    width: 130px;
-    height: 130px;
-    fill: none;
-    stroke-width: 10;
-    stroke: #000;
-    transform: translate(5px,5px);
-    stroke-dasharray: 440;
-    stroke-dashoffset: 440;
+.box .percent svg circle {
+  width: 130px;
+  height: 130px;
+  fill: none;
+  stroke-width: 10;
+  stroke: #000;
+  transform: translate(5px, 5px);
+  stroke-dasharray: 440;
+  stroke-dashoffset: 440;
 }
 
-.box .percent svg circle:nth-child(1){
-    stroke-dashoffset: 0;
-    stroke: #f3f3f3;
+.box .percent svg circle:nth-child(1) {
+  stroke-dashoffset: 0;
+  stroke: #f3f3f3;
 }
 
-.box .percent svg circle:nth-child(2){
-    stroke-dashoffset: calc(440 - (440*87)/100);
-    stroke: pink;
+.box .percent svg circle:nth-child(2) {
+  stroke-dashoffset: calc(440 - (440 * 87) / 100);
+  /* stroke: pink; */
+  stroke: #f6b0a6;
 }
 
-.box .percent .number{
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 90%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #999;
+.box .percent .number {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 90%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #999;
 }
 
-.box .percent .number h2{
-    font-size: 30px;
+.box .percent .number h2 {
+  font-size: 30px;
+}
+.box .percent .number h2 span {
+  font-size: 24px;
+}
+.box .text {
+  padding: 1px 0 0;
+  color: #999;
+  font-weight: 700;
+  letter-spacing: 0px;
+  padding-bottom: 0;
+}
 
+.boxBig {
+  border-radius: 10px;
+  border: white;
+  background-color: #ffffff;
+  /* box-shadow: 2px 2px 5px 1px; */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+  height: 70px;
 }
-.box .percent .number h2 span{
-    font-size: 24px;
-}
-.box .text{
-    padding: 1px 0 0;
-    color: #999;
-    font-weight: 700;
-    letter-spacing: 0px;
-    padding-bottom: 0;
+.boxTwo {
+  border-radius: 10px;
+  border: white;
+  background-color: #ffffff;
+  /* box-shadow: 2px 2px 5px 1px; */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+  height: 100px;
 }
 
-.boxBig{
-    border-radius: 10px;
-    border: grey 1px;
-    box-shadow: 2px 2px 5px 1px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-top: 10px;
-    height: 70px;
-}
-.boxTwo{
-    border-radius: 10px;
-    border: grey 1px;
-    box-shadow: 2px 2px 5px 1px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-top: 10px;
-    height: 120px;
-}
 h3 {
-    font-weight: 900;
-    font-family: 'Times New Roman', Times, serif;
+  color: #ec9d9d !important;
+  font-weight: 900;
 }
-.skill{
-    border-radius: 10px;
-    border: grey 1px;
-    box-shadow: 2px 2px 5px 1px;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    stroke-linecap: round;
-    list-style: none;
+h5 {
+  margin-bottom: 0px;
+}
+.skill {
+  border-radius: 10px;
+  border: white;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  stroke-linecap: round;
+  list-style: none;
+  background-color: #ffffff;
 }
 /* .pro {
     display: block;
@@ -113,20 +117,71 @@ h3 {
     float: left;
     background: pink;
 } */
-.pro{
-    width: 100%;
+.pro {
+  width: 100%;
 }
 .progress-line {
-    position: relative;
-    height: 10px;
-    width: 100%;
-    background: pink;
-    
+  position: relative;
+  height: 10px;
+  width: 100%;
+  /* background: pink; */
+  background: #f9d9d4;
+  border-radius: 10px;
 }
-.progress-line span{
-    height: 100%;
-    width: 80%;
-    background: #6665ee;
-    position: absolute;
-    border-radius: 10px;
+.progress-line span {
+  height: 100%;
+  width: 80%;
+  /* background: #6665ee; */
+  /* background-color: #f23f52; */
+  /* background: #7c6284; */
+  background-color: #f6b0a6;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.box-hiragana {
+  background-image: url("/src/assets/img/neko.png");
+  background-size: 100px 70px;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.box-katakana {
+  background-image: url("/src/assets/img/me.png");
+  background-size: 60px 60px;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.box-kanji {
+  background-image: url("/src/assets/img/bg-kanji.png");
+  background-size: 130px 130px;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.box-vocab {
+  background-image: url("/src/assets/img/bg-vocab.png");
+  background-size: 120px 120px;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.box-grammar {
+  background-image: url("/src/assets/img/bg-grammar.png");
+  background-size: 120px 120px;
+  background-position: right bottom;
+  background-repeat: no-repeat;
+}
+
+.boxBig-btn {
+  border-radius: 10px;
+  border: white;
+  background-color: #ffffff;
+  /* box-shadow: 2px 2px 5px 1px; */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+  height: 50px;
 }
