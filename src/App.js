@@ -4,9 +4,6 @@ import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
 
-import useScript from "./services/useScript";
-import { Redirect } from "react-router/cjs/react-router.min";
-
 import Study from "./pages/Student/Study";
 import Katakana from "./pages/Student/Katakana";
 import Alphabet from "./pages/Student/Alphabet";
@@ -16,12 +13,16 @@ import Exam from "./pages/Student/Exam";
 import Hiragana from "./pages/Student/Hiragana";
 import Kanji from "./pages/Student/Kanji";
 import Grammar from "./pages/Student/Grammar";
+import Login from "./pages/User/Login";
+import Register from "./pages/User/Register";
+import QuestionManager from "./pages/ContentManager/QuestionManager";
+
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path = "/admin/dashboard" component = {Dashboard} ></Route>
+        <Route path="/admin/dashboard" component={Dashboard}></Route>
         <Route path="/admin/acc-mng" component={AccountManager}></Route>
 
         <Route path = "/home" component = {Homepage} ></Route>
@@ -32,10 +33,14 @@ function App() {
         <Route exact path = "/study/kanji/lesson/:id" component = {Kanji}></Route>
         <Route path = "/study/vocabulary/lesson/:id" component = {Vocabulary}></Route>
         <Route path = "/study/grammar/lesson/:id" component = {Grammar}></Route>
-        
-        <Route path="/study/exam" component={Exam}></Route>
-      </Switch>
 
+        {/* <Route path="/content-mng/lesson-mng" component={}></Route> */}
+
+        <Route path="/login" component={Login}></Route>
+        <Route path="/register" component={Register}></Route>
+
+        <Route path="/exam" component={Exam}></Route>
+      </Switch>
     </Router>
   );
 }

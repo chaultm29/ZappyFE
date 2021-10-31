@@ -113,25 +113,26 @@ export default function AccountManagerContent() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "ID",
-        accessor: "id",
-      },
-      {
-        Header: "Username",
+        Header: "Tài khoản",
         accessor: "username",
       },
       {
-        Header: "Password",
-        accessor: "password",
+        Header: "Ngày sinh",
+        accessor: "dateOfBirth",
       },
       {
-        Header: "Enabled",
-        accessor: "enable",
+        Header: "Email",
+        accessor: "email",
+      },
+
+      {
+        Header: "Vai trò",
+        accessor: "role",
         Filter: SelectColumnFilter,
         filter: "includes",
       },
       {
-        Header: "Action",
+        Header: "Thao tác",
         accessor: "action",
       },
     ],
@@ -151,7 +152,7 @@ export default function AccountManagerContent() {
             title="Add"
             onClick={onUserClickAddButton}
           >
-            <span class="fa fa-plus-square"></span>
+            Thêm tài khoản
           </button>
           <Table columns={columns} data={dataAcc} />
         </div>
