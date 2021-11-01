@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import QuestionServices from "../../services/QuestionServices.jsx";
+import ExamServices from "../../services/ExamServices.jsx";
 import ArrangementQuestion from "./ArrangementQuestion.jsx";
 import FillBlankQuestion from "./FillBlankQuestion.jsx";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion.jsx";
@@ -37,7 +37,7 @@ export default function DoExam() {
   const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
 
   useEffect(() => {
-    QuestionServices.getListQuestion()
+    ExamServices.getListQuestion()
       .then((res) => {
         setListQuestion(
           res.data.map((item, index) => ({
