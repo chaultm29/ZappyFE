@@ -2,14 +2,14 @@ import axios from "axios";
 
 
 const STUDY_API_BASE_URL =
-  "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/study";//
+  "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
   // "https://backend.zappy-nihongo.com/study";
   class StudyService {
   getHiragana() {
-    return axios.get(STUDY_API_BASE_URL + "/hiragana");
+    return axios.get(STUDY_API_BASE_URL + "/alphabet/hiragana");
   }
   getKatakana() {
-    return axios.get(STUDY_API_BASE_URL + "/katakana");
+    return axios.get(STUDY_API_BASE_URL + "/alphabet/katakana");
   }
 
   getKanji(id) {
