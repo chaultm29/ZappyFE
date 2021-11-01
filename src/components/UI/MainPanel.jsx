@@ -48,20 +48,17 @@ export default function MainPanel({ username, site, siteContent }) {
                 <i class="fas fa-user me-2"></i>
                 {username}
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style={{ left: "-43%" }}>
                 <li>
                   <a class="dropdown-item" href="#">
-                    Profile
+                    Thông tin tài khoản
                   </a>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
-                    Settings
-                  </a>
                 </li>
                 <li>
                   <a class="dropdown-item" href="#">
-                    Logout
+                    Đăng xuất
                   </a>
                 </li>
               </ul>

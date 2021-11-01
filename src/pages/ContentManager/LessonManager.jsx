@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import LessonManagerContent from "../../components/Content Manager/LessonManagerContent";
+import LessonManagerContent from "../../components/ContentManager/LessonManagerContent";
 import MainPanel from "../../components/UI/MainPanel";
 import Sidebar from "../../components/UI/Sidebar";
 
-export default function QuestionManager() {
+export default function LessonManager() {
   const [username, setUserName] = useState("MinhLD");
-  const [role, setRole] = useState("ContentManager");
+  const [role, setRole] = useState("Content Manager");
   const [site, setSite] = useState("Quản lý bài học");
   const [siteContent, setSiteContent] = useState(<LessonManagerContent />);
   return (

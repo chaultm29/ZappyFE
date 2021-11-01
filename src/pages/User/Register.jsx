@@ -31,7 +31,7 @@ export default function Register() {
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="modal">
           <div class="modal-content">
             <div class="modal-header border-bottom-0">
               <button
@@ -163,7 +163,7 @@ export default function Register() {
                       type="text"
                       {...register("username", {
                         required: "Không được để trống",
-                        minLength: { value: 4, message: "Chưa đủ độ dài" },
+                        minLength: { value: 1, message: "Chưa đủ độ dài" },
                         maxLength: { value: 20, message: "Quá dài" },
                         pattern: {
                           value: /^[a-z\d]+$/i,
