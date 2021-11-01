@@ -29,19 +29,30 @@ export default function Sidebar({ role }) {
         {role == "Content Manager" && (
           <div class="list-group list-group-flush">
             <Link
-              to="/admin/dashboard"
+              to="/content-mng/question-mng"
               title="Quản lý câu hỏi"
               class="list-group-item list-group-item-action bg-transparent active"
             >
               <i class="far fa-question-circle fa-2x"></i>
             </Link>
-            <Link
-              to="/admin/acc-mng"
+            <a
+              data-bs-toggle="collapse"
+              href="#collapseOption" role="button" aria-expanded="false" aria-controls="collapseOption"
+              // to="/admin/acc-mng"
               title="Quản lý bài học"
               class="list-group-item list-group-item-action bg-transparent"
             >
               <i class="fas fa-chalkboard-teacher"></i>
-            </Link>
+            </a>
+            <div class="collapse" id="collapseOption">
+              <Link
+                to="/admin/dashboard"
+                title="Quản lý câu hỏi"
+                class="list-group-item list-group-item-action bg-transparent active"
+              >
+                <i class="far fa-question-circle fa-2x"></i>
+              </Link>
+            </div>
           </div>
         )}
       </div>

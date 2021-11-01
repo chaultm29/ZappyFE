@@ -16,7 +16,7 @@ import Grammar from "./pages/Student/Grammar";
 import Login from "./pages/User/Login";
 import Register from "./pages/User/Register";
 import QuestionManager from "./pages/ContentManager/QuestionManager";
-
+import LessonManager from "./pages/ContentManager/LessonManager";
 
 function App() {
   return (
@@ -25,16 +25,17 @@ function App() {
         <Route path="/admin/dashboard" component={Dashboard}></Route>
         <Route path="/admin/acc-mng" component={AccountManager}></Route>
 
-        <Route path = "/home" component = {Homepage} ></Route>
-        <Route exact path = "/study" component = {Study} ></Route>
-        <Route path = "/study/alphabet" component = {Alphabet}></Route>
-        <Route path = "/study/hiragana" component = {Hiragana}></Route>
-        <Route path = "/study/katakana" component = {Katakana}></Route>
-        <Route exact path = "/study/kanji/lesson/:id" component = {Kanji}></Route>
-        <Route path = "/study/vocabulary/lesson/:id" component = {Vocabulary}></Route>
-        <Route path = "/study/grammar/lesson/:id" component = {Grammar}></Route>
+        <Route path="/home" component={Homepage}></Route>
+        <Route exact path="/study" component={Study}></Route>
+        <Route path="/study/alphabet" component={Alphabet}></Route>
+        <Route path="/study/hiragana" component={Hiragana}></Route>
+        <Route path="/study/katakana" component={Katakana}></Route>
+        <Route exact path="/study/kanji/lesson/:id" component={Kanji}></Route>
+        <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
+        <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
 
-        {/* <Route path="/content-mng/lesson-mng" component={}></Route> */}
+        <Route path="/content-mng/question-mng" component={QuestionManager}></Route>
+        <Route path="/content-mng/lesson-mng" component={LessonManager}></Route>
 
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
