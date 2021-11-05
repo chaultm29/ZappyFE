@@ -21,7 +21,7 @@ export default function TrueFalseQuestion({
   return (
     <div>
       <div class="card w-50 mt-4" style={{ margin: "auto" }}>
-        <div class="card-header">{index}. True False Question</div>
+        <div class="card-header">{index}. Câu hỏi đúng sai</div>
         <div class="card-body">
           <div class="">
             <h5 class="card-title fw-bolder">{record.question}</h5>
@@ -32,14 +32,12 @@ export default function TrueFalseQuestion({
               {record.option.map((option) => (
                 <div class="col">
                   <label
-                    class={
-                      option === correctAnswer && isShow
-                        ? "btn btn-outline-success bg-success bg-opacity-10 mt-2 w-100 text-start"
-                        : option === userAnswer && isShow
-                        ? "btn btn-outline-danger bg-danger bg-opacity-10 mt-2 w-100 text-start"
-                        : "btn btn-outline-secondary mt-2 w-100 text-start"
-                    }
-                  >
+                    class=
+                    // option === correctAnswer && isShow
+                    //   ? "btn btn-outline-success bg-success bg-opacity-10 mt-2 w-100 text-start"
+                    //   : option === userAnswer && isShow
+                    //   ? "btn btn-outline-danger bg-danger bg-opacity-10 mt-2 w-100 text-start":
+                    "btn btn-outline-secondary mt-2 w-100 text-start">
                     <input
                       type="radio"
                       name="options"
@@ -47,7 +45,7 @@ export default function TrueFalseQuestion({
                       onChange={onChange}
                       disabled={isShow}
                     />{" "}
-                    {option}
+                    {option.answer}
                   </label>
                 </div>
               ))}

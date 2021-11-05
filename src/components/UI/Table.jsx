@@ -64,7 +64,7 @@ function GlobalFilter({
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        placeholder={`${count} records...`}
+      // placeholder={`${count} records...`}
       />
     </span>
   );
