@@ -16,7 +16,10 @@ import Grammar from "./pages/Student/Grammar";
 import Login from "./pages/User/Login";
 import Register from "./pages/User/Register";
 import QuestionManager from "./pages/ContentManager/QuestionManager";
-import LessonManager from "./pages/ContentManager/LessonManager";
+import KanjiManager from "./pages/ContentManager/KanjiManager";
+import VocabularyManager from "./pages/ContentManager/VocabularyManager";
+import GrammarManager from "./pages/ContentManager/GrammarManager";
+
 
 function App() {
   return (
@@ -35,8 +38,9 @@ function App() {
         <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
 
         <Route path="/content-mng/question-mng" component={QuestionManager}></Route>
-        <Route path="/content-mng/lesson-mng" component={LessonManager}></Route>
-
+        <Route path="/content-mng/lesson-mng/kanji" component={KanjiManager}></Route>
+        <Route path="/content-mng/lesson-mng/vocabulary" component={VocabularyManager}></Route>
+        <Route path="/content-mng/lesson-mng/grammar" component={GrammarManager}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
 

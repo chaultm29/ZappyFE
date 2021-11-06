@@ -38,7 +38,7 @@
 .list-group-item i {
   color: white;
 }
-.list-group-item.active i {
+#sidebar-wrapper .list-group-item.active i {
   padding: 15px;
   font-size: 16px;
   background-color: white;
@@ -46,6 +46,16 @@
   border: 1px solid white;
   border-radius: 15px;
   font-weight: bold;
+}
+#sidebar-wrapper .list-group-item i:hover {
+  padding: 15px;
+  font-size: 16px;
+  background-color: white;
+  color: #39354f;
+  border: 1px solid white;
+  border-radius: 15px;
+  font-weight: bold;
+  transition: 0.1s;
 }
 
 #child-wrapper {

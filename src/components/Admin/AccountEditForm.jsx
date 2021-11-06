@@ -11,14 +11,6 @@ export default function AccountForm({ onSubmitData, accountBeforeEdit }) {
   return (
     <>
       <form onSubmit={handleSubmit(onHandleSubmit)}>
-        {/* <input
-          name="id"
-          type="text"
-          class="form-control d-none"
-          id="id"
-          defaultValue={accountBeforeEdit.id}
-          {...register("id", { required: true })}
-        /> */}
         <div class="mb-3">
           <label for="inputUsername" class="form-label">
             Username

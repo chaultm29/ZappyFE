@@ -1,11 +1,11 @@
 import axios from "axios";
 
 
-const QUESTION__API_BASE_URL = "http://localhost:3000/bank";
+const DOEXAM__API_BASE_URL = "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/exam/";
 
 class ExamServices {
-  getListQuestion() {
-    return axios.get(QUESTION__API_BASE_URL);
+  getListQuestion(options) {
+    return axios.post(DOEXAM__API_BASE_URL, options);
   }
 }
 
