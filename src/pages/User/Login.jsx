@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { useForm } from "react-hook-form";
+import AuthenticationService from "../../services/AuthenticationService";
 
 export default function Login() {
     const {
@@ -8,7 +9,8 @@ export default function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => AuthenticationService.login(data.username, data.password)
+
 
     return (
         <>
@@ -89,7 +91,7 @@ export default function Login() {
                                             type="password"
                                             {...register("password", {
                                                 required: "Không được để trống",
-                                                minLength: { value: 8, message: "Chưa đủ độ dài" },
+                                                minLength: { value: 6, message: "Chưa đủ độ dài" },
                                                 maxLength: { value: 20, message: "Quá dài" },
                                                 pattern: {
                                                     value: /^[a-z\d]+$/i,
