@@ -22,7 +22,7 @@ export default function FillBlankQuestion({
   return (
     <div>
       <div class="card w-50 mt-4" style={{ margin: "auto" }}>
-        <div class="card-header">{index}. Fill Blank Question </div>
+        <div class="card-header">{index}. Điền vào chỗ trống </div>
         <div class="card-body">
           <h5 class="card-title fw-bolder">{record.question}</h5>
           <p class="text-muted m-0">Đáp án của bạn</p>
@@ -30,25 +30,25 @@ export default function FillBlankQuestion({
             <input
               type="text"
               class={
-                userAnswer.toLowerCase().trim() ===
-                  correctAnswer.toLowerCase().trim() && isShow
-                  ? "form-control border-success bg-success bg-opacity-10"
-                  : userAnswer.toLowerCase().trim() !==
-                      correctAnswer.toLowerCase().trim() && isShow
-                  ? "form-control border-danger bg-danger bg-opacity-10"
-                  : "form-control"
+                // userAnswer.toLowerCase().trim() ===
+                //   correctAnswer.toLowerCase().trim() && isShow
+                //   ? "form-control border-success bg-success bg-opacity-10"
+                //   : userAnswer.toLowerCase().trim() !==
+                //       correctAnswer.toLowerCase().trim() && isShow
+                //   ? "form-control border-danger bg-danger bg-opacity-10":
+                "form-control"
               }
               onChange={onHandleChange}
               disabled={isShow}
             ></input>
 
-            {isShow && (
+            {/* {isShow && (
               <>
                 {" "}
                 <p class="text-muted mt-2 m-0">Đáp án đúng</p>
                 <h5 class="mb-0"> {record.answer} </h5>
               </>
-            )}
+            )} */}
           </div>
         </div>
       </div>

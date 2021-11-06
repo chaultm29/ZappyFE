@@ -5,6 +5,7 @@ const STUDY_API_BASE_URL = ""
   //"http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
   // "https://backend.zappy-nihongo.com/study";
   class StudyService {
+
   getHiragana() {
     return axiosConfig.get(STUDY_API_BASE_URL + "/alphabet/hiragana");
   }
