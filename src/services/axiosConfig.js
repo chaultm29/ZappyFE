@@ -1,0 +1,19 @@
+import axios from "axios";
+
+const instance = axios.create({
+    baseURL: "http://localhost:5000"
+    
+})
+    instance.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getItem("token"));
+
+    export default instance;
+
+    // export default function authHeader() {
+    //     const user = JSON.parse(localStorage.getItem('user'));
+      
+    //     if (user && user.accessToken) {
+    //       return { Authorization: 'Bearer ' + user.accessToken };
+    //     } else {
+    //       return {};
+    //     }
+    //   }
