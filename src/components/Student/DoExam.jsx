@@ -5,7 +5,7 @@ import FillBlankQuestion from "./FillBlankQuestion.jsx";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion.jsx";
 import TrueFalseQuestion from "./TrueFalseQuestion.jsx";
 
-export default function DoExam() {
+export default function DoExam({ options }) {
   const [listQuestion, setListQuestion] = useState([
     { id: "", type: "", question: "", imgLink: "", option: [], answer: "" },
   ]);
@@ -14,6 +14,9 @@ export default function DoExam() {
   const [numberOfCorrect, setNumberOfCorrect] = useState("");
   const [poportion, setPoportion] = useState("");
   const [point, setPoint] = useState("");
+
+  console.log(`options[0]`, options[0]);
+
 
   const onHandleResult = (id, isCorrect) => {
     let result = { id, isCorrect };
@@ -34,25 +37,25 @@ export default function DoExam() {
     setPoportion((count / size) * 100 + "%");
     setPoint((10 / size) * count + " / " + "10");
   };
-  const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
+  // const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
 
   useEffect(() => {
-    ExamServices.getListQuestion()
+    ExamServices.getListQuestion(options[0])
       .then((res) => {
         setListQuestion(
           res.data.map((item, index) => ({
-            id: "Q" + index,
-            type: item.type,
+            id: item.questionID,
+            type: item.typeName,
             question: item.question,
             imgLink: item.imgLink,
-            option: shuffle([...item.incorrect_answers, item.correct_answer]),
-            answer: item.correct_answer,
+            option: item.answer,
           }))
         );
       })
       .catch((err) => console.error(err));
+    console.log(`listQuestion`, listQuestion)
   }, []);
-
+  console.log(`listQuestion`, listQuestion)
   const onClickFinish = () => {
     setIsShow(true);
     calculatePoint();
@@ -60,7 +63,7 @@ export default function DoExam() {
 
   const SwitchCase = (record, index) => {
     switch (record.type) {
-      case "multiplechoice":
+      case "Nhiều lựa chọn":
         return (
           <MultipleChoiceQuestion
             record={record}
@@ -69,7 +72,7 @@ export default function DoExam() {
             isShow={isShow}
           />
         );
-      case "arrangement":
+      case "Sắp xếp câu":
         return (
           <ArrangementQuestion
             record={record}
@@ -78,7 +81,7 @@ export default function DoExam() {
             isShow={isShow}
           />
         );
-      case "truefalse":
+      case "Đúng/Sai":
         return (
           <TrueFalseQuestion
             record={record}
@@ -87,7 +90,7 @@ export default function DoExam() {
             isShow={isShow}
           />
         );
-      case "fillblank":
+      case "Điền vào chỗ trống":
         return (
           <FillBlankQuestion
             record={record}
@@ -124,7 +127,7 @@ export default function DoExam() {
         <div
           class="offcanvas offcanvas-end"
           style={{ width: "15%" }}
-          tabindex="-1"
+          tabIndex="-1"
           //data-bs-scroll="true"
           //data-bs-backdrop="false"
           id="offcanvasRight"

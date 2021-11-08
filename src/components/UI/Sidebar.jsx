@@ -22,7 +22,7 @@ export default function Sidebar({ role }) {
               title="Quản lý tài khoản"
               class="list-group-item list-group-item-action bg-transparent"
             >
-              <i class="fas fa-project-diagram"></i>
+              <i class="fas fa-project-diagram "></i>
             </Link>
           </div>
         )}
@@ -44,13 +44,27 @@ export default function Sidebar({ role }) {
             >
               <i class="fas fa-chalkboard-teacher"></i>
             </a>
-            <div class="collapse" id="collapseOption">
+            <div class="collapse border-top border-light mx-3" id="collapseOption">
               <Link
-                to="/admin/dashboard"
-                title="Quản lý câu hỏi"
-                class="list-group-item list-group-item-action bg-transparent active"
+                to="/content-mng/lesson-mng/kanji"
+                title="Quản lý chữ Hán"
+                class="list-group-item list-group-item-action bg-transparent"
               >
-                <i class="far fa-question-circle fa-2x"></i>
+                <i class="fab fa-kaggle"></i>
+              </Link>
+              <Link
+                to="/content-mng/lesson-mng/vocabulary"
+                title="Quản lý từ vựng"
+                class="list-group-item list-group-item-action bg-transparent"
+              >
+                <i class="fab fa-vine"></i>
+              </Link>
+              <Link
+                to="/content-mng/lesson-mng/grammar"
+                title="Quản lý ngữ pháp"
+                class="list-group-item list-group-item-action bg-transparent"
+              >
+                <i class="fab fa-gofore"></i>
               </Link>
             </div>
           </div>

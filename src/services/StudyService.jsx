@@ -1,29 +1,31 @@
-import axios from "axios";
+// import axios from "axios";
+import axiosConfig from './axiosConfig';
 
 
-const STUDY_API_BASE_URL =
-  //"http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/study";//
-  "https://backend.zappy-nihongo.com";
+const STUDY_API_BASE_URL = ""
+  //"http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
+  // "https://backend.zappy-nihongo.com/study";
 
   class StudyService {
+
   getHiragana() {
-    return axios.get(STUDY_API_BASE_URL + "/alphabet/hiragana");
+    return axiosConfig.get(STUDY_API_BASE_URL + "/alphabet/hiragana");
   }
   getKatakana() {
-    return axios.get(STUDY_API_BASE_URL + "/alphabet/katakana");
+    return axiosConfig.get(STUDY_API_BASE_URL + "/alphabet/katakana");
   }
 
   getKanji(id) {
-    return axios.get(STUDY_API_BASE_URL + "/kanji/lesson/"+id);
+    return axiosConfig.get(STUDY_API_BASE_URL + "/kanji/lesson/"+id);
   }
   getVocabulary(id) {
-    return axios.get(STUDY_API_BASE_URL + "/vocabulary/lesson/"+id);
+    return axiosConfig.get(STUDY_API_BASE_URL + "/vocabulary/lesson/"+id);
   }
   getGrammar(id) {
-    return axios.get(STUDY_API_BASE_URL + "/grammar/lesson/"+id);
+    return axiosConfig.get(STUDY_API_BASE_URL + "/grammar/lesson/"+id);
   }
   getLesson(){
-    return axios.get(STUDY_API_BASE_URL + "/lesson");
+    return axiosConfig.get(STUDY_API_BASE_URL + "/lesson");
   }
 }
 
