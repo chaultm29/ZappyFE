@@ -1,9 +1,9 @@
 import axiosConfig from './axiosConfig';
 const API_URL =
-"https://backend.zappy-nihongo.com/";//
+"";//
 
 const register = (username, email, password) => {
-    return axiosConfig.post(API_URL + "register", {
+    return axiosConfig.post(API_URL + "/register", {
       username,
       email,
       password,
@@ -12,7 +12,7 @@ const register = (username, email, password) => {
   
   const login = (username, password) => {
     return axiosConfig
-      .post(API_URL + "login", {
+      .post(API_URL + "/login", {
         username,
         password
       })
