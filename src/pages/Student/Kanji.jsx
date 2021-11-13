@@ -43,13 +43,6 @@ class Kanji extends Component {
     this.countProgress();
   }
 
-  componentDidMount() {
-    StudyService.getKanji(this.state.id).then((res) => {
-      this.setState({ kanjis: res.data })
-      var cards = document.getElementsByClassName("kanji-card")
-      cards[this.state.index].style.display = "flex"
-    });
-  }
   countProgress() {
     var lengthMax = this.state.kanjis.length;
     var currentIndex = this.state.index;
@@ -57,14 +50,20 @@ class Kanji extends Component {
     document.getElementById("progress-kanji").setAttribute("aria-valuenow", progress);
     document.getElementById("progress-kanji").style.width = progress + "%";
   }
+
   componentDidMount() {
     StudyService.getKanji(this.state.id).then((res) => {
-      this.setState({ kanjis: res.data });
-      var cards = document.getElementsByClassName("kanji-card");
-      cards[this.state.index].style.display = "flex";
+      this.setState({ kanjis: res.data })
+      console.log(res);
+      if(res.data!=""){ 
+      var cards = document.getElementsByClassName("kanji-card")
+      cards[this.state.index].style.display = "flex"
+      }
+      else{
+        window.location.href = "/notfound"
+    }
     });
   }
-
   render() {
     return (
       // <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}>

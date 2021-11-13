@@ -5,7 +5,8 @@ import hirag from '../../assets/img/hiragana.png';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
 import gif from '../../assets/img/pagebg.gif';
-import StudyService from '../../services/StudyService'
+import StudyService from '../../services/StudyService';
+import bg from "../../assets/img/bg-home-scene-winter.svg";
 class Katakana extends Component {
     constructor(props) {
         super(props)
@@ -16,11 +17,14 @@ class Katakana extends Component {
     componentDidMount() {
         StudyService.getKatakana().then((res) => {
             this.setState({ katas: res.data })
+            if (res.data == "") {
+                window.location.href = "/notfound"
+            }
         });
     }
     render() {
         return (
-            <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}>
+            <div style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}>
                 <Navigation />
                 <div className="container" style={{ backgroundColor: "#fceced" }}>
                     <div class="row">

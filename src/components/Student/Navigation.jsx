@@ -78,7 +78,7 @@ class Navigation extends Component {
               {/* <!-- Icon --> */}
 
               {/* <!-- Notifications --> */}
-              {!AuthenticationService.getCurrentUser() ? <>
+              {AuthenticationService.getCurrentUser() != null ? <>
                 <a
                   class="text-reset me-3"
                   href="#"
@@ -123,7 +123,7 @@ class Navigation extends Component {
 
                     </li>
                     <li>
-                      <a class="dropdown-item list" href="#">
+                      <a class="dropdown-item list" href="#" onClick = {()=>AuthenticationService.logout()}>
                         Đăng xuất
                       </a>
                     </li>

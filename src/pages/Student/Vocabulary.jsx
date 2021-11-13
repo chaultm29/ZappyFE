@@ -86,8 +86,13 @@ class Vocabulary extends Component {
         //this.addCardDatas();this.setState({ kanjis: res.data })
         StudyService.getVocabulary(this.state.id).then((res) => {
             this.setState({ vocabularies: res.data })
+            console.log(res);
+            if(res.data!=""){ 
             var cards = document.getElementsByClassName("vocabulary-card")
             cards[this.state.index].style.display = "flex"
+            } else{ 
+                window.location.href = "/notfound"
+            }
         });
 
     }

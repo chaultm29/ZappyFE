@@ -8,12 +8,13 @@ import Hiragana from "./Hiragana";
 import Katakana from "./Katakana";
 import Kanji from "./Kanji";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import bg from "../../assets/img/bg-home-scene-winter.svg";
 
 class Study extends Component {
 
     render() {
         return (
-            <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "pink" }}>
+            <div style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}>
                 <Navigation />
                 <div className="container" style={{ backgroundColor: "#fceced" }}>
                     <div class="row">

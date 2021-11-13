@@ -1,7 +1,6 @@
-
-
 import axiosConfig from './axiosConfig';
 const ACCOUNT__API_BASE_URL = "/account";
+
 class AccountService {
 
   getListAccount() {

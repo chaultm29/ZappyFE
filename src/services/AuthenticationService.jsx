@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 const API_URL =
-  "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/";
+
+  "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
 
 const register = (username, email, password) => {
-  return axios.post(API_URL + "register", {
+  return axios.post(API_URL + "/register", {
     username,
     email,
     password,
@@ -12,23 +13,31 @@ const register = (username, email, password) => {
 
 const login = (username, password) => {
   return axios
-    .post(API_URL + "login", {
+    .post(API_URL + "/login", {
       username,
       password
     })
     .then((response) => {
-      console.log(response.data.token);
-      console.log(response.data)
-      if (response.data.token) {
-        localStorage.setItem("token", JSON.stringify("Bearer " + response.data.token));
+      if (response.data) {
+        console.log(response.data.token);
+        console.log(response.data)
+        if (response.data.token) {
+          localStorage.setItem("token", JSON.stringify("Bearer " + response.data.token));
+        }
+        window.location.reload(true);
+      } else {
+        console.log("No")
+        return {
+          message: 'Login failed'
+        }
       }
-
-      return response.data;
     });
 };
 
 const logout = () => {
   localStorage.removeItem("token");
+  window.location.href = '/home';
+  //return false;
 };
 
 const getCurrentUser = () => {

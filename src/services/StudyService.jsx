@@ -1,9 +1,11 @@
 // import axios from "axios";
 import axiosConfig from './axiosConfig';
 
+
 const STUDY_API_BASE_URL = ""
   //"http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
   // "https://backend.zappy-nihongo.com/study";
+
   class StudyService {
 
   getHiragana() {

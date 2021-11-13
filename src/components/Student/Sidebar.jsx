@@ -105,6 +105,7 @@ class Sidebar extends Component {
 
   componentDidMount() {
     StudyService.getLesson().then((res) => {
+      if(res !=null)
       this.setState({ lessons: res.data })
     });
     var elem = window.location.pathname.split("/");

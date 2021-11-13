@@ -9,13 +9,17 @@ class Grammar extends Component {
         super(props)
         this.state = {
             grammars: [],
-            id:this.props.match.params.id
+            id: this.props.match.params.id
         }
     }
-    componentDidMount(){
-        StudyService.getGrammar(this.state.id).then((res) =>{
-            this.setState({grammars:res.data})
-    });
+
+    componentDidMount() {
+        StudyService.getGrammar(this.state.id).then((res) => {
+            this.setState({ grammars: res.data })
+            if (res.data == "") {
+                window.location.href = "/notfound"
+            }
+        });
     }
     render() {
         return (
@@ -27,26 +31,26 @@ class Grammar extends Component {
                         <div class="col-md-8">
                             <h1 class="tit"> Ngữ pháp </h1>
                             <div id="accordion">
-                            {
-                                this.state.grammars.map(
-                                    grammar =>
-                                  <div class="card" key = {grammar.id}>
-                                    <div class="card-header">
-                                      <a class="collapsed btn" data-bs-toggle="collapse" href={"#collapse"+grammar.id}>
-                                      {grammar.grammar} : {grammar.grammarMeaning}
-                                    </a>
-                                    </div>
-                                    <div id={"collapse"+grammar.id} class="collapse" data-bs-parent="#accordion">
-                                      <div class="card-body">
-                                        <div>{grammar.explanation}</div>
-                                        <div>{grammar.example}</div>
-                                        <div>{grammar.exampleMeaning}</div>
-                                        <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                                </div>
+                                {
+                                    this.state.grammars.map(
+                                        grammar =>
+                                            <div class="card" key={grammar.id}>
+                                                <div class="card-header">
+                                                    <a class="collapsed btn" data-bs-toggle="collapse" href={"#collapse" + grammar.id}>
+                                                        {grammar.grammar} : {grammar.grammarMeaning}
+                                                    </a>
+                                                </div>
+                                                <div id={"collapse" + grammar.id} class="collapse" data-bs-parent="#accordion">
+                                                    <div class="card-body">
+                                                        <div>{grammar.explanation}</div>
+                                                        <div>{grammar.example}</div>
+                                                        <div>{grammar.exampleMeaning}</div>
+                                                        <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    )}
+                            </div>
                             <div class="row">
                                 <button class="btn btn-danger practice">Luyện tập</button>
                             </div>
