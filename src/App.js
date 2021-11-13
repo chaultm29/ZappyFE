@@ -19,6 +19,7 @@ import QuestionManager from "./pages/ContentManager/QuestionManager";
 import KanjiManager from "./pages/ContentManager/KanjiManager";
 import VocabularyManager from "./pages/ContentManager/VocabularyManager";
 import GrammarManager from "./pages/ContentManager/GrammarManager";
+import NotFoundPage from "./pages/User/NotFoundPage";
 
 
 function App() {
@@ -45,6 +46,9 @@ function App() {
         <Route path="/register" component={Register}></Route>
 
         <Route path="/exam" component={Exam}></Route>
+
+        <Route path="*" component = {NotFoundPage} ></Route>
+        <Route path="/notfound" component = {NotFoundPage} ></Route>
       </Switch>
     </Router>
   );

@@ -3,7 +3,7 @@ import React from "react";
 
 const ACCOUNT__API_BASE_URL =
  // "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/admin/account";
- "/admin/account";
+ "/account";
 class AccountService {
 
   getListAccount() {

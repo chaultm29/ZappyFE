@@ -46,8 +46,13 @@ class Kanji extends Component {
   componentDidMount() {
     StudyService.getKanji(this.state.id).then((res) => {
       this.setState({ kanjis: res.data })
+      if(res.data!=""){ 
       var cards = document.getElementsByClassName("kanji-card")
       cards[this.state.index].style.display = "flex"
+      }
+      else{
+        window.location.href = "/notfound"
+    }
     });
   }
   countProgress() {

@@ -16,6 +16,9 @@ class Katakana extends Component {
     componentDidMount() {
         StudyService.getKatakana().then((res) => {
             this.setState({ katas: res.data })
+            if (res.data == "") {
+                window.location.href = "/notfound"
+            }
         });
     }
     render() {

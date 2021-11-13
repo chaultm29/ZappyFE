@@ -6,6 +6,32 @@ const instance = axios.create({
 })
     instance.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getItem("token"));
     //instance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+  
+    instance.interceptors.response.use(
+        (response) => {
+            
+          return response
+        },
+    
+        (error) => {
+          const statusCode = error.response.data.status
+          if (statusCode === 401 || statusCode === '401') {
+            window.location.href = '/login'
+          }
+          if (error.message.includes('403')) {
+            // return {
+            //   statusCode: '403',
+            //   message: 'Access denied'
+            // }
+            window.location.href = '/study'
+          }
+          if (error.message.includes('ERR_FAILED')) {
+            window.location.href = '/study'
+          }
+        }
+      )
+  
+  
     export default instance;
 
     // export default function authHeader() {
