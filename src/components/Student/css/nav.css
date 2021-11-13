@@ -34,6 +34,10 @@ li a :active {
   background-color: #f9d9d4;
   color: #191a1b !important;
 }
+li a.active {
+  background-color: #f9d9d4;
+  color: #191a1b !important;
+}
 .nav-link {
   border-radius: 8px;
   font-weight: 500;
