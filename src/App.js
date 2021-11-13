@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { Profiler } from "react";
 import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
@@ -19,6 +19,8 @@ import QuestionManager from "./pages/ContentManager/QuestionManager";
 import KanjiManager from "./pages/ContentManager/KanjiManager";
 import VocabularyManager from "./pages/ContentManager/VocabularyManager";
 import GrammarManager from "./pages/ContentManager/GrammarManager";
+import Profile from "./pages/User/Profile";
+import PageNotFound from "./pages/User/PageNotFound";
 
 
 function App() {
@@ -43,8 +45,9 @@ function App() {
         <Route path="/content-mng/lesson-mng/grammar" component={GrammarManager}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
-
+        <Route path="/profile" component={Profile}></Route>
         <Route path="/exam" component={Exam}></Route>
+        <Route component={PageNotFound}></Route>
       </Switch>
     </Router>
   );

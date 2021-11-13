@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 export default function GrammarAddModal() {
     const history = useHistory();
     const [image, setImage] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
-    const [gif, setGif] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = (data) => {
         console.log(`data`, data)
@@ -26,15 +25,7 @@ export default function GrammarAddModal() {
         }
         reader.readAsDataURL(e.target.files[0]);
     }
-    const gifHandler = (e) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setGif(reader.result)
-            }
-        }
-        reader.readAsDataURL(e.target.files[0]);
-    }
+
     return (
         <>
             {/* add grammar */}

@@ -2,59 +2,28 @@ import React, { useState, useEffect } from "react";
 import CalendarEmb from "../Admin/Calendar.jsx";
 import Schedule from "../Admin/Schedule.jsx";
 import Table, { SelectColumnFilter } from "../UI/Table.jsx";
-import AccountModal from "./AccountModal.jsx";
+import AccountAddModal from "./AccountAddModal.jsx";
 import AccountServices from "../../services/AccountServices.jsx";
 import { useHistory } from "react-router-dom";
+import AccountEditModal from "./AccountEditModal.jsx";
+import AccountDeleteModal from "./AccountDeleteModal.jsx";
 
 export default function AccountManagerContent() {
-  const [type, setType] = useState("-1");
   const [dataAcc, setDataAcc] = useState([]);
-  const [accountId, setAccountId] = useState(0);
-  const [account, setAccount] = useState([]);
-  const [isDelete, setIsDelete] = useState(false);
-  const history = useHistory();
+  const [accountDetail, setAccountDetail] = useState([]);
 
-  const onUserClickAddButton = (e) => {
-    setType(e.currentTarget.value);
-  };
-  const onSubmitDataAccount = (submitData) => {
-    if (submitData.id) {
-      AccountServices.editAccount(submitData, submitData.id);
-      history.go(0);
-    } else {
-      AccountServices.addAccount(submitData);
-      history.go(0);
-    }
-  };
-
-  // view account
-  const onUserClickViewButton = (e) => {
-    setType(e.currentTarget.value);
-    setAccountId(e.currentTarget.id);
-  };
-  useEffect(() => {
-    if (accountId > 0) {
-      AccountServices.getAccountByID(accountId).then((res) => {
-        setAccount(res.data);
-      });
-    }
-  }, [accountId]);
-
-  const onUserClickEditButton = (e) => {
-    setAccountId(e.currentTarget.id);
-    setType(e.currentTarget.value);
-  };
-
-  const onUserClickDeleteButton = (e) => {
-    setType(e.currentTarget.value);
-    setAccountId(e.currentTarget.id);
-  };
-  useEffect(() => {
-    if (isDelete) {
-      AccountServices.deleteAccount(accountId);
-      history.go(0);
-    }
-  }, [isDelete]);
+  const onClickGetAccountID = (e) => {
+    return e.currentTarget.id;
+  }
+  const getAccountDetailByID = (accountId) => {
+    AccountServices.getAccountByID(accountId).then((res) => {
+      setAccountDetail(res.data);
+    });
+  }
+  const onClickButton = (e) => {
+    let accountId = onClickGetAccountID(e);
+    getAccountDetailByID(accountId);
+  }
 
   // get list account
   useEffect(() => {
@@ -67,10 +36,9 @@ export default function AccountManagerContent() {
                 type="button"
                 class="btn btn-primary mx-1"
                 data-bs-toggle="modal"
-                data-bs-target="#ViewModal"
-                value="1"
+                data-bs-target="#ViewViewModal"
                 id={record.id}
-                onClick={onUserClickViewButton}
+                onClick={onClickButton}
               >
                 <i class="far fa-eye"></i>
               </button>
@@ -78,10 +46,9 @@ export default function AccountManagerContent() {
                 type="button"
                 class="btn btn-success mx-1"
                 data-bs-toggle="modal"
-                data-bs-target="#ViewModal"
-                value="2"
+                data-bs-target="#ViewEditModal"
                 id={record.id}
-                onClick={onUserClickEditButton}
+                onClick={onClickButton}
               >
                 <i class="fas fa-user-edit"></i>
               </button>
@@ -89,10 +56,9 @@ export default function AccountManagerContent() {
                 type="button"
                 class="btn btn-danger mx-1"
                 data-bs-toggle="modal"
-                data-bs-target="#ViewModal"
-                value="3"
+                data-bs-target="#ViewDeleteModal"
                 id={record.id}
-                onClick={onUserClickDeleteButton}
+                onClick={onClickButton}
               >
                 <i class="far fa-minus-square"></i>
               </button>
@@ -106,9 +72,6 @@ export default function AccountManagerContent() {
 
   // get value from form
 
-  const getData = () => {
-    return [...dataAcc];
-  };
 
   const columns = React.useMemo(
     () => [
@@ -127,7 +90,7 @@ export default function AccountManagerContent() {
 
       {
         Header: "Vai trò",
-        accessor: "role",
+        accessor: "roleDTO.name",
         Filter: SelectColumnFilter,
         filter: "includes",
       },
@@ -138,32 +101,34 @@ export default function AccountManagerContent() {
     ],
     []
   );
-  const data = React.useMemo(() => getData(), []);
+  const data = React.useMemo(() => dataAcc, []);
   return (
     <div class="container-fluid px-4">
       <div className="row">
         <div className="col-sm-9 accountManagerContent-wrapper">
-          <button
-            class="btn btn-primary"
-            id="addbutton"
-            data-bs-toggle="modal"
-            data-bs-target="#ViewModal"
-            value="0"
-            title="Add"
-            onClick={onUserClickAddButton}
-          >
-            Thêm tài khoản
-          </button>
-          <Table columns={columns} data={dataAcc} />
+
+          {dataAcc.length != 0 ? <>
+            <button
+              class="btn btn-primary"
+              id="addbutton"
+              data-bs-toggle="modal"
+              data-bs-target="#ViewAddModal"
+              title="Add">
+              Thêm mới
+            </button>
+            <Table columns={columns} data={dataAcc} />
+
+          </> : <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>}
         </div>
 
         {/* View Modal */}
-        <AccountModal
-          type={type}
-          onSubmitDataAccount={onSubmitDataAccount}
-          account={account}
-          setIsDelete={setIsDelete}
-        />
+        <AccountAddModal />
+        <AccountEditModal accountDetail={accountDetail} />
+        <AccountDeleteModal accountDetail={accountDetail} />
         <div className="col-sm-3">
           <CalendarEmb />
           <Schedule />
