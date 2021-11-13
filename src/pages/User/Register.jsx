@@ -11,18 +11,12 @@ export default function Register() {
   const password = useRef({});
   password.current = watch("password", "");
   const onSubmit = (data) => console.log(data);
+  const onClick = () => {
+    var myModal = document.getElementById('registerModal');
+
+  }
   return (
     <div>
-      <button
-        type="button"
-        id="buttonLogin"
-        class="btn"
-        data-toggle="modal"
-        data-target="#registerModal"
-      >
-        Đăng kí
-      </button>
-
       <div
         class="modal fade"
         id="registerModal"
@@ -242,16 +236,19 @@ export default function Register() {
                 </form>
               </div>
             </div>
-            <div class="modal-footer d-flex justify-content-center">
+            {/* <div class="modal-footer d-flex justify-content-center">
               <div class="signup-section">
                 Đã có tài khoản?{" "}
-                <a href="#a" style={{ color: "#F6B0A6" }}>
+                <a
+                  onClick={onClick}
+                  data-target="#loginModal"
+                  style={{ color: "#F6B0A6", cursor: "pointer" }}
+                >
                   {" "}
                   Đăng nhập
                 </a>
-                .
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

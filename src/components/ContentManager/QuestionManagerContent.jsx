@@ -120,7 +120,15 @@ export default function QuestionManagerContent() {
     <div class="container-fluid px-4">
       <div className="row">
         <div className="col-sm-9 accountManagerContent-wrapper">
-          {dataQuestion.length != 0 ? <>
+          <button
+            class="btn btn-primary"
+            id="addbutton"
+            data-bs-toggle="modal"
+            data-bs-target="#ViewAddModal"
+            title="Add">
+            Thêm mới
+          </button>
+          {/* {dataQuestion.length != 0 ? <>
             <button
               class="btn btn-primary"
               id="addbutton"
@@ -135,14 +143,14 @@ export default function QuestionManagerContent() {
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
-          </div>}
+          </div>} */}
         </div>
 
         {/* View Modal */}
         <QuestionAddModal />
         <QuestionViewModal questionDetail={questionDetail} />
-        <QuestionEditModal questionDetail={questionDetail} />
-        <QuestionDeleteModal questionDetail={questionDetail} />
+        {/* <QuestionEditModal questionDetail={questionDetail} />
+        <QuestionDeleteModal questionDetail={questionDetail} /> */}
 
         <div className="col-sm-3">
 

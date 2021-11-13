@@ -8,13 +8,9 @@ a:hover {
   text-decoration: none !important;
 }
 
-.content {
-  height: 70vh;
-}
-
 .footer-16371 {
-  padding: 7rem 0;
-  font-family: "Poppins", sans-serif;
+  /* font-family: "Poppins", sans-serif; */
+  background-color: #f8f9fa;
 }
 .footer-16371 .footer-site-logo {
   text-align: center;

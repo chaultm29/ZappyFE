@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function TrueFalseQuestion({
   record,
   index,
   onHandleResult,
   isShow,
+  listCorrectQuestion
 }) {
-  const [userAnswer, setUserAnswer] = useState("");
-  var correctAnswer = record.answer;
 
-  const onChange = (e) => {
-    setUserAnswer(e.target.id);
-    let userAnswer2 = e.target.id;
-    if (correctAnswer === userAnswer2) {
-      onHandleResult(record.id, true);
-    } else {
-      onHandleResult(record.id, false);
-    }
-  };
+
+  var isCorrect = listCorrectQuestion.includes(record.id);
+
+  const onHandleChange = (e) => {
+    let id = record.id;
+    let value = e.target.value;
+    onHandleResult(id, value);
+  }
   return (
-    <div>
-      <div class="card w-50 mt-4" style={{ margin: "auto" }}>
-        <div class="card-header">{index}. Câu hỏi đúng sai</div>
+    <div id={"question" + index}>
+      <div class="card w-100 mt-4">
+        <div class={isShow && isCorrect ? "card-header bg-success text-white"
+          : isShow && !isCorrect ? "card-header bg-danger text-white"
+            : "card-header"}>{index}. Câu hỏi đúng sai</div>
         <div class="card-body">
           <div class="">
             <h5 class="card-title fw-bolder">{record.question}</h5>
@@ -31,19 +31,13 @@ export default function TrueFalseQuestion({
             <div class="row row-cols-2">
               {record.option.map((option) => (
                 <div class="col">
-                  <label
-                    class=
-                    // option === correctAnswer && isShow
-                    //   ? "btn btn-outline-success bg-success bg-opacity-10 mt-2 w-100 text-start"
-                    //   : option === userAnswer && isShow
-                    //   ? "btn btn-outline-danger bg-danger bg-opacity-10 mt-2 w-100 text-start":
-                    "btn btn-outline-secondary mt-2 w-100 text-start">
+                  <label class="btn btn-outline-secondary mt-2 w-100 text-start">
                     <input
                       type="radio"
-                      name="options"
-                      id={option}
-                      onChange={onChange}
+                      name={"options" + index}
+                      onChange={onHandleChange}
                       disabled={isShow}
+                      value={option.answer}
                     />{" "}
                     {option.answer}
                   </label>
@@ -53,6 +47,6 @@ export default function TrueFalseQuestion({
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

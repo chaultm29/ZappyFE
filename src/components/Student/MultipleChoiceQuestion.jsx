@@ -4,24 +4,22 @@ export default function MultipleChoiceQuestion({
   index,
   onHandleResult,
   isShow,
+  listCorrectQuestion
 }) {
-  const [userAnswer, setUserAnswer] = useState("");
-  // var correctAnswer = record.answer;
 
-  const onChange = (e) => {
-    // setUserAnswer(e.target.id);
-    // let userAnswer2 = e.target.id;
-    // if (correctAnswer === userAnswer2) {
-    //   onHandleResult(record.id, true);
-    // } else {
-    //   onHandleResult(record.id, false);
-    // }
-  };
+  var isCorrect = listCorrectQuestion.includes(record.id);
+  const onHandleChange = (e) => {
+    let id = record.id;
+    let value = e.target.value;
+    onHandleResult(id, value);
+  }
 
   return (
-    <div>
-      <div class="card w-50 mt-4" style={{ margin: "auto" }}>
-        <div class="card-header">{index}. Nhiều lựa chọn</div>
+    <div id={"question" + index}>
+      <div class="card w-100 mt-4">
+        <div class={isShow && isCorrect ? "card-header bg-success text-white"
+          : isShow && !isCorrect ? "card-header bg-danger text-white"
+            : "card-header"}>{index}. Nhiều lựa chọn</div>
         <div class="card-body">
           <div class="mh-100">
             <h5 class="card-title fw-bolder">{record.question}</h5>
@@ -38,12 +36,12 @@ export default function MultipleChoiceQuestion({
                     //   : option === u0serAnswer && isShow
                     //     ? "btn btn-outline-danger bg-danger bg-opacity-10 mt-2 w-100 text-start" :
                     "btn btn-outline-secondary mt-2 w-100 text-start"
-                    onChange={onChange}
+                    onChange={onHandleChange}
                   >
                     <input
                       type="radio"
                       name={"options" + index}
-                      id={option.id}
+                      value={option.answer}
                       disabled={isShow}
                     />{" "}
                     {option.answer}

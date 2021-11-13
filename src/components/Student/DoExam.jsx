@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { set } from "react-hook-form";
+import Timer from "../../pages/Student/Timer.jsx";
+import { useHistory } from "react-router-dom";
 import ExamServices from "../../services/ExamServices.jsx";
 import ArrangementQuestion from "./ArrangementQuestion.jsx";
 import FillBlankQuestion from "./FillBlankQuestion.jsx";
@@ -11,33 +14,21 @@ export default function DoExam({ options }) {
   ]);
   const [listResult, setListResult] = useState([]);
   const [isShow, setIsShow] = useState(false);
+  const [listCorrectQuestion, setListCorrectQuestion] = useState([]);
   const [numberOfCorrect, setNumberOfCorrect] = useState("");
   const [poportion, setPoportion] = useState("");
   const [point, setPoint] = useState("");
+  const history = useHistory();
 
-  console.log(`options[0]`, options[0]);
-
-
-  const onHandleResult = (id, isCorrect) => {
-    let result = { id, isCorrect };
-    let listABC = listResult.filter((x) => x.id !== result.id);
-    setListResult([...listABC, result]);
-    console.log(listResult);
+  const onHandleResult = (id, answer) => {
+    let result = { id, answer };
+    let list = listResult.filter((x) => x.id !== result.id);
+    setListResult([...list, result]);
   };
 
-  const calculatePoint = () => {
-    let count = 0;
-    let size = listQuestion.length;
-    listResult.forEach((item) => {
-      if (item.isCorrect) {
-        count++;
-      }
-    });
-    setNumberOfCorrect(count + " / " + size);
-    setPoportion((count / size) * 100 + "%");
-    setPoint((10 / size) * count + " / " + "10");
-  };
-  // const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
+  const onClickRefresh = () => {
+    history.go(0);
+  }
 
   useEffect(() => {
     ExamServices.getListQuestion(options[0])
@@ -53,12 +44,22 @@ export default function DoExam({ options }) {
         );
       })
       .catch((err) => console.error(err));
-    console.log(`listQuestion`, listQuestion)
   }, []);
-  console.log(`listQuestion`, listQuestion)
+
+
   const onClickFinish = () => {
+    let userSubmit = { username: "", answerDTOs: listResult };
+    let list = [];
+    ExamServices.getResult(userSubmit).then((res) => {
+      list = res.data;
+      setListCorrectQuestion(list);
+    })
     setIsShow(true);
-    calculatePoint();
+    let size = listQuestion.length;
+    let number = listCorrectQuestion.length;
+    setNumberOfCorrect(number + " / " + size);
+    setPoportion((number / size) * 100 + "%");
+    setPoint((10 / size) * number + " / " + "10");
   };
 
   const SwitchCase = (record, index) => {
@@ -70,6 +71,7 @@ export default function DoExam({ options }) {
             index={index}
             onHandleResult={onHandleResult}
             isShow={isShow}
+            listCorrectQuestion={listCorrectQuestion}
           />
         );
       case "Sắp xếp câu":
@@ -79,6 +81,7 @@ export default function DoExam({ options }) {
             index={index}
             onHandleResult={onHandleResult}
             isShow={isShow}
+            listCorrectQuestion={listCorrectQuestion}
           />
         );
       case "Đúng/Sai":
@@ -88,6 +91,7 @@ export default function DoExam({ options }) {
             index={index}
             onHandleResult={onHandleResult}
             isShow={isShow}
+            listCorrectQuestion={listCorrectQuestion}
           />
         );
       case "Điền vào chỗ trống":
@@ -97,6 +101,7 @@ export default function DoExam({ options }) {
             index={index}
             onHandleResult={onHandleResult}
             isShow={isShow}
+            listCorrectQuestion={listCorrectQuestion}
           />
         );
     }
@@ -114,49 +119,62 @@ export default function DoExam({ options }) {
           <span class="fw-bold"> {point}</span>
         </div>
       )}
-      <button
-        class="btn btn-outline-secondary float-end me-5"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasRight"
-        aria-controls="offcanvasRight"
-      >
-        <i class="fas fa-stream"></i>
-      </button>
-      <div class="container">
-        <div
-          class="offcanvas offcanvas-end"
-          style={{ width: "15%" }}
-          tabIndex="-1"
-          //data-bs-scroll="true"
-          //data-bs-backdrop="false"
-          id="offcanvasRight"
-          aria-labelledby="offcanvasRightLabel"
-        >
-          <div class="offcanvas-header">
-            <h5 id="offcanvasRightLabel">Danh sách câu hỏi</h5>
-            <button
-              type="button"
-              class="btn-close text-reset"
-              data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
+      <div class="container mx-auto" style={{ width: "98%", backgroundColor: "#fff", borderRadius: "15px " }}>
+        <div class="row mt-2">
+          <div class="col-9">
+            {listQuestion.map((item, index) => (
+              SwitchCase(item, index + 1)))
+            }
+            <div class="w-50" style={{ margin: "auto" }}>
+              {isShow ? <a
+                href="#back-to-top"
+                class="btn w-100 mt-4 mb-4"
+                onClick={onClickRefresh}
+                style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+              >
+                Tạo bài kiểm tra mới
+              </a> : <a
+                href="#back-to-top"
+                class="btn w-100 mt-4 mb-4"
+                onClick={onClickFinish}
+                style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+              >
+                Xem kết quả
+              </a>}
+            </div>
           </div>
-          <div class="offcanvas-body">
-            <a href="#question">Câu question</a>
-          </div>
-        </div>
-        {listQuestion.map((item, index) => SwitchCase(item, index + 1))}
+          <div class="col-3">
+            <div class="card bg-light mb-3 mt-4 sticky-top">
+              <div class="card-header">Danh sách câu hỏi</div>
+              <div class="card-body">
+                <div class="row row-cols-5">
+                  {listQuestion.map((item, index) => (
+                    <div class=
+                      {isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
+                        : isShow && !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white"
+                          : "col px-1 btn btn-outline-secondary"}>
+                      <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
+                    </div>
+                  ))}
 
-        <div class="w-50 " style={{ margin: "auto" }}>
-          <a
-            href="#back-to-top"
-            class="btn btn-primary w-100 rounded-0 mt-4 mb-4"
-            onClick={onClickFinish}
-          >
-            Xem kết quả
-          </a>
+                </div>
+                <div class="w-100 text-center" style={{ margin: "auto" }}>
+                  {isShow ? "" : <Timer initialMinute={0} initialSeconds={30} onTimeUp={onClickFinish} />}
+                  <a
+                    href="#back-to-top"
+                    class="btn btn-link w-100"
+                    onClick={onClickFinish}
+                    style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+                  >
+                    Xem kết quả
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
+
       </div>
     </>
   );

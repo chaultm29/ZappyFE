@@ -1,9 +1,6 @@
 import axiosConfig from './axiosConfig';
-import React from "react";
+const ACCOUNT__API_BASE_URL = "/account";
 
-const ACCOUNT__API_BASE_URL =
- // "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/admin/account";
- "/account";
 class AccountService {
 
   getListAccount() {
@@ -11,7 +8,7 @@ class AccountService {
   }
 
   addAccount(account) {
-    return axiosConfig.post(ACCOUNT__API_BASE_URL, account);
+    return axiosConfig.post(ACCOUNT__API_BASE_URL + "/", account);
   }
 
   getAccountByID(accountId) {

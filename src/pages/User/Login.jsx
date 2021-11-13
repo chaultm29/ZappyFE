@@ -14,15 +14,6 @@ export default function Login() {
 
     return (
         <>
-            <button
-                type="button"
-                id="buttonLogin"
-                class="btn"
-                data-toggle="modal"
-                data-target="#loginModal"
-            >
-                Đăng nhập
-            </button>
 
             <div
                 class="modal fade"
@@ -149,16 +140,18 @@ export default function Login() {
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer d-flex justify-content-center">
+                        {/* <div class="modal-footer d-flex justify-content-center">
                             <div class="signup-section">
                                 Chưa có tài khoản?{" "}
-                                <a href="#a" style={{ color: "#F6B0A6" }}>
+                                <a
+                                    data-toggle="modal"
+                                    data-target="#registerModal" style={{ color: "#F6B0A6", cursor: "pointer" }}>
                                     {" "}
                                     Đăng kí
                                 </a>
-                                .
+
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

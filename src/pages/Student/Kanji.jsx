@@ -43,9 +43,18 @@ class Kanji extends Component {
     this.countProgress();
   }
 
+  countProgress() {
+    var lengthMax = this.state.kanjis.length;
+    var currentIndex = this.state.index;
+    var progress = ((currentIndex + 1) / lengthMax) * 100;
+    document.getElementById("progress-kanji").setAttribute("aria-valuenow", progress);
+    document.getElementById("progress-kanji").style.width = progress + "%";
+  }
+
   componentDidMount() {
     StudyService.getKanji(this.state.id).then((res) => {
       this.setState({ kanjis: res.data })
+      console.log(res);
       if(res.data!=""){ 
       var cards = document.getElementsByClassName("kanji-card")
       cards[this.state.index].style.display = "flex"
@@ -55,21 +64,6 @@ class Kanji extends Component {
     }
     });
   }
-  countProgress() {
-    var lengthMax = this.state.kanjis.length;
-    var currentIndex = this.state.index;
-    var progress = ((currentIndex + 1) / lengthMax) * 100;
-    document.getElementById("progress-kanji").setAttribute("aria-valuenow", progress);
-    document.getElementById("progress-kanji").style.width = progress + "%";
-  }
-  componentDidMount() {
-    StudyService.getKanji(this.state.id).then((res) => {
-      this.setState({ kanjis: res.data });
-      var cards = document.getElementsByClassName("kanji-card");
-      cards[this.state.index].style.display = "flex";
-    });
-  }
-
   render() {
     return (
       // <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}>
