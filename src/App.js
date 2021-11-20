@@ -1,7 +1,7 @@
 import "./App.css";
 import React, { Profiler } from "react";
 import Dashboard from "./pages/Admin/Dashboard";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
 
 import Study from "./pages/Student/Study";
@@ -22,14 +22,17 @@ import GrammarManager from "./pages/ContentManager/GrammarManager";
 import NotFoundPage from "./pages/User/NotFoundPage";
 import Profile from "./pages/User/Profile";
 import PageNotFound from "./pages/User/PageNotFound";
+import Practice from "./pages/Student/Practice";
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
         <Route path="/admin/dashboard" component={Dashboard}></Route>
         <Route path="/admin/acc-mng" component={AccountManager}></Route>
-
         <Route path="/home" component={Homepage}></Route>
         <Route exact path="/study" component={Study}></Route>
         <Route path="/study/alphabet" component={Alphabet}></Route>
@@ -38,7 +41,6 @@ function App() {
         <Route exact path="/study/kanji/lesson/:id" component={Kanji}></Route>
         <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
         <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
-
         <Route path="/content-mng/question-mng" component={QuestionManager}></Route>
         <Route path="/content-mng/lesson-mng/kanji" component={KanjiManager}></Route>
         <Route path="/content-mng/lesson-mng/vocabulary" component={VocabularyManager}></Route>
@@ -47,11 +49,9 @@ function App() {
         <Route path="/register" component={Register}></Route>
         <Route path="/profile" component={Profile}></Route>
         <Route path="/exam" component={Exam}></Route>
-
-        <Route path="/notfound" component = {NotFoundPage} ></Route>
-        <Route path="*" component = {PageNotFound} ></Route>
-        
-
+        <Route path="/study/practice/:catName/:lessId" component={Practice} />
+        <Route path="/notfound" component={NotFoundPage} ></Route>
+        <Route path="*" component={PageNotFound} ></Route>
       </Switch>
     </Router>
   );

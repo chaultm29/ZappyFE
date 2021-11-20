@@ -2,19 +2,28 @@ import React, { Component } from "react";
 import "./css/kanji.css";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
-import gif from "../../assets/img/pagebg.gif";
+import {
+  BrowserRouter as Link
+} from "react-router-dom";
+
 import StudyService from "../../services/StudyService";
 class Kanji extends Component {
   constructor(props) {
     super(props)
     this.changeToCard = this.changeToCard.bind(this);
     this.countProgress = this.countProgress.bind(this);
+    this.gotoPractice = this.gotoPractice.bind(this);
     this.state = {
       kanjis: [],
       index: 0,
       id: this.props.match.params.id
-    }
+    };
   }
+
+  gotoPractice() {
+    this.props.history.push("/study/practice/kanji/" + this.props.match.params.id);
+  }
+
   changeToCard(i) {
     var lengthMax = this.state.kanjis.length;
     var currIndex = this.state.index;
@@ -55,13 +64,13 @@ class Kanji extends Component {
     StudyService.getKanji(this.state.id).then((res) => {
       this.setState({ kanjis: res.data })
       console.log(res);
-      if(res.data!=""){ 
-      var cards = document.getElementsByClassName("kanji-card")
-      cards[this.state.index].style.display = "flex"
+      if (res.data != "") {
+        var cards = document.getElementsByClassName("kanji-card")
+        cards[this.state.index].style.display = "flex"
       }
-      else{
+      else {
         window.location.href = "/notfound"
-    }
+      }
     });
   }
   render() {
@@ -110,7 +119,7 @@ class Kanji extends Component {
                 <div class="progress-bar bg-info" id="progress-kanji" role="progressbar" style={{ width: "10%" }} aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
               <div class="row">
-                <button class="btn btn-danger practice">Luyện tập</button>
+                <button class="btn btn-danger practice" onClick={this.gotoPractice}>Luyện tập</button>
               </div>
             </div>
           </div>

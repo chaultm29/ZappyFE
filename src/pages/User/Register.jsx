@@ -11,10 +11,6 @@ export default function Register() {
   const password = useRef({});
   password.current = watch("password", "");
   const onSubmit = (data) => console.log(data);
-  const onClick = () => {
-    var myModal = document.getElementById('registerModal');
-
-  }
   return (
     <div>
       <div

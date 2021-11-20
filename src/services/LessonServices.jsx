@@ -6,7 +6,6 @@ const GRAMMAR__API_BASE_URL = "/grammar";
 const QUESTION__API_BASE_URL = "/question";
 class LessonServices {
     //vocabulary
-
     getListVocabulary() {
         return axiosConfig.get(VOCABULARY__API_BASE_URL);
     }

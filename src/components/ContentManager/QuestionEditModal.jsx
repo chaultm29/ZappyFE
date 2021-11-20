@@ -16,7 +16,7 @@ export default function QuestionEditModal({ questionDetail }) {
     const [wrongAnswer2, setWrongAnswer2] = useState("");
     const [wrongAnswer3, setWrongAnswer3] = useState("");
     const onSubmit = (e, data) => {
-        e.preventDefaul();
+        e.preventDefault();
         console.log(`data`, data)
     }
 

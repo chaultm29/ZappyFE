@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './css/vocabulary.css';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
-import gif from '../../assets/img/pagebg.gif'
+import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService';
 
 class Vocabulary extends Component {
@@ -87,10 +87,10 @@ class Vocabulary extends Component {
         StudyService.getVocabulary(this.state.id).then((res) => {
             this.setState({ vocabularies: res.data })
             console.log(res);
-            if(res.data!=""){ 
-            var cards = document.getElementsByClassName("vocabulary-card")
-            cards[this.state.index].style.display = "flex"
-            } else{ 
+            if (res.data != "") {
+                var cards = document.getElementsByClassName("vocabulary-card")
+                cards[this.state.index].style.display = "flex"
+            } else {
                 window.location.href = "/notfound"
             }
         });
@@ -99,7 +99,8 @@ class Vocabulary extends Component {
     render() {
         return (
             <div>
-                <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}>
+                <div
+                    style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                     <Navigation />
                     <div className="container" style={{ backgroundColor: "#fceced" }}>
                         <div class="row">
@@ -126,11 +127,11 @@ class Vocabulary extends Component {
                                                 </div>
                                             </div>
                                     )}<div id="finishLearning" class="vocabulary-card" style={{ display: "none" }}>
-                                        <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
-                                        <button>Luyện tập</button>
-                                    </div>
+                                    <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
+                                    <button>Luyện tập</button>
+                                </div>
                                 <div>
-                                    
+
 
                                     <button id="prevButton" class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>
                                     <button id="nextButton" class="btn btn-primary next" onClick={() => this.changeToCard(1)}>Tiếp theo</button>

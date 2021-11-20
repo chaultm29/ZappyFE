@@ -42,9 +42,9 @@ class Katakana extends Component {
                                             <div class="des">{kata.description}</div>
                                         </div>
                                 )}
-                            <div class="row">
+                            {/* <div class="row">
                                 <button class="btn btn-danger practice">Luyện tập</button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>
