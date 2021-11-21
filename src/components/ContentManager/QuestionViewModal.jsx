@@ -3,67 +3,6 @@ import React, { useState } from 'react'
 import LessonServices from '../../services/LessonServices';
 
 export default function QuestionViewModal({ questionDetail }) {
-    const [image, setImage] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
-    const [gif, setGif] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
-    const [questionType, setQuestionType] = useState(0);
-    const [skill, setSkill] = useState("");
-    const [lesson, setLesson] = useState("");
-    const [question, setQuestion] = useState("");
-    const [rightAnswer, setRightAnswer] = useState("");
-    const [wrongAnswer1, setWrongAnswer1] = useState("");
-    const [wrongAnswer2, setWrongAnswer2] = useState("");
-    const [wrongAnswer3, setWrongAnswer3] = useState("");
-    const onSubmit = (data) => {
-        console.log(`data`, data)
-    }
-
-    const onChangeQuestionType = (e) => {
-        let typeUser = e.target.value;
-        setQuestionType(typeUser);
-        console.log(`questionType`, questionType);
-    }
-
-    const onChangeSkill = (e) => {
-        let skillUser = e.target.value;
-        setSkill(skillUser);
-        console.log(`skill`, skill);
-    }
-
-    const onChangeLesson = (e) => {
-        let lessonUser = e.target.value;
-        setSkill(lessonUser);
-        console.log(`lesson`, lesson);
-    }
-
-    const onChangeQuestion = (e) => {
-        let questionUser = e.target.value;
-        setQuestion(questionUser);
-        console.log(`question`, question);
-    }
-
-    const onChangeRightAnswer = (e) => {
-        let rightAnswerUser = e.target.value;
-        setRightAnswer(rightAnswerUser);
-        console.log(`rightAnswer`, rightAnswer);
-    }
-
-    const onChangeWrongAnswer1 = (e) => {
-        let wrongAnswerUser1 = e.target.value;
-        setWrongAnswer1(wrongAnswerUser1);
-        console.log(`wrongAnswer1`, wrongAnswer1);
-    }
-
-    const onChangeWrongAnswer2 = (e) => {
-        let wrongAnswerUser2 = e.target.value;
-        setWrongAnswer2(wrongAnswerUser2);
-        console.log(`wrongAnswer2`, wrongAnswer2);
-    }
-
-    const onChangeWrongAnswer3 = (e) => {
-        let wrongAnswerUser3 = e.target.value;
-        setWrongAnswer3(wrongAnswerUser3);
-        console.log(`wrongAnswer3`, wrongAnswer3);
-    }
 
     return (
 
@@ -109,7 +48,7 @@ export default function QuestionViewModal({ questionDetail }) {
 
                                     </div>
 
-                                    {questionDetail.typeName === "Nhiều lựa chọn" &&
+                                    {questionDetail.typeName === "Chọn đáp án đúng" &&
                                         <>
                                             {questionDetail.answer.map((item, index) =>
                                                 item.correct ?
@@ -141,11 +80,11 @@ export default function QuestionViewModal({ questionDetail }) {
                                             )}
                                         </>
                                     }
-                                    {questionDetail.typeName !== "Nhiều lựa chọn" && questionDetail.typeName !== "Đúng/Sai" &&
+                                    {questionDetail.typeName !== "Chọn đáp án đúng" && questionDetail.typeName !== "Đúng/Sai" &&
                                         <>
                                             <div class="col-12">
                                                 <label class="form-label">Đáp án<span class="text-danger">*</span></label>
-                                                {/* <input type="text" name="answer" class="form-control" value={questionDetail.answer.length !== 0 ? questionDetail.answer[0].answer : ""} disabled /> */}
+                                                <input type="text" name="answer" class="form-control" value={typeof (questionDetail.answer) !== "undefined" ? questionDetail.answer[0].answer : ""} disabled />
                                             </div>
                                         </>}
 
@@ -155,7 +94,7 @@ export default function QuestionViewModal({ questionDetail }) {
                                         {/* <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" /> */}
                                     </div>
                                     <div class="col-4">
-                                        <img src={questionDetail.imageLink} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                        <img src={questionDetail.imgeLink} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                     </div>
                                 </form>
                             </div>

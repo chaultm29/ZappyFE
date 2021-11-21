@@ -174,7 +174,7 @@ function Table({ columns, data }) {
                           return (
                             <td
                               {...cell.getCellProps()}
-                              className="px-6 py-2 whitespace-nowrap border-bottom"
+                              className="px-6 py-2 whitespace-nowrap text-break border-bottom text-wrap"
                             >
                               {cell.render("Cell")}
                             </td>
