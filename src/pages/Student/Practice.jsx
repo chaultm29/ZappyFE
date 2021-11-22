@@ -15,9 +15,9 @@ export default function Practice() {
                 <div class="row mt-2">
                     <Sidebar />
                     <div class="col-md-9">
-                        {catName === "kanji" ? <DoExam options={[{ typeIds: [1, 2, 3, 4], numberOfQuestion: 15, lessonIds: [parseInt(lessId)], skillIds: [3] }]} /> : ""}
-                        {/* : catName === "grammar" ? <DoExam options={[{ typeIds: [1, 2, 3, 4], numberOfQuestion: 20, lessonIds: [parseInt(lessId)], skillIds: [2] }]} />
-                             : catName === "vocabulary"} ? <DoExam options={[{ typeIds: [1, 2, 3, 4], numberOfQuestion: 30, lessonIds: [parseInt(lessId)], skillIds: [1] }]} />; */}
+                        {catName === "kanji" ? <DoExam options={[{ typeIds: [1, 2, 3, 4], numberOfQuestion: 15, lessonIds: [parseInt(lessId)], skillIds: [3] }]} />
+                            : catName === "grammar" ? <DoExam options={[{ typeIds: [1, 2, 3, 4], numberOfQuestion: 20, lessonIds: [parseInt(lessId)], skillIds: [2] }]} />
+                                : catName === "vocabulary" ? <DoExam options={[{ typeIds: [1, 2, 3, 4], numberOfQuestion: 30, lessonIds: [parseInt(lessId)], skillIds: [1] }]} /> : ""};
                     </div>
                 </div>
             </div>

@@ -16,7 +16,7 @@ export default function FillBlankQuestion({
   const onHandleChange = (e) => {
     let value = e.target.value.trim();
     setUserAnswer(value);
-    onHandleResult(record.id, userAnswer);
+    onHandleResult(record.id, value);
   }
 
   useEffect(() => {

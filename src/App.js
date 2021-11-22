@@ -3,7 +3,6 @@ import React, { Profiler } from "react";
 import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
-
 import Study from "./pages/Student/Study";
 import Katakana from "./pages/Student/Katakana";
 import Alphabet from "./pages/Student/Alphabet";
@@ -23,6 +22,7 @@ import NotFoundPage from "./pages/User/NotFoundPage";
 import Profile from "./pages/User/Profile";
 import PageNotFound from "./pages/User/PageNotFound";
 import Practice from "./pages/Student/Practice";
+// import TestMemory from "./pages/Student/TestMemory";
 
 function App() {
   return (
@@ -50,8 +50,10 @@ function App() {
         <Route path="/profile" component={Profile}></Route>
         <Route path="/exam" component={Exam}></Route>
         <Route path="/study/practice/:catName/:lessId" component={Practice} />
+        {/* <Route path="/testMemory" component={TestMemory} ></Route> */}
         <Route path="/notfound" component={NotFoundPage} ></Route>
         <Route path="*" component={PageNotFound} ></Route>
+
       </Switch>
     </Router>
   );

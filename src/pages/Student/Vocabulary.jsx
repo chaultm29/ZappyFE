@@ -9,6 +9,7 @@ class Vocabulary extends Component {
     constructor(props) {
         super(props)
         this.changeToCard = this.changeToCard.bind(this);
+        this.gotoPractice = this.gotoPractice.bind(this);
         //this.addCardDatas = this.addCardDatas.bind(this);
         this.state = {
             vocabularies: [],
@@ -19,6 +20,10 @@ class Vocabulary extends Component {
         }
 
     }
+    gotoPractice() {
+        this.props.history.push("/study/practice/vocabulary/" + this.props.match.params.id);
+    }
+
 
     // addCardDatas(){
     //     for(var i  = 0; i< this.state.vocabularies.length; i++){
@@ -151,7 +156,7 @@ class Vocabulary extends Component {
                                             </div>
                                     )}
                                 <div class="row">
-                                    <button class="btn btn-danger practice">Luyện tập</button>
+                                    <button class="btn btn-danger practice" onClick={this.gotoPractice}>Luyện tập</button>
                                 </div>
                             </div>
                         </div>

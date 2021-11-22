@@ -13,7 +13,6 @@ export default function DoExam({ options }) {
     { id: "", type: "", question: "", imgLink: "", option: [], answer: "" },
   ]);
   const [listResult, setListResult] = useState([]);
-  const [listPracticeResult, setListPracticeResult] = useState([]);
   const [isShow, setIsShow] = useState(false);
   const [isPractice, setIsPractice] = useState(false);
   const [listCorrectQuestion, setListCorrectQuestion] = useState([]);
@@ -70,7 +69,6 @@ export default function DoExam({ options }) {
       list.push(result);
     })
     setListResult(list);
-    console.log(`listResult`, listResult);
     let userSubmit = { username: "", answerDTOs: listResult };
     if (location.pathname.includes("exam")) {
       ExamServices.getResult(userSubmit).then((res) => {
@@ -78,8 +76,10 @@ export default function DoExam({ options }) {
       })
     }
     if (location.pathname.includes("practice")) {
+      console.log(`userSubmit`, userSubmit);
       PracticeServices.getResult(userSubmit).then((res) => {
         setListCorrectAnswer(res.data);
+        console.log(`res.data`, res.data);
       })
       setIsPractice(true);
     }
