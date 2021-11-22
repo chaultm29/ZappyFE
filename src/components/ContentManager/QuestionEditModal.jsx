@@ -1,72 +1,116 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import LessonServices from '../../services/LessonServices';
+import { useHistory } from "react-router-dom";
 
 export default function QuestionEditModal({ questionDetail }) {
-    console.log(`questionDetail`, questionDetail.answer !== null)
     const [image, setImage] = useState("");
-    const [questionType, setQuestionType] = useState("");
+    const [typeName, setTypeName] = useState("");
     const [skill, setSkill] = useState("");
     const [lesson, setLesson] = useState("");
     const [question, setQuestion] = useState("");
+    const history = useHistory();
+    const [validationMsg, setValidationMsg] = useState('');
 
     // questionDetail.answer
-    const [rightAnswer, setRightAnswer] = useState("");
-    const [wrongAnswer1, setWrongAnswer1] = useState("");
-    const [wrongAnswer2, setWrongAnswer2] = useState("");
-    const [wrongAnswer3, setWrongAnswer3] = useState("");
-    const onSubmit = (e, data) => {
-        e.preventDefaul();
-        console.log(`data`, data)
+    const [answer, setAnswer] = useState([]);
+    const imageHandler = (e) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setImage(reader.result)
+                setImage(e.target.files[0].name);
+            }
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+
+    useEffect(() => {
+        if (typeof (questionDetail) !== "undefined") {
+            setTypeName(questionDetail.typeName);
+            setSkill(questionDetail.skillName);
+            setLesson(questionDetail.lessonName);
+            setQuestion(questionDetail.question);
+            setAnswer(questionDetail.answer);
+            setImage(questionDetail.imgeLink);
+        }
+        return () => {
+        }
+    }, [questionDetail])
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const isValid = validateAll();
+        if (!isValid) return;
+        let questionUpdate = {
+            questionID: questionDetail.questionID,
+            typeName: typeName,
+            lessonName: lesson,
+            skillName: skill,
+            question: question,
+            answer: answer,
+            imgeLink: image
+        };
+        LessonServices.editQuestion(questionUpdate, questionDetail.questionID);
+        setTimeout(() => {
+            history.go(0);
+        }, 1000);
+
     }
 
     const onChangeQuestionType = (e) => {
         let typeUser = e.target.value;
-        setQuestionType(typeUser);
-        console.log(`questionType`, questionType);
+        setTypeName(typeUser);
     }
 
     const onChangeSkill = (e) => {
         let skillUser = e.target.value;
         setSkill(skillUser);
-        console.log(`skill`, skill);
     }
 
     const onChangeLesson = (e) => {
         let lessonUser = e.target.value;
-        setSkill(lessonUser);
-        console.log(`lesson`, lesson);
+        setLesson(lessonUser);
     }
 
     const onChangeQuestion = (e) => {
         let questionUser = e.target.value;
         setQuestion(questionUser);
-        console.log(`question`, question);
     }
 
-    const onChangeRightAnswer = (e) => {
-        let rightAnswerUser = e.target.value;
-        setRightAnswer(rightAnswerUser);
-        console.log(`rightAnswer`, rightAnswer);
+    const onChangeAnswer = (e) => {
+        let { id, name, value } = e.target;
+        let userAnswer = { id: parseInt(id), correct: name === "true" ? true : false, image_link: questionDetail.answer[0].image_link, answer: value }
+        let listAnswer = answer.filter((x) => x.id !== userAnswer.id);
+        setAnswer([...listAnswer, userAnswer]);
+    }
+    const validateAll = () => {
+        const msg = {};
+        if (typeName.length === 0) {
+            msg.typeName = "Vui lòng chọn loại câu hỏi";
+        }
+        if (lesson.length === 0) {
+            msg.lesson = "Vui lòng chọn bài";
+        }
+        if (skill.length === 0) {
+            msg.skill = "Vui lòng chọn kĩ năng";
+        }
+        if (question.length === 0) {
+            msg.question = "Không được để trống";
+        }
+        if (answer.length === 0) {
+            msg.answer = "Không được để trống";
+        } else if (typeName === "Chọn đáp án đúng" && answer.length !== 4) {
+            msg.answer = "Không được để trống";
+        } else if (typeName === "Đúng/Sai" && answer.length !== 2) {
+            msg.answer = "Không được để trống";
+        }
+        setValidationMsg(msg);
+        if (Object.keys(msg).length > 0) return false;
+        return true;
     }
 
-    const onChangeWrongAnswer1 = (e) => {
-        let wrongAnswerUser1 = e.target.value;
-        setWrongAnswer1(wrongAnswerUser1);
-        console.log(`wrongAnswer1`, wrongAnswer1);
-    }
 
-    const onChangeWrongAnswer2 = (e) => {
-        let wrongAnswerUser2 = e.target.value;
-        setWrongAnswer2(wrongAnswerUser2);
-        console.log(`wrongAnswer2`, wrongAnswer2);
-    }
-
-    const onChangeWrongAnswer3 = (e) => {
-        let wrongAnswerUser3 = e.target.value;
-        setWrongAnswer3(wrongAnswerUser3);
-        console.log(`wrongAnswer3`, wrongAnswer3);
-    }
 
     return (
         <>
@@ -81,33 +125,31 @@ export default function QuestionEditModal({ questionDetail }) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" onSubmit={onSubmit} >
+                            <form class="row g-3" method="post" onSubmit={onSubmit} autocomplete="off" >
                                 <div class="col-8">
                                     <label class="form-label">Loại câu hỏi<span class="text-danger">*</span></label>
-                                    <select class="form-select" onChange={onChangeQuestionType} >
-                                        <option value="" selected disabled>{questionDetail.typeName}</option>
-                                        <option value="Nhiều lựa chọn">Nhiều lựa chọn</option>
+                                    <select class="form-select" name="typeName" onChange={onChangeQuestionType} value={typeName} autocomplete="off" disabled>
+                                        <option value="Chọn đáp án đúng">Chọn đáp án đúng</option>
                                         <option value="Điền vào chỗ trống">Điền vào chỗ trống</option>
                                         <option value="Đúng/Sai">Đúng/Sai</option>
                                         <option value="Sắp xếp câu">Sắp xếp câu</option>
                                         <option value="Nối từ">Nối từ</option>
                                     </select>
+                                    <p class="text-danger mb-0">{validationMsg.typeName}</p>
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label">Kĩ năng<span class="text-danger">*</span></label>
-                                    <select id="inputSkill" class="form-select" onChange={onChangeSkill}>
-                                        <option value={questionDetail.skillName} selected disabled>{questionDetail.skillName}</option>
+                                    <select id="inputSkill" class="form-select" value={skill} onChange={onChangeSkill}>
                                         <option value="Từ vựng">Từ vựng</option>
                                         <option value="Ngữ pháp">Ngữ pháp</option>
                                         <option value="Chữ Hán">Chữ Hán</option>
-                                        <option value="Bảng chữ cái">Bảng chữ cái</option>
 
                                     </select>
+                                    <p class="text-danger mb-0">{validationMsg.skill}</p>
                                 </div>
                                 <div class="col-6">
                                     <label for="inputLesson" class="form-label">Bài<span class="text-danger">*</span></label>
-                                    <select id="inputLesson" class="form-select" onChange={onChangeLesson}>
-                                        <option value="" selected disabled>{questionDetail.lessonName}</option>
+                                    <select id="inputLesson" class="form-select" value={lesson} onChange={onChangeLesson}>
                                         <option value="Bài 1">Bài 1</option>
                                         <option value="Bài 2">Bài 2</option>
                                         <option value="Bài 3">Bài 3</option>
@@ -116,59 +158,73 @@ export default function QuestionEditModal({ questionDetail }) {
                                         <option value="Bài 6">Bài 6</option>
                                         <option value="Bài 7">Bài 7</option>
                                     </select>
+                                    <p class="text-danger mb-0">{validationMsg.lesson}</p>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Câu hỏi<span class="text-danger">*</span></label>
-                                    <input name="question" type="text" class="form-control" value={questionDetail.question} onChange={onChangeQuestion} />
+                                    <input name="question" type="text" class="form-control" defaultValue={question} onChange={onChangeQuestion} />
 
                                 </div>
 
-                                {questionDetail.typeName === "Nhiều lựa chọn" &&
+                                {typeName === "Chọn đáp án đúng" &&
                                     <>
                                         {questionDetail.answer.map((item, index) =>
                                             item.correct ?
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án<span class="text-success"> đúng</span><span class="text-danger">*</span></label>
-                                                    <input type="text" name="answer" class="form-control" value={item.answer} disabled />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                                 :
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án <span class="text-danger"> sai</span><span class="text-danger">*</span></label>
-                                                    <input type="text" name="answer" class="form-control" value={item.answer} disabled />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
                                                 </div>
+
                                         )}
+                                        <p class="text-danger mb-0">{validationMsg.answer}</p>
                                     </>
                                 }
-                                {questionDetail.typeName === "Đúng/Sai" &&
+                                {typeName === "Đúng/Sai" &&
                                     <>
                                         {questionDetail.answer.map((item, index) =>
                                             item.correct ?
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án<span class="text-success"> đúng</span><span class="text-danger">*</span></label>
-                                                    <input type="text" name="answer" class="form-control" value={item.answer} disabled />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                                 :
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án <span class="text-danger"> sai</span><span class="text-danger">*</span></label>
-                                                    <input type="text" name="answer" class="form-control" value={item.answer} disabled />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                         )}
+                                        <p class="text-danger mb-0">{validationMsg.answer}</p>
                                     </>
                                 }
-                                {questionDetail.typeName !== "Nhiều lựa chọn" && questionDetail.typeName !== "Đúng/Sai" &&
+                                {typeName !== "Chọn đáp án đúng" && typeName !== "Đúng/Sai" &&
                                     <>
-                                        <div class="col-12">
-                                            <label class="form-label">Đáp án<span class="text-danger">*</span></label>
-                                            {/* <input type="text" name="answer" class="form-control" value={questionDetail.answer !== null ? questionDetail.answer[0].answer : ""} disabled /> */}
-                                        </div>
+                                        {typeof (questionDetail.answer) !== "undefined" ? questionDetail.answer.map((item, index) =>
+                                            item.correct ?
+                                                <div class="col-12">
+                                                    <label class="form-label">{index + 1}. Đáp án<span class="text-success"> đúng</span><span class="text-danger">*</span></label>
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                </div>
+                                                :
+                                                <div class="col-12">
+                                                    <label class="form-label">{index + 1}. Đáp án <span class="text-danger"> sai</span><span class="text-danger">*</span></label>
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                </div>
+                                        ) : ""}
+                                        <p class="text-danger mb-0">{validationMsg.answer}</p>
                                     </>}
 
                                 <div class="col-8">
-                                    <label for="inputImageLink" class="form-label">Hình ảnh</label>
-                                    <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" />
+                                    <label class="form-label">Hình ảnh</label>
+                                    <input class="collapse collapse-horizontal" id="inputImgLink" class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
-                                <div class="col-4">
-                                    <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                <div class="col-4 text-center">
+                                    <img src={image} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <a data-bs-toggle="collapse" href="#inputImgLink" aria-expanded="false" aria-controls="inputImgLink">Thay đổi</a>
                                 </div>
 
                                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100">

@@ -11,7 +11,7 @@ import GrammarEditModal from "./GrammarEditModal.jsx";
 import GrammarDeleteModal from "./GrammarDeleteModal.jsx";
 
 export default function GrammarManagerContent() {
-    const [dataGrammar, setDataKanji] = useState([]);
+    const [dataGrammar, setDataGrammar] = useState([]);
     const [grammarDetail, setGrammarDetail] = useState([]);
 
     const onClickGetGrammarID = (e) => {
@@ -23,8 +23,8 @@ export default function GrammarManagerContent() {
         });
     }
     const onClickButton = (e) => {
-        let kanjiId = onClickGetGrammarID(e);
-        getGrammarDetailByID(kanjiId);
+        let grammarId = onClickGetGrammarID(e);
+        getGrammarDetailByID(grammarId);
     }
 
     //   get list grammar
@@ -65,7 +65,7 @@ export default function GrammarManagerContent() {
                             </button>
                         </div>
                     );
-                    setDataKanji((dataGrammar) => [...dataGrammar, record]);
+                    setDataGrammar((dataGrammar) => [...dataGrammar, record]);
                 });
             })
             .catch((err) => console.error(err));

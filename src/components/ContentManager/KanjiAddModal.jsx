@@ -1,14 +1,19 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
 import LessonServices from '../../services/LessonServices';
 
 export default function KanjiAddModal() {
+    const history = useHistory();
     const [image, setImage] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
     const [gif, setGif] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = (data) => {
         console.log(`data`, data)
         LessonServices.addKanji(data);
+        setTimeout(() => {
+            history.go(0);
+        }, 1000);
     }
 
     const imageHandler = (e) => {

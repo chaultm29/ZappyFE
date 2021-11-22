@@ -123,7 +123,7 @@ class Navigation extends Component {
 
                     </li>
                     <li>
-                      <a class="dropdown-item list" href="#" onClick = {()=>AuthenticationService.logout()}>
+                      <a class="dropdown-item list" href="#" onClick={() => AuthenticationService.logout()}>
                         Đăng xuất
                       </a>
                     </li>

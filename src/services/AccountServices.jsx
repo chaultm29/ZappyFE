@@ -22,6 +22,10 @@ class AccountService {
   deleteAccount(accountId) {
     return axiosConfig.delete(ACCOUNT__API_BASE_URL + "/" + accountId);
   }
+
+  resetPassword(username) {
+    return axiosConfig.post(ACCOUNT__API_BASE_URL + "/" + username);
+  }
 }
 
 export default new AccountService();

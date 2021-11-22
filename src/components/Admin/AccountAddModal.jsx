@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import AccountServices from '../../services/AccountServices';
 import { useHistory } from "react-router-dom";
 
-export default function AccountAddModal() {
+export default function AccountAddModal({ dataAcc }) {
   const [roleId, setRoleId] = useState("");
   const [roleName, setRoleName] = useState("");
   const [username, setUsername] = useState("");
@@ -15,7 +15,6 @@ export default function AccountAddModal() {
   const [validationMsg, setValidationMsg] = useState('');
   const history = useHistory();
 
-
   const onSubmit = (e) => {
     e.preventDefault();
     const isValid = validateAll();
@@ -24,9 +23,9 @@ export default function AccountAddModal() {
     console.log(`data`, account);
 
     AccountServices.addAccount(account);
-    setTimeout(() => {
-      history.go(0);
-    }, 1000);
+    // setTimeout(() => {
+    //   history.go(0);
+    // }, 1000);
 
 
   }
@@ -91,6 +90,8 @@ export default function AccountAddModal() {
       msg.username = "Không bao gồm dấu cách hoặc kí tự đặc biệt ";
     } else if (username.length < 4 || username.length > 20) {
       msg.username = "Độ dài từ 4-20 kí tự";
+    } else if (JSON.stringify(dataAcc).includes(username)) {
+      msg.username = "Tài khoản đã tồn tại";
     }
     if (fullname.length === 0) {
       msg.fullname = "Không được để trống";

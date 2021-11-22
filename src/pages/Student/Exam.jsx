@@ -104,7 +104,7 @@ export default function Exam() {
                               <input class="form-check-input" type="checkbox" value="1" id="checkMultipleChoice" onChange={onHandleChangeTypeIds}
                               />
                               <label class="form-check-label" for="checkMultipleChoice">
-                                Nhiều lựa chọn
+                                Chọn đáp án đúng
                               </label>
                             </div>
                             <div class="form-check">
