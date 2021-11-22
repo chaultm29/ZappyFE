@@ -6,9 +6,9 @@ export default function QuestionDeleteModal({ questionDetail }) {
     const onClickYesButton = () => {
         console.log(`questionDetail.id`, questionDetail.questionID)
         LessonServices.deleteQuestion(questionDetail.questionID);
-        // setTimeout(() => {
-        //     history.go(0);
-        // }, 1000);
+        setTimeout(() => {
+            history.go(0);
+        }, 1000);
     }
     return (
         <>

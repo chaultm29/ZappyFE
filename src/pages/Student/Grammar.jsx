@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import './css/grammar.css';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
-import gif from '../../assets/img/pagebg.gif';
+import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService'
 class Grammar extends Component {
     constructor(props) {
         super(props)
+        this.gotoPractice = this.gotoPractice.bind(this);
         this.state = {
             grammars: [],
             id: this.props.match.params.id
         }
+    }
+
+    gotoPractice() {
+        this.props.history.push("/study/practice/grammar/" + this.props.match.params.id);
     }
 
     componentDidMount() {
@@ -23,7 +28,8 @@ class Grammar extends Component {
     }
     render() {
         return (
-            <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}>
+            <div
+                style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                 <Navigation />
                 <div className="container" style={{ backgroundColor: "#fceced" }}>
                     <div class="row">
@@ -52,7 +58,7 @@ class Grammar extends Component {
                                     )}
                             </div>
                             <div class="row">
-                                <button class="btn btn-danger practice">Luyện tập</button>
+                                <button class="btn btn-danger practice" onClick={this.gotoPractice}>Luyện tập</button>
                             </div>
                         </div>
                     </div>

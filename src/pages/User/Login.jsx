@@ -85,8 +85,8 @@ export default function Login() {
                                                 minLength: { value: 6, message: "Chưa đủ độ dài" },
                                                 maxLength: { value: 20, message: "Quá dài" },
                                                 pattern: {
-                                                    value: /^[a-z\d]+$/i,
-                                                    message: "Không đúng định dạng",
+                                                    value: /^[a-z\d\S]+$/i,
+                                                    message: "Không được nhập dấu cách",
                                                 },
                                             })}
                                         />

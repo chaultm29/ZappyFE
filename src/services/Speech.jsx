@@ -7,9 +7,8 @@ export default function Speech(input) {
     return;
   }
   utter.onend = () => {
-    console.log("On End");
   };
-  utter.lang = "jp";
-  utter.rate = 0.5;
+  utter.lang = "ja";
+  utter.rate = 0.9;
   synthRef.speak(utter);
 }

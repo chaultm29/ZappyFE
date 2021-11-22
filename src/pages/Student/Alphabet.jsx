@@ -4,16 +4,15 @@ import kata from "../../assets/img/katakana.jpg";
 import hira from "../../assets/img/hiragana.png";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
-import bg from "../../assets/img/bg-home-scene-winter.svg";
 import Footer from "../../components/Student/Footer";
-import Profile from "../User/Profile";
+import bg from "../../assets/img/bg-home-scene-winter.svg";
+
 
 class Alphabet extends Component {
   render() {
     return (
       <div
-        style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}
-      >
+        style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
         <Navigation />
         <div className="container" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px" }}>
           <div class="row mt-2">
@@ -32,9 +31,9 @@ class Alphabet extends Component {
                   <img class="p-1" src={kata} alt="hiragana" width="100%" height="auto" />
                 </div>
               </div>
-              <div class="row">
+              {/* <div class="row">
                 <button class="btn btn-danger practice">Luyện tập</button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

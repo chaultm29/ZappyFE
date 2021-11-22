@@ -1,9 +1,8 @@
 import "./App.css";
 import React, { Profiler } from "react";
 import Dashboard from "./pages/Admin/Dashboard";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
-
 import Study from "./pages/Student/Study";
 import Katakana from "./pages/Student/Katakana";
 import Alphabet from "./pages/Student/Alphabet";
@@ -23,15 +22,20 @@ import NotFoundPage from "./pages/User/NotFoundPage";
 import Profile from "./pages/User/Profile";
 import PageNotFound from "./pages/User/PageNotFound";
 import Game from "./pages/Student/Game";
-import { Redirect } from "react-router/cjs/react-router.min";
+// import { Redirect } from "react-router/cjs/react-router.min";
+import Practice from "./pages/Student/Practice";
+// import TestMemory from "./pages/Student/TestMemory";
+
 
 function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
         <Route path="/admin/dashboard" component={Dashboard}></Route>
         <Route path="/admin/acc-mng" component={AccountManager}></Route>
-
         <Route path="/home" component={Homepage}></Route>
         <Route exact path="/study" component={Study}></Route>
         <Route path="/study/alphabet" component={Alphabet}></Route>
@@ -40,7 +44,6 @@ function App() {
         <Route exact path="/study/kanji/lesson/:id" component={Kanji}></Route>
         <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
         <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
-
         <Route path="/content-mng/question-mng" component={QuestionManager}></Route>
         <Route path="/content-mng/lesson-mng/kanji" component={KanjiManager}></Route>
         <Route path="/content-mng/lesson-mng/vocabulary" component={VocabularyManager}></Route>
@@ -53,9 +56,10 @@ function App() {
 
         <Route path="/game" component={Game}></Route>
 
-        <Route path="/notfound" component = {NotFoundPage} ></Route>
-        <Route path="*" component = {PageNotFound} ></Route>
-        
+        <Route path="/study/practice/:catName/:lessId" component={Practice} />
+        {/* <Route path="/testMemory" component={TestMemory} ></Route> */}
+        <Route path="/notfound" component={NotFoundPage} ></Route>
+        <Route path="*" component={PageNotFound} ></Route>
 
       </Switch>
     </Router>

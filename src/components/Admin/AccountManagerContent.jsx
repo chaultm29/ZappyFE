@@ -7,6 +7,7 @@ import AccountServices from "../../services/AccountServices.jsx";
 import { useHistory } from "react-router-dom";
 import AccountEditModal from "./AccountEditModal.jsx";
 import AccountDeleteModal from "./AccountDeleteModal.jsx";
+import AccountViewModal from "./AccountViewDetail.jsx";
 
 export default function AccountManagerContent() {
   const [dataAcc, setDataAcc] = useState([]);
@@ -76,6 +77,10 @@ export default function AccountManagerContent() {
   const columns = React.useMemo(
     () => [
       {
+        Header: "ID",
+        accessor: "id",
+      },
+      {
         Header: "Tài khoản",
         accessor: "username",
       },
@@ -126,7 +131,8 @@ export default function AccountManagerContent() {
         </div>
 
         {/* View Modal */}
-        <AccountAddModal />
+        <AccountAddModal dataAcc={dataAcc} />
+        <AccountViewModal accountDetail={accountDetail} />
         <AccountEditModal accountDetail={accountDetail} />
         <AccountDeleteModal accountDetail={accountDetail} />
         <div className="col-sm-3">
