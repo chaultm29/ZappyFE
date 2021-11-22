@@ -35,7 +35,15 @@
 .square .numbertext {
     padding: 30px 0;
 }
+.selectedQuestion{
+    font-weight: 600;
+}
 .selected {
     background-color: aqua;
     color: black;
+}
+.answer{
+    color: black;
+    background-color: aquamarine;
+    display: block;
 }

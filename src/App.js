@@ -23,6 +23,7 @@ import NotFoundPage from "./pages/User/NotFoundPage";
 import Profile from "./pages/User/Profile";
 import PageNotFound from "./pages/User/PageNotFound";
 import Game from "./pages/Student/Game";
+import { Redirect } from "react-router/cjs/react-router.min";
 
 function App() {
   return (

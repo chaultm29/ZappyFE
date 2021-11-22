@@ -1,5 +1,6 @@
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
+import Footer from "../../components/Student/Footer";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import React, { Component } from 'react';
 import BingoGame from "../../components/Student/BingoGame";
@@ -14,6 +15,7 @@ class Game extends Component {
                 <div className="container" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", minHeight: "100vh" }}>
                     <BingoGame />
                 </div>
+                <Footer/>
             </div>
         );
     }
