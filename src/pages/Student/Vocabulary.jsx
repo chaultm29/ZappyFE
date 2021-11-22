@@ -4,6 +4,7 @@ import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService';
+import Speech from "../../services/Speech";
 
 class Vocabulary extends Component {
     constructor(props) {
@@ -20,6 +21,12 @@ class Vocabulary extends Component {
         }
 
     }
+    onUserClickSpeaker = (e) => {
+        let input = e.target.id;
+        console.log(e.target.id);
+        Speech(input);
+    };
+
     gotoPractice() {
         this.props.history.push("/study/practice/vocabulary/" + this.props.match.params.id);
     }
@@ -121,12 +128,24 @@ class Vocabulary extends Component {
                                                 <div class="box-inner">
                                                     <div class="box-front">
                                                         <div class="cha">{vocabulary.vocabulary}</div>
-                                                        <div class="example">{vocabulary.example}</div>
+                                                        <div class="example">{vocabulary.example}
+                                                        {/* <span
+                                                                class="position-absolute translate-middle p-2 bg-white rounded-circle fs-6 "
+                                                                style={{ marginLeft: "100px", marginTop: "30px" }}
+                                                            >
+                                                                <i
+                                                                    class="fas fa-volume-up fs-5 text-secondary"
+                                                                    id={vocabulary.example}
+                                                                    onClick={this.onUserClickSpeaker.bind(this)}
+                                                                ></i>
+                                                            </span> */}
+                                                        </div>
                                                         <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
 
                                                     </div>
                                                     <div class="box-back">
-                                                        <div class="meaning">{vocabulary.meaning}</div>
+                                                        <div class="meaning">{vocabulary.meaning}
+                                                        </div>
                                                         <div class="exampleMean">{vocabulary.exampleMeaning}</div>
                                                     </div>
                                                 </div>

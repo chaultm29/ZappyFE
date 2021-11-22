@@ -1,0 +1,49 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.gamearea {
+    width: 520px;
+    float: left;
+    padding: 10px;
+}
+ 
+.square {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    color: black;
+    font-size: 30px;
+    border: none;
+    background-color: pink;
+    display: inline-block
+}
+.square:hover{
+    background-color: blueviolet;
+}
+
+.square .title {
+    font-size: 40px;
+    padding: 25px;
+}
+
+.number {
+    border: 1px solid aqua;
+}
+
+.square .numbertext {
+    padding: 30px 0;
+}
+.selectedQuestion{
+    font-weight: 600;
+}
+.selected {
+    background-color: aqua;
+    color: black;
+}
+.answer{
+    color: black;
+    background-color: aquamarine;
+    display: block;
+}

@@ -35,7 +35,7 @@ class Katakana extends Component {
                                 this.state.katas.map(
                                     kata =>
 
-                                        <div class="row my-card" key={kata.id}>
+                                        <div class="row my-card mx-0 shadow mb-3" key={kata.id}>
 
                                             <div class="cha">{kata.character}</div>
                                             <img src={require(`../../assets/img/Alphabet/${kata.imageLink}`).default} alt="hiragana" />

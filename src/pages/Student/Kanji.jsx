@@ -5,7 +5,6 @@ import Navigation from "../../components/Student/Navigation";
 import {
   BrowserRouter as Link
 } from "react-router-dom";
-
 import StudyService from "../../services/StudyService";
 class Kanji extends Component {
   constructor(props) {

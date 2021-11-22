@@ -21,8 +21,11 @@ import GrammarManager from "./pages/ContentManager/GrammarManager";
 import NotFoundPage from "./pages/User/NotFoundPage";
 import Profile from "./pages/User/Profile";
 import PageNotFound from "./pages/User/PageNotFound";
+import Game from "./pages/Student/Game";
+// import { Redirect } from "react-router/cjs/react-router.min";
 import Practice from "./pages/Student/Practice";
 // import TestMemory from "./pages/Student/TestMemory";
+
 
 function App() {
   return (
@@ -48,7 +51,11 @@ function App() {
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/profile" component={Profile}></Route>
+
         <Route path="/exam" component={Exam}></Route>
+
+        <Route path="/game" component={Game}></Route>
+
         <Route path="/study/practice/:catName/:lessId" component={Practice} />
         {/* <Route path="/testMemory" component={TestMemory} ></Route> */}
         <Route path="/notfound" component={NotFoundPage} ></Route>

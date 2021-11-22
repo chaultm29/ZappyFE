@@ -7,6 +7,7 @@ import Alphabet from "./Alphabet";
 import Hiragana from "./Hiragana";
 import Katakana from "./Katakana";
 import Kanji from "./Kanji";
+import Footer from "../../components/Student/Footer";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 
@@ -24,6 +25,7 @@ class Study extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         );
     }

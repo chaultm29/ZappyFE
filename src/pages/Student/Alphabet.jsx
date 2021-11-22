@@ -4,6 +4,7 @@ import kata from "../../assets/img/katakana.jpg";
 import hira from "../../assets/img/hiragana.png";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
+import Footer from "../../components/Student/Footer";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 
 
@@ -37,7 +38,7 @@ class Alphabet extends Component {
           </div>
         </div>
 
-        {/* <Footer /> */}
+        <Footer /> 
       </div>
     );
   }
