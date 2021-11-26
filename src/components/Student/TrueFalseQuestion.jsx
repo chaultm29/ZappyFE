@@ -12,6 +12,7 @@ export default function TrueFalseQuestion({
   const [isCorrect, setIsCorrect] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [userAnswer, setUserAnswer] = useState("");
+  const baseImg = "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/";
 
   const onHandleChange = (e) => {
     let id = record.id;
@@ -53,7 +54,7 @@ export default function TrueFalseQuestion({
         <div class="card-body">
           <div class="">
             <h5 class="card-title fw-bolder">{record.question}</h5>
-            {record.imgLink ? <img src={record.imgLink} class="rounded" alt="..." width="400px" /> : ""}
+            {record.imgLink ? <img src={baseImg + record.imgLink} class="rounded" alt="..." width="400px" /> : ""}
             <p class="text-muted m-0 ">Chọn đáp án đúng</p>
           </div>
           <div class="card-text">

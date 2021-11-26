@@ -24,7 +24,8 @@ import PageNotFound from "./pages/User/PageNotFound";
 import Game from "./pages/Student/Game";
 // import { Redirect } from "react-router/cjs/react-router.min";
 import Practice from "./pages/Student/Practice";
-// import TestMemory from "./pages/Student/TestMemory";
+import TestMemory from "./pages/Student/TestMemory";
+import PlayGame from "./pages/Student/PlayGame";
 
 
 function App() {
@@ -57,7 +58,8 @@ function App() {
         <Route path="/game" component={Game}></Route>
 
         <Route path="/study/practice/:catName/:lessId" component={Practice} />
-        {/* <Route path="/testMemory" component={TestMemory} ></Route> */}
+        <Route path="/testMemory" component={TestMemory} ></Route>
+        <Route path="/play-game" component={PlayGame}></Route>
         <Route path="/notfound" component={NotFoundPage} ></Route>
         <Route path="*" component={PageNotFound} ></Route>
 
