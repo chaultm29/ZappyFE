@@ -21,7 +21,7 @@ function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
         timePlayed : _timePlayed,
         score : _score
     }
-    return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/saving",
+    return fetch("https://backend.zappy-nihongo.com/game/saving",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
@@ -31,7 +31,7 @@ function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
 
 function fetchCurrentQuestion(listQuestionId) {
     // return fetch("http://localhost:5000/game/bingo/currentQuestion",
-    return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/bingo/currentQuestion",
+    return fetch("https://backend.zappy-nihongo.com/game/bingo/currentQuestion",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
@@ -41,7 +41,7 @@ function fetchCurrentQuestion(listQuestionId) {
 
 function fetchResultQuestion(questionId, answerId) {
     // return fetch("http://localhost:5000/game/bingo/result/" + questionId + "/" + answerId, 
-    return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
+    return fetch("https://backend.zappy-nihongo.com/game/bingo/result/" + questionId + "/" + answerId,
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
