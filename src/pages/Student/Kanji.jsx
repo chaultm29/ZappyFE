@@ -98,11 +98,12 @@ class Kanji extends Component {
                           <li>Âm nghĩa: <span>{kanji.vietnamese}</span></li>
                         </ul>
                       </div>
-                      <div class="kanji-gif"><img src={require(`../../assets/img/KanjiGif/${kanji.gifLink == "" ? "1.gif" : kanji.gifLink}`).default} alt="hiragana" /></div>
+                      {/* <div class="kanji-gif"><img src={require(`https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/${kanji.gifLink == "" ? "1.gif" : kanji.gifLink}`).default} alt="hiragana" /></div> */}
+                      <div class="kanji-gif"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/"+ kanji.gifLink} alt="hiragana" /></div>
                       <div class="letgo">Cùng nhớ nào ^^</div>
                       <div class="des">{kanji.description}</div>
-                      <div class="kanji-image"><img src={require(`../../assets/img/KanjiDes/${kanji.imageLink == "" ? "1.png" : kanji.imageLink}`).default} alt="hiragana" /></div>
-
+                      <div class="kanji-image"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiDes/" + kanji.imageLink} alt="hiragana" /></div>
+                      {/* <div class="kanji-image"><img src={require(`https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiDes/${kanji.imageLink == "" ? "1.png" : kanji.imageLink}`).default} alt="hiragana" /></div> */}
                     </div>
 
                 )}

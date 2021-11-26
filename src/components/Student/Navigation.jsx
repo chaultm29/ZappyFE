@@ -64,7 +64,7 @@ class Navigation extends Component {
                 </li>
                 <li class="nav-item me-3 text-uppercase">
                   <NavLink
-                    to="/game"
+                    to="/play-game"
                     className="nav-link"
                   >Chơi game</NavLink>
                 </li>

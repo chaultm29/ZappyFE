@@ -38,7 +38,7 @@ class Katakana extends Component {
                                         <div class="row my-card mx-0 shadow mb-3" key={kata.id}>
 
                                             <div class="cha">{kata.character}</div>
-                                            <img src={require(`../../assets/img/Alphabet/${kata.imageLink}`).default} alt="hiragana" />
+                                            <img src= {"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + kata.imageLink} alt="hiragana" />
                                             <div class="des">{kata.description}</div>
                                         </div>
                                 )}

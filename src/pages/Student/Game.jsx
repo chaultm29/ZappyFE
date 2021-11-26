@@ -12,7 +12,7 @@ class Game extends Component {
                 style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}
             >
                 <Navigation />
-                <div className="container" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", minHeight: "100vh" }}>
+                <div className="container" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", minHeight: "100vh", display:"flex" }}>
                     <BingoGame />
                 </div>
                 <Footer/>
