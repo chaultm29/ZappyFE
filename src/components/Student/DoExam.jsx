@@ -18,7 +18,7 @@ export default function DoExam({ options }) {
   const [listCorrectQuestion, setListCorrectQuestion] = useState([]);
   const [listCorrectAnswer, setListCorrectAnswer] = useState([]);
   const history = useHistory();
-  const [minutes, setMinutes] = useState(0);
+  const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
 
 

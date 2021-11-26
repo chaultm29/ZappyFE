@@ -79,6 +79,13 @@ class Navigation extends Component {
 
               {/* <!-- Notifications --> */}
               {AuthenticationService.getCurrentUser() != null ? <>
+
+                <div class="nav-item container" id="sim-progress">
+                  <div class="progress progress-striped active sim-pro">
+                    <div class="progress-bar" role="progressbar" style={{ width: "60%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">45% Complete</span>
+                    </div>
+                  </div>
+                </div>
                 <a
                   class="text-reset me-3"
                   href="#"
@@ -87,11 +94,14 @@ class Navigation extends Component {
                   data-mdb-toggle="dropdown"
                   aria-expanded="false"
                 >
+
                   <i class="fas fa-bell"></i>
+
                   <span class="badge rounded-pill badge-notification bg-danger">
                     1
                   </span>
                 </a>
+
                 <div class="nav-item dropdown">
                   <a
                     class="dropdown-toggle"

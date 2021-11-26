@@ -1,16 +1,114 @@
-import React, { useRef } from "react";
-import { useForm } from "react-hook-form";
+import React, { useRef, useState } from "react";
 
 export default function Register() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm();
-  const password = useRef({});
-  password.current = watch("password", "");
-  const onSubmit = (data) => console.log(data);
+
+  const [roleId, setRoleId] = useState(3);
+  const [roleName, setRoleName] = useState("Student");
+  const [username, setUsername] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [password, setPassword] = useState("");
+  const [repassword, setRepassword] = useState("");
+  const [validationMsg, setValidationMsg] = useState('');
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const isValid = validateAll();
+    if (!isValid) return;
+    let account = { username: username, password: password, dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
+    console.log(`data`, account);
+
+  }
+
+  const onUsernameChange = (e) => {
+    let input = e.target.value;
+    setUsername(input);
+  }
+  const onFullnameChange = (e) => {
+    let input = e.target.value;
+    setFullname(input);
+  }
+  const onEmailChange = (e) => {
+    let input = e.target.value;
+    setEmail(input);
+  }
+  const onPhoneChange = (e) => {
+    let input = e.target.value;
+    setPhone(input);
+  }
+  const onDateOfBirthChange = (e) => {
+    let input = e.target.value;
+    setDateOfBirth(input);
+  }
+
+  const onPasswordChange = (e) => {
+    let input = e.target.value;
+    setPassword(input);
+  }
+  const onRepasswordChange = (e) => {
+    let input = e.target.value;
+    setRepassword(input);
+  }
+
+
+
+  const validateAll = () => {
+    const msg = {};
+    var validateUsername = /^[a-z\d]+$/i;
+    var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
+    var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+    var validatePhone = /(0[3|5|7|8|9])+([0-9]{8,9})\b/;
+    var inputDate = new Date(dateOfBirth);
+    var validatePassword = /^[a-z\d\S]+$/i;
+    var today = new Date();
+    if (username.length === 0) {
+      msg.username = "Không được để trống";
+    } else if (!validateUsername.test(username)) {
+      msg.username = "Không bao gồm dấu cách hoặc kí tự đặc biệt ";
+    } else if (username.length < 4 || username.length > 20) {
+      msg.username = "Độ dài từ 4-20 kí tự";
+    }
+    if (fullname.length === 0) {
+      msg.fullname = "Không được để trống";
+    } else if (!validateFullname.test(fullname)) {
+      msg.fullname = "Không được bao gồm số và kí tự đặc biệt";
+    } else if (fullname.length < 1 || fullname.length > 50) {
+      msg.fullname = "Độ dài từ 1-50 kí tự";
+    }
+    if (email.length === 0) {
+      msg.email = "Không được để trống";
+    } else if (!validateEmail.test(email)) {
+      msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
+    }
+    if (phone.length === 0) {
+      msg.phone = "Không được để trống";
+    }
+    else if (!validatePhone.test(phone)) {
+      msg.phone = "Độ dài từ 10-11 số, không bao gồm kí tự đặc biệt và dấu cách";
+    }
+    if (dateOfBirth.length === 0) {
+      msg.dob = "Không được để trống";
+    } else if (inputDate > today) {
+      msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
+    }
+    if (password.length === 0) {
+      msg.password = "Không được để trống";
+    } else if (password.length < 8 || password.length > 20) {
+      msg.password = "Độ dài từ 8-20 kí tự"
+    } else if (!validatePassword.test(password)) {
+      msg.password = "Không được chứa dấu cách";
+    }
+    if (repassword.length === 0) {
+      msg.repassword = "Không được để trống";
+    } else if (repassword !== password) {
+      msg.repassword = "Mật khẩu không khớp";
+    }
+    setValidationMsg(msg);
+    if (Object.keys(msg).length > 0) return false;
+    return true;
+  }
   return (
     <div>
       <div
@@ -25,7 +123,7 @@ export default function Register() {
           <div class="modal-content">
             <div class="modal-header border-bottom-0">
               <button
-                type="button"
+                type="reset"
                 class="btn-close"
                 data-dismiss="modal"
                 aria-label="Close"
@@ -37,7 +135,7 @@ export default function Register() {
               </div>
 
               <div class="d-flex flex-column text-center">
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={onSubmit} method="post" autoComplete="off" autoComplete="none">
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
@@ -51,22 +149,11 @@ export default function Register() {
                       placeholder="Họ và tên"
                       type="text"
                       style={{ textTransform: "uppercase" }}
-                      {...register("fullname", {
-                        required: "Không được để trống",
-                        minLength: { value: 3, message: "Chưa đủ độ dài" },
-                        maxLength: { value: 50, message: "Quá dài" },
-                        pattern: {
-                          value:
-                            /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/,
-                          message: "Không đúng định dạng",
-                        },
-                      })}
+                      onChange={onFullnameChange}
                     />
                   </div>
                   <div class="text-start mb-2">
-                    {errors.fullname && (
-                      <span class="text-danger">{errors.fullname.message}</span>
-                    )}
+                    <p class="text-danger mb-0">{validationMsg.fullname}</p>
                   </div>
 
                   <div class="form-group input-group mb-0">
@@ -81,19 +168,12 @@ export default function Register() {
                       type="email"
                       class="form-control"
                       placeholder="Email"
-                      {...register("email", {
-                        required: "Không được để trống",
-                        pattern: {
-                          value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                          message: "Không đúng định dạng",
-                        },
-                      })}
+                      onChange={onEmailChange}
                     />
                   </div>
                   <div class="text-start mb-2">
-                    {errors.email && (
-                      <span class="text-danger">{errors.email.message}</span>
-                    )}
+                    <p class="text-danger mb-0">{validationMsg.email}</p>
+
                   </div>
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">
@@ -108,20 +188,11 @@ export default function Register() {
                       class="form-control"
                       placeholder="Số điện thoại"
                       type="text"
-                      {...register("phoneNumber", {
-                        pattern: {
-                          value: /(0[3|5|7|8|9])+([0-9]{8})\b/,
-                          message: "Không đúng định dạng",
-                        },
-                      })}
+                      onChange={onPhoneChange}
                     />
                   </div>
                   <div class="text-start mb-2">
-                    {errors.phoneNumber && (
-                      <span class="text-danger">
-                        {errors.phoneNumber.message}
-                      </span>
-                    )}
+                    <p class="text-danger mb-0">{validationMsg.phone}</p>
                   </div>
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">
@@ -136,7 +207,11 @@ export default function Register() {
                       class="form-control"
                       placeholder="Ngày sinh"
                       type="date"
+                      onChange={onDateOfBirthChange}
                     />
+                  </div>
+                  <div class="text-start mb-2">
+                    <p class="text-danger mb-0">{validationMsg.dob}</p>
                   </div>
                   <div class="text-start mb-2"></div>
                   <div class="form-group input-group mb-0">
@@ -151,21 +226,11 @@ export default function Register() {
                       class="form-control"
                       placeholder="Tên tài khoản"
                       type="text"
-                      {...register("username", {
-                        required: "Không được để trống",
-                        minLength: { value: 1, message: "Chưa đủ độ dài" },
-                        maxLength: { value: 20, message: "Quá dài" },
-                        pattern: {
-                          value: /^[a-z\d]+$/i,
-                          message: "Không đúng định dạng",
-                        },
-                      })}
+                      onChange={onUsernameChange}
                     />
                   </div>
                   <div class="text-start mb-2">
-                    {errors.username && (
-                      <span class="text-danger">{errors.username.message}</span>
-                    )}
+                    <p class="text-danger mb-0">{validationMsg.username}</p>
                   </div>
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">
@@ -179,21 +244,11 @@ export default function Register() {
                       class="form-control"
                       placeholder="Mật khẩu"
                       type="password"
-                      {...register("password", {
-                        required: "Không được để trống",
-                        minLength: { value: 8, message: "Chưa đủ độ dài" },
-                        maxLength: { value: 20, message: "Quá dài" },
-                        pattern: {
-                          value: /^[a-z\d]+$/i,
-                          message: "Không đúng định dạng",
-                        },
-                      })}
+                      onChange={onPasswordChange}
                     />
                   </div>
                   <div class="text-start mb-2">
-                    {errors.password && (
-                      <span class="text-danger">{errors.password.message}</span>
-                    )}
+                    <p class="text-danger mb-0">{validationMsg.password}</p>
                   </div>
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">
@@ -207,18 +262,11 @@ export default function Register() {
                       class="form-control"
                       placeholder="Nhập lại mật khẩu"
                       type="password"
-                      {...register("password_repeat", {
-                        validate: (value) =>
-                          value === password.current || "Mật khẩu không khớp",
-                      })}
+                      onChange={onRepasswordChange}
                     />
                   </div>
                   <div class="text-start mb-2">
-                    {errors.password_repeat && (
-                      <span class="text-danger">
-                        {errors.password_repeat.message}
-                      </span>
-                    )}
+                    <p class="text-danger mb-0">{validationMsg.repassword}</p>
                   </div>
                   <div class="form-group">
                     <button
