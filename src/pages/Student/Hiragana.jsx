@@ -57,14 +57,10 @@ class Hiragana extends Component {
                     </span>
                   </div>
                   <img
-                    src={
-                      require(`../../assets/img/Alphabet/${hira.imageLink}`)
-                        .default
-                    }
+                    src= {"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + hira.imageLink}
                     alt="hiragana"
                   />
                   <div class="des">{hira.description}</div>
-
                 </div>
               ))}
               {/* <div class="row">
