@@ -2,6 +2,8 @@ import React from "react";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
+import BingoGame from "../../components/Student/BingoGame";
+import { Link } from "react-router-dom/cjs/react-router-dom";
 
 export default function PlayGame() {
     return (
@@ -33,7 +35,8 @@ export default function PlayGame() {
                                                 {/* <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> */}
 
                                                 <div class="d-md-flex justify-content-md-end">
-                                                    <button class="btn btn-danger me-3">Chơi game</button>
+                                                    {/* <button class="btn btn-danger me-3" onClick={BingoGame}>Chơi game</button> */}
+                                                    <button class="btn btn-danger me-3"><Link to="/game" className="btn btn-primary">Chơi game</Link></button>
                                                 </div>
 
                                             </div>

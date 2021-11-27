@@ -4,8 +4,14 @@ import Footer from "../../components/Student/Footer";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import React, { Component } from 'react';
 import BingoGame from "../../components/Student/BingoGame";
+import BingoSetting from "../../components/Student/BingoSetting";
 
 class Game extends Component {
+    constructor(props){
+        super(props);
+         
+    }
+    
     render() {
         return (
             <div
@@ -13,7 +19,7 @@ class Game extends Component {
             >
                 <Navigation />
                 <div className="container" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", minHeight: "100vh", display:"flex" }}>
-                    <BingoGame />
+                    <BingoSetting/>
                 </div>
                 <Footer/>
             </div>
