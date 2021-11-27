@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
+import S3FileUpload from 'react-s3';
 
 export default function QuestionAddModal() {
     const [image, setImage] = useState("");
+    const [imageUpload, setImageUpload] = useState("");
     const [typeName, setTypeName] = useState("");
     const [skill, setSkill] = useState("");
     const [lesson, setLesson] = useState("");
@@ -12,18 +14,38 @@ export default function QuestionAddModal() {
     const [validationMsg, setValidationMsg] = useState('');
 
     const history = useHistory();
+
+
+    const config = {
+        bucketName: 'imgzappybucket',
+        dirName: 'AnhCauHoi', /* optional */
+        region: 'ap-southeast-1',
+        accessKeyId: 'AKIAUTRYR6GNGNJ3SGMT',
+        secretAccessKey: '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'
+    }
     // questionDetail.answer
     const [answer, setAnswer] = useState([]);
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setImage(reader.result)
+                document.getElementById("img").src = reader.result;
+                setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
             }
         }
         reader.readAsDataURL(e.target.files[0]);
     }
+
+    const upload = () => {
+        S3FileUpload.uploadFile(imageUpload, config).then((data) => {
+            console.log(data.location);
+        }).catch((err) => {
+            alert(err);
+        })
+    }
+
+
     const onSubmit = (e) => {
         e.preventDefault();
         const isValid = validateAll();
@@ -36,10 +58,11 @@ export default function QuestionAddModal() {
             answer: answer.map(({ id, ...items }) => items),
             imgeLink: image
         };
-        LessonServices.addQuestion(questionAdd);
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+        upload();
+        // LessonServices.addQuestion(questionAdd);
+        // setTimeout(() => {
+        //     history.go(0);
+        // }, 1000);
     }
 
 
@@ -212,7 +235,7 @@ export default function QuestionAddModal() {
                                     <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
                                 <div class="col-4">
-                                    <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                    <img src={image} id="img" class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                 </div>
 
                                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
