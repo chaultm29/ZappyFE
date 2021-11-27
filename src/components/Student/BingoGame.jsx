@@ -24,7 +24,8 @@ class BingoGame extends Component {
             questions: [],
             listCheckAnswer: [],
             time: {}, seconds: 300,
-            initseconds: 300
+            initseconds: 300,
+            isFinish: false
         }
 
     }
@@ -110,7 +111,7 @@ class BingoGame extends Component {
             }
             if (!check) {
                 //call api to call question and set into question index.
-                GameService.fetchCurrentQuestion(this.state.listQuestionId).then(data => {
+                GameService.fetchCurrentQuestion(this.state.listQuestionId, this.props.lessons).then(data => {
                     console.log(data)
                     this.setState({ currentQuestion: data })
                     this.state.questions.push({ index: this.state.currentIndex, question: this.state.currentQuestion });
@@ -140,7 +141,7 @@ class BingoGame extends Component {
     bingo() {
         var check = this.checkHorizontal() || this.checkVertical() || this.checkDiagonal()
         if (check) {
-            
+
             clearInterval(this.timer);
             //console.log("time " + this.state.seconds)
 
@@ -149,9 +150,19 @@ class BingoGame extends Component {
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].onclick = null;
             }
-            this.setState({score:this.state.score + this.state.seconds * 10})
-                //this.setState({ state: this.state.score += 100 })
-            alert("Congratulate! BINGO!")
+            this.setState({ score: this.state.score + this.state.seconds * 10, isFinish: true })
+
+            //this.setState({ state: this.state.score += 100 })
+            // document.getElementById("isFinish").style.display = "relative";
+            GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+        }
+        else if(this.state.seconds==0){
+
+            var buttons = document.getElementsByClassName("square number");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].onclick = null;
+            }
+            this.setState({ isFinish: true })
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
         }
     }
@@ -242,6 +253,7 @@ class BingoGame extends Component {
         // Check if we're at zero.
         if (seconds == 0) {
             clearInterval(this.timer);
+            this.bingo();
         }
     }
 
@@ -251,8 +263,9 @@ class BingoGame extends Component {
 
         //time
         //check time theo level
-        // this.state.initseconds = 300;
-        // this.state.seconds = this.state.initseconds
+        this.state.initseconds = this.props.time;
+        console.log(this.props.lessons)
+        this.state.seconds = this.state.initseconds
         let timeLeftVar = this.secondsToTime(this.state.seconds);
         this.setState({ time: timeLeftVar });
 
@@ -262,53 +275,73 @@ class BingoGame extends Component {
         return (
             <div class="inner-container">
                 <div class="gameplay">
-                    <div class="gamearea">
-                        <div id="title">
-                        </div>
+                        {this.state.isFinish ?
+                            <div class="overlay-text visible" id="isFinish">
+                                <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
+                                <div class="result">
+                                    <h4>Tổng điểm : {this.state.score}</h4>
+                                    <h4>Thời gian chơi : {this.state.initseconds - this.state.seconds} giây</h4>
+                                    <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
+                                    {/* <h4>Tổng điểm : {total}</h4> */}
+                                </div>
+                                <br />
+                                <div class="text-play-again" onClick={() => window.location.reload()}  >Click vào đây để chơi lại </div>
 
-                        <div id="gameboard">
+                            </div> : ""}
 
-                        </div>
-                    </div>
-                    <div class="control">
                         <div class="content">
                             <div class="numbertext" id="currentNumber">
-                                {this.state.score}
+                                Điểm:  {this.state.score}
                             </div>
                             {/* <button onClick={this.startTimer}>Start</button> */}
-                            {this.state.time.m}:{this.state.time.s}
+                            <div class="numbertext">Thời gian: {this.state.time.m}:{this.state.time.s}</div>
+                        </div>
+                        <div class="gamearea">
+                            <div id="title">
+                            </div>
 
-                            {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
-                            <div class="selectedQuestion" id="currentQuestion">Question for this part:
+                            <div id="gameboard">
+
+                            </div>
+                        </div>
+                        <div class="control">
+                            <div class="content">
+
+
+                                {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
+                                <div class="selectedQuestion" id="currentQuestion">Question for this part:
                        {this.state.currentQuestion != null ?
 
-                                    (<div class="question" key={this.state.currentQuestion.questionID} >
-                                        <div class="questionField">{this.state.currentQuestion.question}</div>
-                                        {this.state.currentQuestion.answers.map(
-                                            answer =>
-                                                <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
-                                        )}
-                                    </div>) : ""}
-                            </div>
-                            <div class="finishGame">
-                                <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
-                            </div>
-                            {/* <button onclick="nextNumber()"> Next Number</button>
+                                        (<div class="question" key={this.state.currentQuestion.questionID} >
+                                            <div class="questionField">{this.state.currentQuestion.question}</div>
+                                            
+                                            {this.state.currentQuestion.imageLink? <div><img class = "imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/"+ this.state.currentQuestion.imageLink} alt="hiragana" /></div>:""}
+                                            {this.state.currentQuestion.answers.map(
+                                                answer =>
+                                                    <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
+                                            )}
+                                        </div>) : ""}
+                                </div>
+                                {/* <div class="finishGame">
+                                    <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
+                                    <div class="congrat">Chúc mừng bạn đã hoàn thành game này</div>
+                                </div> */}
+                                {/* <button onclick="nextNumber()"> Next Number</button>
                         <div class="label">Goal</div> */}
-                            {/* <select name="goal" id="goal">
+                                {/* <select name="goal" id="goal">
                             <option value="horizontal">Horizontal</option>
                             <option value="vertical">Vertical</option>
                             <option value="diagonal">Diagonal</option>
                         </select>
                         <button onclick={() => this.bingo()}> Bingo !</button> */}
+                            </div>
+                            {/* <button class="newgame" onclick="newGame()">New game</button> */}
                         </div>
-                        {/* <button class="newgame" onclick="newGame()">New game</button> */}
                     </div>
                 </div>
-
-            </div>
         );
     }
 }
+
 
 export default BingoGame;

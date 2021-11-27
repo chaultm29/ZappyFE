@@ -32,13 +32,17 @@ function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
         }).then((res) => res.json())
 }
 
-function fetchCurrentQuestion(listQuestionId) {
-    // return fetch("http://localhost:5000/game/bingo/currentQuestion",
+function fetchCurrentQuestion(listQuestionId, listLessonId) {
+    let list = {
+        questionIds : listQuestionId,
+        lessonIds : listLessonId
+    }
+     //return fetch("http://localhost:5000/game/bingo/currentQuestion",
     return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/bingo/currentQuestion",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
-            body: JSON.stringify(listQuestionId)
+            body: JSON.stringify(list)
         }).then((res) => res.json())
 }
 
@@ -52,6 +56,7 @@ function fetchResultQuestion(questionId, answerId) {
 }
 
 export default {
+    
     fetchSaveGame,
     fetchCurrentQuestion,
     fetchResultQuestion,

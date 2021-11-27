@@ -15,7 +15,7 @@
     
     /* background: rgb(247, 227, 255); */
     min-height: inherit;
-    min-width: inherit;
+    /* min-width: inherit; */
 }
 
 .control {
@@ -29,9 +29,17 @@
 } */
 
 .content .numbertext {
-    font-size: 90px;
-    margin-bottom: 10px;
+    font-size: 60px;
+    margin-bottom: 5px;
     user-select: none;
+    width: 40%;
+    display: flex;
+    font-weight: 600;
+}
+.finishGame .congrat{
+    font-family: 'Pacifico', cursive;
+    font-weight: 600;
+    font-size: 40px;
 }
 .gamearea {
     width: 520px;
@@ -120,7 +128,12 @@
     font-size: 40px;
     padding: 25px;
 } */
-
+.imgBingo{
+    width: 500px;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+}
 .number {
     border: 1px solid aqua;
 }

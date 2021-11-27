@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Navigation from "../../components/Student/Navigation";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
+import BingoGame from "../../components/Student/BingoGame";
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-router-dom";
 import GameService from "../../services/GameService";
+
 
 export default function PlayGame() {
     const [listHistory, setListHistory] = useState([]);
@@ -74,7 +76,7 @@ export default function PlayGame() {
                                                 {/* <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> */}
 
                                                 <div class="d-md-flex justify-content-md-end">
-                                                    <Link to="/testMemory" class="btn btn-danger me-3"> Chơi game </Link>
+                                                    <Link to="/game" class="btn btn-danger me-3"> Chơi game </Link>
                                                 </div>
 
                                             </div>
