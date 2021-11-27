@@ -26,6 +26,7 @@ const login = (username, password) => {
         if (response.data.token) {
           localStorage.setItem("token", JSON.stringify("Bearer " + response.data.token));
           localStorage.setItem("username", JSON.stringify(response.data.username));
+          localStorage.setItem("rolename", JSON.stringify(response.data.rolename));
         }
         if (response.data.rolename == "Student") {
           window.location.href = "/home"
@@ -47,11 +48,21 @@ const login = (username, password) => {
 
 const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("username");
+  localStorage.removeItem("rolename");
   window.location.href = '/home';
   //return false;
 };
 
 const getCurrentUser = () => {
+  return JSON.parse(localStorage.getItem("username"));
+};
+
+const getRoleName = () => {
+  return JSON.parse(localStorage.getItem("rolename"));
+};
+
+const getToken = () => {
   return JSON.parse(localStorage.getItem("token"));
 };
 
@@ -60,4 +71,6 @@ export default {
   login,
   logout,
   getCurrentUser,
+  getRoleName,
+  getToken
 };
