@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useForm } from "react-hook-form";
 import AccountServices from '../../services/AccountServices';
 import { useHistory } from "react-router-dom";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function AccountAddModal({ dataAcc }) {
   const [roleId, setRoleId] = useState("");
@@ -13,21 +13,31 @@ export default function AccountAddModal({ dataAcc }) {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [image, setImage] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
   const [validationMsg, setValidationMsg] = useState('');
+  const [msgErrorResponse, setMsgErrorResponse] = useState("");
+  const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
   const history = useHistory();
+
 
   const onSubmit = (e) => {
     e.preventDefault();
     const isValid = validateAll();
     if (!isValid) return;
-    let account = { username: username, password: "contentmanager@123", dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
-    console.log(`data`, account);
+    let account = { username: username, passwordOld: "", passwordNew: "contentmanager@123", dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
 
-    AccountServices.addAccount(account);
-    // setTimeout(() => {
-    //   history.go(0);
-    // }, 1000);
+    AccountServices.addAccount(account).then((response) => {
+      if (response.status === 200) {
+        if (response.data.includes("thành công")) {
 
+          setMsgSuccessResponse(response.data);
+        } else if (response.data.includes("đã tồn tại")) {
+          setMsgErrorResponse(response.data);
 
+        }
+      }
+    })
+      .catch((error) => {
+        setMsgErrorResponse(error);
+      });
   }
   const imageHandler = (e) => {
     const reader = new FileReader();
@@ -90,9 +100,10 @@ export default function AccountAddModal({ dataAcc }) {
       msg.username = "Không bao gồm dấu cách hoặc kí tự đặc biệt ";
     } else if (username.length < 4 || username.length > 20) {
       msg.username = "Độ dài từ 4-20 kí tự";
-    } else if (JSON.stringify(dataAcc).includes(username)) {
-      msg.username = "Tài khoản đã tồn tại";
     }
+    // else if (JSON.stringify(dataAcc).includes(username)) {
+    //   msg.username = "Tài khoản đã tồn tại";
+    // }
     if (fullname.length === 0) {
       msg.fullname = "Không được để trống";
     } else if (!validateFullname.test(fullname)) {
@@ -122,9 +133,25 @@ export default function AccountAddModal({ dataAcc }) {
     if (Object.keys(msg).length > 0) return false;
     return true;
   }
+
+  const hideAlert = () => {
+    setMsgSuccessResponse("");
+    setMsgErrorResponse("");
+    setTimeout(() => {
+      history.go(0);
+    }, 1000);
+  }
   return (
     <>
       {/* add account */}
+      {msgSuccessResponse !== "" ?
+        < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+          {msgSuccessResponse}
+        </SweetAlert > : ""}
+      {msgErrorResponse !== "" ?
+        < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+          {msgErrorResponse}
+        </SweetAlert > : ""}
       <div class="modal fade" id="ViewAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">

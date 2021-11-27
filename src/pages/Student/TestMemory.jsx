@@ -6,6 +6,7 @@ import imgCenter from "../../assets/img/imgCenter.png"
 import Start from './Start';
 import ExamServices from '../../services/ExamServices';
 import { useHistory } from 'react-router';
+import GameService from '../../services/GameService';
 
 export default function TestMemory() {
     const [isStarted, setStart] = useState(false);
@@ -63,7 +64,7 @@ export default function TestMemory() {
         if (isStarted) {
             if (isFinish) {
                 clearInterval(myInterval.current);
-                calculateTotal();
+                saveResult();
             } else {
                 myInterval.current = setInterval(countdown, 1000);
             }
@@ -149,13 +150,16 @@ export default function TestMemory() {
         setDisabled(false);
     }
 
-    const calculateTotal = () => {
+    const saveResult = () => {
         let secondLeft = parseInt(document.getElementById("second").innerHTML);
         let minuteLeft = parseInt(document.getElementById("minute").innerHTML);
         let bonusCurrent = (minuteLeft * 60 + secondLeft) * 10;
+        let totalScore = point + bonusCurrent;
         setBonus(bonusCurrent);
         setTotal(point + bonusCurrent);
         document.getElementById("flips").innerHTML = point;
+        GameService.fetchSaveGame("Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
+
     }
 
 

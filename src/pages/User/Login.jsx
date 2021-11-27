@@ -4,12 +4,21 @@ import { useForm } from "react-hook-form";
 import AuthenticationService from "../../services/AuthenticationService";
 
 export default function Login() {
+    const [msgLogin, setMsgLogin] = useState();
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = (data) => AuthenticationService.login(data.username, data.password)
+    const onSubmit = (data) => {
+        AuthenticationService.login(data.username, data.password).then((response) => {
+            console.log(`response`, response);
+        }).catch((error) => {
+            if (error.toString().includes("401")) {
+                setMsgLogin("Sai tài khoản hoặc mật khẩu");
+            }
+        })
+    }
 
 
     return (
@@ -40,6 +49,7 @@ export default function Login() {
                             <div class="d-flex flex-column text-center">
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <div class="form-group input-group mb-0">
+
                                         <div class="input-group-prepend d-flex">
                                             <span class="input-group-text">
                                                 {" "}
@@ -97,6 +107,7 @@ export default function Login() {
                                             <span class="text-danger">{errors.password.message}</span>
                                         )}
                                     </div>
+                                    {msgLogin && <span class="text-danger mt-2">{msgLogin}</span>}
                                     <button
                                         type="submit"
                                         id="buttonLogin"
@@ -104,6 +115,7 @@ export default function Login() {
                                     >
                                         Đăng nhập
                                     </button>
+
                                 </form>
 
                                 <div class="text-center text-muted delimiter">
@@ -137,21 +149,10 @@ export default function Login() {
                                     >
                                         <i class="fab fa-linkedin"></i>
                                     </button>
+
                                 </div>
                             </div>
                         </div>
-                        {/* <div class="modal-footer d-flex justify-content-center">
-                            <div class="signup-section">
-                                Chưa có tài khoản?{" "}
-                                <a
-                                    data-toggle="modal"
-                                    data-target="#registerModal" style={{ color: "#F6B0A6", cursor: "pointer" }}>
-                                    {" "}
-                                    Đăng kí
-                                </a>
-
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </div>

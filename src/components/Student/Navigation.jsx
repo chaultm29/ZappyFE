@@ -74,33 +74,19 @@ class Navigation extends Component {
             {/* <!-- Collapsible wrapper -->
             
                 <!-- Right elements --> */}
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center" style={{ width: "15%" }}>
               {/* <!-- Icon --> */}
 
               {/* <!-- Notifications --> */}
               {AuthenticationService.getCurrentUser() != null ? <>
 
-                <div class="nav-item container" id="sim-progress">
-                  <div class="progress progress-striped active sim-pro">
-                    <div class="progress-bar" role="progressbar" style={{ width: "60%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">45% Complete</span>
+                <div class="nav-item container">
+                  <center>Bmay đag ở level 3 nè </center>
+                  <div class="progress progress-striped">
+                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: "90%" }} aria-valuemin="0" aria-valuemax="100">45% Hoàn thành
                     </div>
                   </div>
                 </div>
-                <a
-                  class="text-reset me-3"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-mdb-toggle="dropdown"
-                  aria-expanded="false"
-                >
-
-                  <i class="fas fa-bell"></i>
-
-                  <span class="badge rounded-pill badge-notification bg-danger">
-                    1
-                  </span>
-                </a>
 
                 <div class="nav-item dropdown">
                   <a

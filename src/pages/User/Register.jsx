@@ -1,4 +1,8 @@
 import React, { useRef, useState } from "react";
+import SweetAlert from 'react-bootstrap-sweetalert';
+import AccountServices from "../../services/AccountServices";
+import AuthenticationService from "../../services/AuthenticationService";
+
 
 export default function Register() {
 
@@ -12,23 +16,38 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
   const [validationMsg, setValidationMsg] = useState('');
+  const [msgErrorResponse, setMsgErrorResponse] = useState("");
+  const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
     const isValid = validateAll();
     if (!isValid) return;
-    let account = { username: username, password: password, dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
-    console.log(`data`, account);
-
+    let account = { username: username, passwordOld: "", passwordNew: password, dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
+    console.log(`account`, account);
+    AuthenticationService.register(account).then((response) => {
+      console.log(`response`, response);
+      if (response.status === 200) {
+        if (response.data.includes("thành công")) {
+          setMsgSuccessResponse(response.data);
+        } else if (response.data.includes("đã tồn tại")) {
+          setMsgErrorResponse(response.data);
+        }
+      }
+    }
+    )
+      .catch((error) => {
+        setMsgErrorResponse(error);
+      });
   }
 
   const onUsernameChange = (e) => {
     let input = e.target.value;
-    setUsername(input);
+    setUsername(input.toLowerCase());
   }
   const onFullnameChange = (e) => {
     let input = e.target.value;
-    setFullname(input);
+    setFullname(input.toUpperCase());
   }
   const onEmailChange = (e) => {
     let input = e.target.value;
@@ -109,8 +128,27 @@ export default function Register() {
     if (Object.keys(msg).length > 0) return false;
     return true;
   }
+
+  const hideAlertSuccess = () => {
+    setMsgSuccessResponse("");
+    setMsgErrorResponse("");
+    AuthenticationService.login(username, password)
+  }
+  const hideAlertError = () => {
+    setMsgSuccessResponse("");
+    setMsgErrorResponse("");
+  }
+
   return (
     <div>
+      {msgSuccessResponse !== "" ?
+        < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+          {msgSuccessResponse}
+        </SweetAlert > : ""}
+      {msgErrorResponse !== "" ?
+        < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
+          {msgErrorResponse}
+        </SweetAlert > : ""}
       <div
         class="modal fade"
         id="registerModal"
@@ -135,7 +173,7 @@ export default function Register() {
               </div>
 
               <div class="d-flex flex-column text-center">
-                <form onSubmit={onSubmit} method="post" autoComplete="off" autoComplete="none">
+                <form onSubmit={onSubmit} autoComplete="off" autoComplete="none">
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">
                       <span class="input-group-text">
@@ -280,19 +318,6 @@ export default function Register() {
                 </form>
               </div>
             </div>
-            {/* <div class="modal-footer d-flex justify-content-center">
-              <div class="signup-section">
-                Đã có tài khoản?{" "}
-                <a
-                  onClick={onClick}
-                  data-target="#loginModal"
-                  style={{ color: "#F6B0A6", cursor: "pointer" }}
-                >
-                  {" "}
-                  Đăng nhập
-                </a>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
