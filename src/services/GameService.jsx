@@ -9,17 +9,20 @@ class GameService {
     // saveGame(gameName, timeCreated, timePlayed, score){
     //     return axiosConfig.post("/game/saving");
     // }
-    getRecord() {
-        return axiosConfig.get("/game/record");
-    }
+    // getRecord() {
+    //     return axiosConfig.get("/game/record");
+    // }
+}
+function getRecord() {
+    return axiosConfig.get("/game/record");
 }
 
 function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
     let gameRecord = {
-        gameName : _gameName,
-        timeCreated : _timeCreated,
-        timePlayed : _timePlayed,
-        score : _score
+        gameName: _gameName,
+        timeCreated: _timeCreated,
+        timePlayed: _timePlayed,
+        score: _score
     }
     return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/saving",
         {
@@ -57,5 +60,6 @@ export default {
     fetchSaveGame,
     fetchCurrentQuestion,
     fetchResultQuestion,
+    getRecord,
     GameService
 };

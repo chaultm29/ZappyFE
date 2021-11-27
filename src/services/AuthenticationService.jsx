@@ -3,13 +3,15 @@ const API_URL =
 
   "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
 
-const register = (username, email, password) => {
-  return axios.post(API_URL + "/register", {
-    username,
-    email,
-    password,
-  });
-};
+// const register = (account) => {
+//   return axios.post(API_URL + "/register", {
+//     account
+//   });
+// };
+const register = (account) => {
+  return axios.post(API_URL + "/register", account);
+}
+
 
 const login = (username, password) => {
   return axios
