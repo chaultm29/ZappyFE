@@ -119,12 +119,7 @@ export default function Exam() {
                                 Sắp xếp câu
                               </label>
                             </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="5" id="checkMatching" onChange={onHandleChangeTypeIds} />
-                              <label class="form-check-label" for="checkMatching">
-                                Nối từ
-                              </label>
-                            </div>
+
 
                             <h5 class="mt-2">Số lượng câu hỏi</h5>
                             <p class="text-danger mb-0">{validationMsg.numberOfQuestion}</p>

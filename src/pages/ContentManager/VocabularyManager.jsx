@@ -3,9 +3,10 @@ import VocabularyManagerContent from "../../components/ContentManager/Vocabulary
 
 import MainPanel from "../../components/UI/MainPanel";
 import Sidebar from "../../components/UI/Sidebar";
+import AuthenticationService from "../../services/AuthenticationService";
 
 export default function VocabularyManager() {
-    const [username, setUserName] = useState("MinhLD");
+    const [username, setUserName] = useState(AuthenticationService.getCurrentUser());
     const [role, setRole] = useState("Content Manager");
     const [site, setSite] = useState("Quản lý bài học - Từ vựng");
     const [siteContent, setSiteContent] = useState(<VocabularyManagerContent />);
