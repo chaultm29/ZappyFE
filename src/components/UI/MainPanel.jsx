@@ -1,4 +1,5 @@
 import React from "react";
+import AuthenticationService from "../../services/AuthenticationService";
 import "./MainPanel.css";
 
 export default function MainPanel({ username, site, siteContent }) {
@@ -57,7 +58,7 @@ export default function MainPanel({ username, site, siteContent }) {
                 <li>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="#" onClick={() => AuthenticationService.logout()}>
                     Đăng xuất
                   </a>
                 </li>
