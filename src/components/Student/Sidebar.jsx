@@ -148,7 +148,7 @@ class Sidebar extends Component {
                   <span>Từ vựng</span>
                 </div>
                 <div class="progress-line" >
-                  <span style={{ width: this.state.progress.vocaProgress }}></span>
+                  <span style={{ width: this.state.progress.vocaProgress * (100 / 7) + "%" }}></span>
                 </div>
               </div>
               <div class="pro">
@@ -156,7 +156,7 @@ class Sidebar extends Component {
                   <span>Ngữ pháp</span>
                 </div>
                 <div class="progress-line">
-                  <span style={{ width: this.state.progress.grammarProgess }}></span>
+                  <span style={{ width: this.state.progress.grammarProgess * (100 / 7) + "%" }}></span>
                 </div>
               </div>
               <div class="pro">
@@ -164,7 +164,7 @@ class Sidebar extends Component {
                   <span>Chữ hán</span>
                 </div>
                 <div class="progress-line">
-                  <span style={{ width: this.state.progress.kanjiProgress }}></span>
+                  <span style={{ width: this.state.progress.kanjiProgress * (100 / 7) + "%" }}></span>
                 </div>
               </div>
             </div>

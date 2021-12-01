@@ -54,14 +54,14 @@ export default function AccountViewModal({ accountDetail }) {
 
                 </div>
 
-                <div class="col-8">
+                {/* <div class="col-8">
                   <label class="form-label">Ảnh đại diện</label>
-                  {/* <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} disabled/>
-                  <input id="imageFieldHidden" class="d-none" onChange={onImageChange} /> */}
+                  <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} disabled/>
+                  <input id="imageFieldHidden" class="d-none" onChange={onImageChange} />
                 </div>
                 <div class="col-4">
                   <img src={accountDetail.avatar} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
-                </div>
+                </div> */}
               </form>
             </div>
           </div>
