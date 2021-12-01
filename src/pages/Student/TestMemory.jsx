@@ -35,7 +35,7 @@ export default function TestMemory() {
             case 18:
                 setNum(270);
                 break;
-            case 270:
+            case 27:
                 setNum(360);
                 break;
         }

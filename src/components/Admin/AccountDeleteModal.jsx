@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory } from "react-router-dom";
 import AccountServices from '../../services/AccountServices';
+import SweetAlert from 'react-bootstrap-sweetalert';
 export default function AccountDeleteModal({ accountDetail }) {
     const history = useHistory();
+    const [msgErrorResponse, setMsgErrorResponse] = useState("");
+    const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const onClickYesButton = () => {
-        AccountServices.deleteAccount(accountDetail.id);
+        AccountServices.deleteAccount(accountDetail.id).then((response) => {
+            if (response.status === 200) {
+                if (response.data) {
+                    setMsgSuccessResponse("Xóa tài khoản thành công");
+                } else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+
+                }
+            }
+        })
+            .catch((error) => {
+                setMsgErrorResponse(error);
+            });
+    };
+
+    const hideAlert = () => {
+        setMsgSuccessResponse("");
+        setMsgErrorResponse("");
         setTimeout(() => {
             history.go(0);
         }, 1000);
@@ -12,6 +32,14 @@ export default function AccountDeleteModal({ accountDetail }) {
     return (
         <>
             {/* Delete modal */}
+            {msgSuccessResponse !== "" ?
+                < SweetAlert success title="Xóa tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+                    {msgSuccessResponse}
+                </SweetAlert > : ""}
+            {msgErrorResponse !== "" ?
+                < SweetAlert danger title="Xóa tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    {msgErrorResponse}
+                </SweetAlert > : ""}
             <div class="modal fade" id="ViewDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
