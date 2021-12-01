@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import "./css/kanji.css";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
-import {
-  BrowserRouter as Link
-} from "react-router-dom";
 import StudyService from "../../services/StudyService";
+import Speech from "../../services/Speech";
+import bg from "../../assets/img/bg-home-scene-winter.svg";
 class Kanji extends Component {
   constructor(props) {
     super(props)
     this.changeToCard = this.changeToCard.bind(this);
     this.countProgress = this.countProgress.bind(this);
     this.gotoPractice = this.gotoPractice.bind(this);
+    this.onUserClickSpeaker = this.onUserClickSpeaker.bind(this);
     this.state = {
       kanjis: [],
       index: 0,
@@ -72,10 +72,17 @@ class Kanji extends Component {
       }
     });
   }
+
+  onUserClickSpeaker = (e) => {
+    let input = e.target.id;
+    console.log(e.target.id);
+    Speech(input);
+  };
+
   render() {
     return (
       // <div style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}>
-      <div>
+      <div style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}>
         <Navigation />
         <div
           className="container"
@@ -89,17 +96,33 @@ class Kanji extends Component {
                 this.state.kanjis.map(
                   kanji =>
                     <div class="row kanji-card" key={kanji.id}>
-                      <div class="cha">{kanji.character}</div>
-                      <div class="kanji-attribute">
+                      <div class="cha col-md-4">{kanji.character}</div>
+                      <div class="kanji-attribute col-md-4">
                         <ul>
-                          <li>Âm on: <span>{kanji.onyomi}</span></li>
-                          <li>Âm kun: <span>{kanji.kunyomi}</span></li>
+                          <li>Âm on: <span>{kanji.onyomi}</span> <span
+                            class=" p-2 bg-white ms-4 rounded-circle fs-6 "
+                            style={{ top: "30px" }}>
+                            <i
+                              class="fas fa-volume-up fs-5 text-secondary"
+                              id={kanji.onyomi}
+                              onClick={this.onUserClickSpeaker.bind(this)}
+                            ></i>
+                          </span></li>
+                          <li>Âm kun: <span>{kanji.kunyomi}</span> <span
+                            class=" p-2 bg-white ms-4 rounded-circle fs-6 "
+                            style={{ top: "30px" }}>
+                            <i
+                              class="fas fa-volume-up fs-5 text-secondary"
+                              id={kanji.kunyomi}
+                              onClick={this.onUserClickSpeaker.bind(this)}
+                            ></i>
+                          </span></li>
                           <li>Âm hán: <span>{kanji.chinese}</span></li>
                           <li>Âm nghĩa: <span>{kanji.vietnamese}</span></li>
                         </ul>
                       </div>
                       {/* <div class="kanji-gif"><img src={require(`https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/${kanji.gifLink == "" ? "1.gif" : kanji.gifLink}`).default} alt="hiragana" /></div> */}
-                      <div class="kanji-gif"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/"+ kanji.gifLink} alt="hiragana" /></div>
+                      <div class="kanji-gif col-md-4"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/" + kanji.gifLink} alt="hiragana" /></div>
                       <div class="letgo">Cùng nhớ nào ^^</div>
                       <div class="des">{kanji.description}</div>
                       <div class="kanji-image"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiDes/" + kanji.imageLink} alt="hiragana" /></div>

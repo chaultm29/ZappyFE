@@ -61,9 +61,9 @@ h3 {
   position: fixed;
 }
 .vocabulary-card {
-  border-radius: 10px;
+  margin : auto;
+  border-radius: 15px;
   border: grey 1px;
-  box-shadow: 2px 2px 5px 1px;
   width: 80%;
   padding: 10px;
   display: none;

@@ -115,7 +115,7 @@ export default function QuestionManagerContent() {
     ],
     []
   );
-  const data = React.useMemo(() => getData(), []);
+  const data = React.useMemo(() => dataQuestion, [dataQuestion]);
   return (
     <div class="container-fluid px-4">
       <div className="row">
@@ -129,7 +129,7 @@ export default function QuestionManagerContent() {
               title="Add">
               Thêm mới
             </button>
-            <Table columns={columns} data={dataQuestion} />
+            <Table columns={columns} data={data} />
 
           </> : <div class="d-flex justify-content-center">
             <div class="spinner-border" role="status">

@@ -94,7 +94,7 @@ export default function PlayGame() {
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">Memory Game</h5>
-                                                <p class="card-text">Là cái game khó ẻ, chưa kịp đọc đã bắt nhớ</p>
+                                                <p class="card-text">Là cái game khó xỉu, chưa kịp đọc đã bắt nhớ</p>
                                                 {/* <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> */}
                                                 <div class="d-md-flex justify-content-md-end">
                                                     <Link to="/testMemory" class="btn btn-danger me-3"> Chơi game </Link>
@@ -140,7 +140,7 @@ export default function PlayGame() {
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">Memory Game</h5>
-                                                <p class="card-text">Là cái game khó ẻ, chưa kịp đọc đã bắt nhớ</p>
+                                                <p class="card-text">Là cái game khó xỉu, chưa kịp đọc đã bắt nhớ</p>
                                                 {/* <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> */}
                                                 <div class="d-md-flex justify-content-md-end">
                                                     <button class="btn btn-danger me-3">Chơi game</button>

@@ -24,7 +24,7 @@ class AccountService {
   }
 
   resetPassword(username) {
-    return axiosConfig.post(ACCOUNT__API_BASE_URL + "/" + username);
+    return axiosConfig.post("/resetaccount/" + username);
   }
 }
 

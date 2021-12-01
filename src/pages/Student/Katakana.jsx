@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import './css/alphabet.css';
-import a from '../../assets/img/1.png';
-import hirag from '../../assets/img/hiragana.png';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
-import gif from '../../assets/img/pagebg.gif';
 import StudyService from '../../services/StudyService';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
+import Speech from "../../services/Speech";
 class Katakana extends Component {
     constructor(props) {
         super(props)
+        this.onUserClickSpeaker = this.onUserClickSpeaker.bind(this);
         this.state = {
             katas: []
         }
@@ -22,14 +21,19 @@ class Katakana extends Component {
             }
         });
     }
+    onUserClickSpeaker = (e) => {
+        let input = e.target.id;
+        console.log(e.target.id);
+        Speech(input);
+    };
     render() {
         return (
             <div style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}>
                 <Navigation />
-                <div className="container" style={{ backgroundColor: "#fceced" }}>
+                <div className="container mt-2" style={{ backgroundColor: "#fceced", borderRadius: "15px"}}>
                     <div class="row">
                         <Sidebar />
-                        <div class="col-md-8">
+                        <div class="col-md-9 mx-auto" style={{ width: "73%" }}>
                             <h1 class="tit"> Cùng nhớ Katakana nào </h1>
                             {
                                 this.state.katas.map(
@@ -37,8 +41,19 @@ class Katakana extends Component {
 
                                         <div class="row my-card mx-0 shadow mb-3" key={kata.id}>
 
-                                            <div class="cha">{kata.character}</div>
-                                            <img src= {"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + kata.imageLink} alt="hiragana" />
+                                            <div class="cha">{kata.character}
+                                                <span
+                                                    class="position-absolute translate-middle p-2 bg-white rounded-circle fs-6 "
+                                                    style={{ marginLeft: "100px", marginTop: "30px" }}
+                                                >
+                                                    <i
+                                                        class="fas fa-volume-up fs-5 text-secondary"
+                                                        id={kata.character}
+                                                        onClick={this.onUserClickSpeaker.bind(this)}
+                                                    ></i>
+                                                </span></div>
+
+                                            <img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + kata.imageLink} alt="hiragana" />
                                             <div class="des">{kata.description}</div>
                                         </div>
                                 )}
