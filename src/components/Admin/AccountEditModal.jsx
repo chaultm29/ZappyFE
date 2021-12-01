@@ -20,14 +20,20 @@ export default function AccountEditModal({ accountDetail }) {
       , dateOfBirth: accountDetail.dateOfBirth, email: accountDetail.email, fullName: accountDetail.fullName, phone: accountDetail.phone, roleDTO: { id: document.getElementById("role").options[document.getElementById("role").selectedIndex].value, name: document.getElementById("role").options[document.getElementById("role").selectedIndex].text }, avatar: accountDetail.avatar
     };
 
+    AccountServices.editAccount(account, accountDetail.id).then((response) => {
+      if (response.status === 200) {
+        if (response.data.includes("thành công")) {
+          setMsgSuccessResponse(response.data);
+        } else if (response.data.includes("đã tồn tại")) {
+          setMsgErrorResponse(response.data);
+        }
+      }
+    })
+      .catch((error) => {
+        setMsgErrorResponse(error);
+      });
+  };
 
-    // AccountServices.editAccount(account, accountDetail.id);
-    // setTimeout(() => {
-    //   history.go(0);
-    // }, 1000);
-
-
-  }
 
   const onResetPassword = () => {
     AccountServices.resetPassword(accountDetail.username).then((response) => {
@@ -61,10 +67,26 @@ export default function AccountEditModal({ accountDetail }) {
     setRoleName(selectRoleName);
   }
 
+  const hideAlert = () => {
+    setMsgSuccessResponse("");
+    setMsgErrorResponse("");
+    setTimeout(() => {
+      history.go(0);
+    }, 1000);
+  }
+
 
   return (
     <>
       {/* edit account */}
+      {msgSuccessResponse !== "" ?
+        < SweetAlert success title="Cập nhật tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+          {msgSuccessResponse}
+        </SweetAlert > : ""}
+      {msgErrorResponse !== "" ?
+        < SweetAlert danger title="Cập nhật tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+          {msgErrorResponse}
+        </SweetAlert > : ""}
       <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -111,14 +133,14 @@ export default function AccountEditModal({ accountDetail }) {
 
                 </div>
 
-                <div class="col-8">
+                {/* <div class="col-8">
                   <label class="form-label">Ảnh đại diện</label>
-                  {/* <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} disabled/>
-                  <input id="imageFieldHidden" class="d-none" onChange={onImageChange} /> */}
+                  <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} disabled/>
+                  <input id="imageFieldHidden" class="d-none" onChange={onImageChange} />
                 </div>
                 <div class="col-4">
                   <img src={accountDetail.avatar} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
-                </div>
+                </div> */}
                 <div class="col-12">
                   <button type="button" class="btn btn-link ps-0" onClick={onResetPassword}>Đặt lại mật khẩu</button>
                   <span class="text-danger">{msgSuccessResponse ? msgSuccessResponse : msgErrorResponse}</span>

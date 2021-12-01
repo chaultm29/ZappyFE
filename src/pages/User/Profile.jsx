@@ -7,6 +7,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import S3FileUpload from 'react-s3';
 export default function Profile({ isClicked }) {
 
+    const [userRole, setUserRole] = useState(AuthenticationService.getRoleName());
     const [site, setSite] = useState("account");
     const [id, setId] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
@@ -46,13 +47,12 @@ export default function Profile({ isClicked }) {
                 setAvatar(baseImg + res.data.avatar);
             });
             UserServices.getProgress().then((res) => {
-                console.log(`res.progress`, res);
                 setProgress(res.data);
             })
             UserServices.getAchievement().then((res) => {
-                console.log(`res.achievement`, res)
                 setAchievement(res.data);
             })
+
         }
     }, [isClicked])
 
@@ -108,8 +108,10 @@ export default function Profile({ isClicked }) {
     const upload = () => {
         S3FileUpload.uploadFile(imageUpload, config).then((data) => {
             console.log(data.location);
+            return true;
         }).catch((err) => {
             alert(err);
+            return false;
         })
     }
     const validateUpdate = () => {
@@ -178,9 +180,9 @@ export default function Profile({ isClicked }) {
         if (!isValid) return;
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
         console.log(`profile`, profile);
-        upload();
+        let isUploaded = upload();
         UserServices.updateProfile(profile).then((res) => {
-            if (res.status === 200) {
+            if (res.status === 200 && isUploaded) {
                 setMsgAPIUpdate("Cập nhật thành công !");
             } else {
                 setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
@@ -224,9 +226,14 @@ export default function Profile({ isClicked }) {
                                         <input type='file' id='file' ref={inputFile} class="d-none" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                     </div>
                                     <div class="menu list-group list-group-item-action mt-2">
-                                        <a href="#account" type="button" class="list-group-item list-group-item-action px-2" onClick={onOptionChange}><i class="fas fa-user"></i> Thông tin tài khoản</a>
-                                        <a href="#achievement" type="button" class="list-group-item list-group-item-action px-2" onClick={onOptionChange}><i class="fas fa-award"></i> Thành tựu</a>
-                                        <a href="#progress" type="button" class="list-group-item list-group-item-action px-2" onClick={onOptionChange}><i class="fas fa-chart-line"></i> Tiến độ học tập</a>
+
+                                        {userRole === "Student" ?
+                                            <>
+                                                <a href="#account" type="button" class="list-group-item list-group-item-action px-2" onClick={onOptionChange}><i class="fas fa-user"></i> Thông tin tài khoản</a>
+                                                <a href="#achievement" type="button" class="list-group-item list-group-item-action px-2" onClick={onOptionChange}><i class="fas fa-award"></i> Thành tựu</a>
+                                                <a href="#progress" type="button" class="list-group-item list-group-item-action px-2" onClick={onOptionChange}><i class="fas fa-chart-line"></i> Tiến độ học tập</a> </>
+                                            : ""}
+
 
                                     </div>
 
@@ -235,7 +242,6 @@ export default function Profile({ isClicked }) {
                                     {site.includes("account") &&
                                         <div class="card-body" >
                                             <h3 class="text-center">Thông tin tài khoản</h3>
-
                                             <span class="text-danger">{msgAPIUpdate}</span>
                                             <div class="row mt-3">
                                                 <div class="col-4 d-flex align-items-center">
@@ -381,7 +387,7 @@ export default function Profile({ isClicked }) {
                                                     <div class="card h-100">
                                                         <div class="card-body">
                                                             <h5 class="card-title text-center">Từ vựng</h5>
-                                                            <CircularProgressbar value={progress.vocaProgress} text={progress.vocaProgress + "%"} />
+                                                            <CircularProgressbar value={progress.vocaProgress * (100 / 7)} text={progress.vocaProgress + "/7"} />
                                                             <ul class="list-group list-group-flush">
 
                                                             </ul>
@@ -392,7 +398,7 @@ export default function Profile({ isClicked }) {
                                                     <div class="card h-100">
                                                         <div class="card-body">
                                                             <h5 class="card-title text-center">Ngữ pháp</h5>
-                                                            <CircularProgressbar value={progress.grammarProgess} text={progress.grammarProgess + "%"} />
+                                                            <CircularProgressbar value={progress.grammarProgess * (100 / 7)} text={progress.grammarProgess + "/7"} />
                                                             <ul class="list-group list-group-flush">
 
                                                             </ul>
@@ -403,7 +409,7 @@ export default function Profile({ isClicked }) {
                                                     <div class="card h-100">
                                                         <div class="card-body">
                                                             <h5 class="card-title text-center">Chữ hán</h5>
-                                                            <CircularProgressbar value={progress.kanjiProgress} text={progress.kanjiProgress + "%"} />
+                                                            <CircularProgressbar value={progress.kanjiProgress * (100 / 7)} text={progress.kanjiProgress + "/7"} />
                                                             <ul class="list-group list-group-flush">
 
                                                             </ul>

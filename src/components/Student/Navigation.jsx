@@ -5,12 +5,19 @@ import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-rou
 import AuthenticationService from "../../services/AuthenticationService";
 import Login from "../../pages/User/Login.jsx";
 import Register from "../../pages/User/Register";
+import UserServices from "../../services/UserServices";
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { isClicked: false };
+    this.state = { isClicked: false, level: [] };
   }
 
+  // componentDidUpdate() {
+  //   UserServices.getLevel().then((res) => {
+  //     this.setState({ level: res.data });
+  //     console.log(`level`, this.state.level);
+  //   });
+  // }
   render() {
     return (
       <>
@@ -99,7 +106,7 @@ class Navigation extends Component {
             {AuthenticationService.getCurrentUser() !== null && AuthenticationService.getRoleName() === "Student" ? <>
               <div class="d-flex align-items-center" style={{ width: "20%" }}>
                 <div class="nav-item container">
-                  <center style={{ color: "#4890E4" }}>Level 3</center>
+                  {/* {UserServices.getLevel().then((res) => (<center style={{ color: "#4890E4" }}> {res.data.level}</center>))} */}
                   <div class="progress progress-striped">
                     <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: "90%" }} aria-valuemin="0" aria-valuemax="100">45% Hoàn thành
                     </div>
