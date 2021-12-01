@@ -64,6 +64,8 @@ class BingoGame extends Component {
         if (this.timer == 0 && this.state.seconds > 0) {
             this.timer = setInterval(this.countDown, 1000);
         }
+        // var myMusic = new Sound("game-level.wav");
+        // myMusic.play();
         this.addSelectedNumber(e)
         this.displayQuestion(e)
         this.setState({ state: this.state })
@@ -156,7 +158,7 @@ class BingoGame extends Component {
             // document.getElementById("isFinish").style.display = "relative";
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
         }
-        else if(this.state.seconds==0){
+        else if (this.state.seconds == 0) {
 
             var buttons = document.getElementsByClassName("square number");
             for (var i = 0; i < buttons.length; i++) {
@@ -275,70 +277,70 @@ class BingoGame extends Component {
         return (
             <div class="inner-container">
                 <div class="gameplay">
-                        {this.state.isFinish ?
-                            <div class="overlay-text visible" id="isFinish">
-                                <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
-                                <div class="result">
-                                    <h4>Tổng điểm : {this.state.score}</h4>
-                                    <h4>Thời gian chơi : {this.state.initseconds - this.state.seconds} giây</h4>
-                                    <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
-                                    {/* <h4>Tổng điểm : {total}</h4> */}
-                                </div>
-                                <br />
-                                <div class="text-play-again" onClick={() => window.location.reload()}  >Click vào đây để chơi lại </div>
+                    {this.state.isFinish ?
+                        <div class="overlay-text visible" id="isFinish">
+                            <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
+                            <div class="result">
+                                <h4>Tổng điểm : {this.state.score}</h4>
+                                <h4>Thời gian chơi : {this.state.initseconds - this.state.seconds} giây</h4>
+                                <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
+                                {/* <h4>Tổng điểm : {total}</h4> */}
+                            </div>
+                            <br />
+                            <div class="text-play-again" onClick={() => window.location.reload()}  >Click vào đây để chơi lại </div>
 
-                            </div> : ""}
+                        </div> : ""}
 
+                    <div class="content">
+                        <div class="numbertext" id="currentNumber">
+                            Điểm:  {this.state.score}
+                        </div>
+                        {/* <button onClick={this.startTimer}>Start</button> */}
+                        <div class="numbertext">Thời gian: {this.state.time.m}:{this.state.time.s}</div>
+                    </div>
+                    <div class="gamearea">
+                        <div id="title">
+                        </div>
+
+                        <div id="gameboard">
+
+                        </div>
+                    </div>
+                    <div class="control">
                         <div class="content">
-                            <div class="numbertext" id="currentNumber">
-                                Điểm:  {this.state.score}
-                            </div>
-                            {/* <button onClick={this.startTimer}>Start</button> */}
-                            <div class="numbertext">Thời gian: {this.state.time.m}:{this.state.time.s}</div>
-                        </div>
-                        <div class="gamearea">
-                            <div id="title">
-                            </div>
-
-                            <div id="gameboard">
-
-                            </div>
-                        </div>
-                        <div class="control">
-                            <div class="content">
 
 
-                                {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
-                                <div class="selectedQuestion" id="currentQuestion">Question for this part:
+                            {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
+                            <div class="selectedQuestion" id="currentQuestion">Question for this part:
                        {this.state.currentQuestion != null ?
 
-                                        (<div class="question" key={this.state.currentQuestion.questionID} >
-                                            <div class="questionField">{this.state.currentQuestion.question}</div>
-                                            
-                                            {this.state.currentQuestion.imageLink? <div><img class = "imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/"+ this.state.currentQuestion.imageLink} alt="hiragana" /></div>:""}
-                                            {this.state.currentQuestion.answers.map(
-                                                answer =>
-                                                    <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
-                                            )}
-                                        </div>) : ""}
-                                </div>
-                                {/* <div class="finishGame">
+                                    (<div class="question" key={this.state.currentQuestion.questionID} >
+                                        <div class="questionField">{this.state.currentQuestion.question}</div>
+
+                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
+                                        {this.state.currentQuestion.answers.map(
+                                            answer =>
+                                                <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
+                                        )}
+                                    </div>) : ""}
+                            </div>
+                            {/* <div class="finishGame">
                                     <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
                                     <div class="congrat">Chúc mừng bạn đã hoàn thành game này</div>
                                 </div> */}
-                                {/* <button onclick="nextNumber()"> Next Number</button>
+                            {/* <button onclick="nextNumber()"> Next Number</button>
                         <div class="label">Goal</div> */}
-                                {/* <select name="goal" id="goal">
+                            {/* <select name="goal" id="goal">
                             <option value="horizontal">Horizontal</option>
                             <option value="vertical">Vertical</option>
                             <option value="diagonal">Diagonal</option>
                         </select>
                         <button onclick={() => this.bingo()}> Bingo !</button> */}
-                            </div>
-                            {/* <button class="newgame" onclick="newGame()">New game</button> */}
                         </div>
+                        {/* <button class="newgame" onclick="newGame()">New game</button> */}
                     </div>
                 </div>
+            </div>
         );
     }
 }

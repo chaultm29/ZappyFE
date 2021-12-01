@@ -72,7 +72,11 @@ export default function DoExam({ options }) {
     let userSubmit = { username: "", answerDTOs: listResult };
     if (location.pathname.includes("exam")) {
       ExamServices.getResult(userSubmit).then((res) => {
-        setListCorrectQuestion(res.data);
+        if (res != null) {
+          setListCorrectQuestion(res.data);
+        } else {
+          window.location.href = "/notfound"
+        }
       })
     }
     if (location.pathname.includes("practice")) {
@@ -154,29 +158,29 @@ export default function DoExam({ options }) {
 
   return (
     <>
-      <div id="back-to-top"></div>
-      {isShow && (
-        <div class="alert alert-success text-center" role="alert">
-          Số câu đúng : <span class="fw-bold">{numberOfCorrect}</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tỉ lệ đúng :
+    <div id="back-to-top"></div>
+    {isShow && (
+      <div class="alert alert-success text-center" role="alert">
+        Số câu đúng : <span class="fw-bold">{numberOfCorrect}</span>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tỉ lệ đúng :
           <span class="fw-bold"> {proportion}</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Số điểm :
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Số điểm :
           <span class="fw-bold"> {point}</span>
-        </div>
-      )}
-      <div class="container mx-auto" style={{ width: "98%", backgroundColor: "#fff", borderRadius: "15px " }}>
-        <div class="row mt-2">
-          <div class="col-9">
-            {listQuestion.length > 0 ? listQuestion.map((item, index) => (
-              SwitchCase(item, index + 1))) : "Không có dữ liệu"
-            }
-            <div class="w-50" style={{ margin: "auto" }}>
-              {isShow ? <a
-                class="btn w-100 mt-4 mb-4"
-                onClick={onClickRefresh}
-                style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
-              >
-                Tạo bài kiểm tra mới
+      </div>
+    )}
+    <div class="container mx-auto" style={{ width: "98%", backgroundColor: "#fff", borderRadius: "15px " }}>
+      <div class="row mt-2">
+        <div class="col-9">
+          {listQuestion.length > 0 ? listQuestion.map((item, index) => (
+            SwitchCase(item, index + 1))) : "Không có dữ liệu"
+          }
+          <div class="w-50" style={{ margin: "auto" }}>
+            {isShow ? <a
+              class="btn w-100 mt-4 mb-4"
+              onClick={onClickRefresh}
+              style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+            >
+              Tạo bài kiểm tra mới
               </a> : <a
                 href="#back-to-top"
                 class="btn w-100 mt-4 mb-4"
@@ -185,51 +189,51 @@ export default function DoExam({ options }) {
               >
                 Xem kết quả
               </a>}
-            </div>
           </div>
-          <div class="col-3">
-            <div class="card bg-light mb-3 mt-4 sticky-top">
-              <div class="card-header">Danh sách câu hỏi</div>
-              <div class="card-body">
-                <div class="row row-cols-5">
-                  {listQuestion.map((item, index) => (
-                    <div class=
-                      {!isPractice && isShow ? (isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
-                        : !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white"
-                          : "col px-1 btn btn-outline-secondary") :
-                        "col px-1 btn btn-outline-secondary"}>
-                      <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
-                    </div>
-                  ))}
+        </div>
+        <div class="col-3">
+          <div class="card bg-light mb-3 mt-4 sticky-top">
+            <div class="card-header">Danh sách câu hỏi</div>
+            <div class="card-body">
+              <div class="row row-cols-5">
+                {listQuestion.map((item, index) => (
+                  <div class=
+                    {!isPractice && isShow ? (isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
+                      : !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white"
+                        : "col px-1 btn btn-outline-secondary") :
+                      "col px-1 btn btn-outline-secondary"}>
+                    <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
+                  </div>
+                ))}
 
-                </div>
-                <div class="w-100 text-center" style={{ margin: "auto" }}>
-                  {isShow ? <a
-                    class="btn btn-link w-100 mt-2 text-decoration-none"
-                    onClick={onClickRefresh}
-                    style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
-                  >
-                    Tạo bài kiểm tra mới
+              </div>
+              <div class="w-100 text-center" style={{ margin: "auto" }}>
+                {isShow ? <a
+                  class="btn btn-link w-100 mt-2 text-decoration-none"
+                  onClick={onClickRefresh}
+                  style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+                >
+                  Tạo bài kiểm tra mới
 
                   </a> : <>
-                    <Timer minutes={minutes} seconds={seconds}
-                      setMinutes={setMinutes} setSeconds={setSeconds}
-                      onTimeUp={onClickFinish} />
-                    <a
-                      href="#back-to-top"
-                      class="btn btn-link w-100 mt-2 text-decoration-none"
-                      onClick={onClickFinish}
-                      style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
-                    >
-                      Xem kết quả
+                  <Timer minutes={minutes} seconds={seconds}
+                    setMinutes={setMinutes} setSeconds={setSeconds}
+                    onTimeUp={onClickFinish} />
+                  <a
+                    href="#back-to-top"
+                    class="btn btn-link w-100 mt-2 text-decoration-none"
+                    onClick={onClickFinish}
+                    style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+                  >
+                    Xem kết quả
                     </a></>}
 
-                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </>
   );
 }

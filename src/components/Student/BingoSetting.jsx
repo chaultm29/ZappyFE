@@ -4,6 +4,7 @@ import {
 } from 'react-awesome-button';
 import "react-awesome-button/dist/styles.css";
 import BingoGame from './BingoGame';
+import './css/bingosetting.css';
 
 class BingoSetting extends Component {
 
@@ -69,6 +70,7 @@ class BingoSetting extends Component {
     render() {
         return (
             <>
+            {/* <div class="gameName"> Bingo Game </div> */}
                 {this.state.isSetting ? <div className="container mt-2" >
                     <div class="card mx-auto text-center mb-3" role="start">
                         <div class="card-body">
@@ -211,7 +213,23 @@ class BingoSetting extends Component {
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body text-start">
-                                                    Ghi luật  đây nè
+                                                <div>Trò chơi này gồm 25 câu hỏi được xếp thành một hình vuông 5x5</div>
+
+                                                <div>Chọn một câu hỏi để trả lời</div>
+
+                                                <div>Mỗi câu trả lời đúng sẽ được 100 điểm, trả lời sai sẽ không nhận được điểm</div>
+
+                                                <div>Đối với mức độ khó:</div>
+                                                <div>Thời gian chơi game: 7 phút. </div>
+                                                <div>Nếu thắng vẫn còn thời gian thì bạn sẽ nhận được điểm thưởng. Điểm thưởng tương ứng là 10 điểm 1s</div>
+                                                <div>Đối với mức độ trung bình</div>
+                                                Thời gian chơi game: 9 phút. 
+                                                Nếu thắng vẫn còn thời gian thì bạn sẽ nhận được điểm thưởng. Điểm thưởng tương ứng là 4 điểm 1s
+                                                <div>Đối với mức độ dễ</div>
+                                                Thời gian chơi game: 11 phút. 
+                                                Nếu thắng vẫn còn thời gian thì bạn sẽ nhận được điểm thưởng. Điểm thưởng tương ứng là 2 điểm 1s
+                                                <div>Lưu ý: khi bạn trả lời xong 1 câu (dù đúng hay sai) cũng không thể xem lại câu hỏi đó. Vì vậy, hãy trả lời cho thật cẩn thận nha</div>
+
                                                 </div>
                                             </div>
                                         </div>
