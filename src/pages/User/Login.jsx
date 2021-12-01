@@ -12,7 +12,6 @@ export default function Login() {
     } = useForm();
     const onSubmit = (data) => {
         AuthenticationService.login(data.username, data.password).then((response) => {
-            console.log(`response`, response);
         }).catch((error) => {
             if (error.toString().includes("401")) {
                 setMsgLogin("Sai tài khoản hoặc mật khẩu");

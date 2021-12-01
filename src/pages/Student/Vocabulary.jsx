@@ -23,7 +23,6 @@ class Vocabulary extends Component {
     }
     onUserClickSpeaker = (e) => {
         let input = e.target.id;
-        console.log(e.target.id);
         Speech(input);
     };
 
@@ -114,31 +113,39 @@ class Vocabulary extends Component {
                 <div
                     style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                     <Navigation />
-                    <div className="container" style={{ backgroundColor: "#fceced" }}>
+                    <div className="container mt-2" style={{ backgroundColor: "#fceced", borderRadius: "15px" }}>
                         <div class="row">
                             <Sidebar />
-                            <div class="col-md-8">
+                            <div class="col-md-9 mx-auto" style={{ width: "73%" }}>
                                 <h1 class="tit"> Vocabulary </h1>
                                 {/* <div class= "row"><FlashcardComponent dataSource={cardDatas}/></div> */}
 
                                 {
                                     this.state.vocabularies.map(
                                         vocabulary =>
-                                            <div class="row vocabulary-card" key={vocabulary.id}>
+                                            <div class="row vocabulary-card shadow mx-auto" key={vocabulary.id}>
                                                 <div class="box-inner">
                                                     <div class="box-front">
-                                                        <div class="cha">{vocabulary.vocabulary}</div>
-                                                        <div class="example">{vocabulary.example}
-                                                        {/* <span
-                                                                class="position-absolute translate-middle p-2 bg-white rounded-circle fs-6 "
-                                                                style={{ marginLeft: "100px", marginTop: "30px" }}
-                                                            >
+                                                        <div class="cha">{vocabulary.vocabulary}
+                                                            <span
+                                                                class="position-absolute translate-middle p-2 bg-white ms-4 rounded-circle fs-6 "
+                                                                style={{ top: "30px" }}>
                                                                 <i
                                                                     class="fas fa-volume-up fs-5 text-secondary"
+                                                                    id={vocabulary.vocabulary}
+                                                                    onClick={this.onUserClickSpeaker.bind(this)}
+                                                                ></i>
+                                                            </span></div>
+                                                        <div class="example">{vocabulary.example}
+                                                            <span
+                                                                class="position-absolute translate-middle p-2 bg-white ms-4 rounded-circle fs-6 "
+                                                                style={{}}>
+                                                                <i
+                                                                    class="fas fa-volume-up fs-6 text-secondary"
                                                                     id={vocabulary.example}
                                                                     onClick={this.onUserClickSpeaker.bind(this)}
                                                                 ></i>
-                                                            </span> */}
+                                                            </span>
                                                         </div>
                                                         <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
 
@@ -167,11 +174,9 @@ class Vocabulary extends Component {
                                     this.state.vocabularies.map(
                                         vocabulary =>
 
-                                            <div class="row my-card" key={vocabulary.id}>
-
+                                            <div class="row my-card shadow mt-2" key={vocabulary.id}>
                                                 <div class="voca">{vocabulary.vocabulary}</div>
                                                 <div class="des">{vocabulary.meaning}</div>
-
                                             </div>
                                     )}
                                 <div class="row">

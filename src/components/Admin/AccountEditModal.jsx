@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import AccountServices from '../../services/AccountServices';
 import { useHistory } from "react-router-dom";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function AccountEditModal({ accountDetail }) {
   const [roleId, setRoleId] = useState("");
   const [roleName, setRoleName] = useState("");
   const [validationMsg, setValidationMsg] = useState('');
+  const [msgErrorResponse, setMsgErrorResponse] = useState("");
+  const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
   const history = useHistory();
 
 
@@ -16,7 +19,7 @@ export default function AccountEditModal({ accountDetail }) {
       username: accountDetail.username
       , dateOfBirth: accountDetail.dateOfBirth, email: accountDetail.email, fullName: accountDetail.fullName, phone: accountDetail.phone, roleDTO: { id: document.getElementById("role").options[document.getElementById("role").selectedIndex].value, name: document.getElementById("role").options[document.getElementById("role").selectedIndex].text }, avatar: accountDetail.avatar
     };
-    console.log(`data`, account);
+
 
     // AccountServices.editAccount(account, accountDetail.id);
     // setTimeout(() => {
@@ -27,8 +30,18 @@ export default function AccountEditModal({ accountDetail }) {
   }
 
   const onResetPassword = () => {
-
-    AccountServices.resetPassword(accountDetail.username);
+    AccountServices.resetPassword(accountDetail.username).then((response) => {
+      if (response.status === 200) {
+        if (response.data.message.includes("thành công")) {
+          setMsgSuccessResponse(response.data.message);
+        } else if (response.data.message.includes("đã tồn tại")) {
+          setMsgErrorResponse(response.data.message);
+        }
+      }
+    })
+      .catch((error) => {
+        setMsgErrorResponse(error);
+      });;
   }
   // const imageHandler = (e) => {
   //   const reader = new FileReader();
@@ -47,6 +60,7 @@ export default function AccountEditModal({ accountDetail }) {
     setRoleId(selectRoleId);
     setRoleName(selectRoleName);
   }
+
 
   return (
     <>
@@ -107,6 +121,7 @@ export default function AccountEditModal({ accountDetail }) {
                 </div>
                 <div class="col-12">
                   <button type="button" class="btn btn-link ps-0" onClick={onResetPassword}>Đặt lại mật khẩu</button>
+                  <span class="text-danger">{msgSuccessResponse ? msgSuccessResponse : msgErrorResponse}</span>
                 </div>
                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
                   Làm mới

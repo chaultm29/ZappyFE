@@ -34,36 +34,35 @@ function generateRoute(username) {
     case "Student":
       return (
         <Switch>
-        <Route exact path="/study" component={Study}></Route>
-        <Route path="/study/alphabet" component={Alphabet}></Route>
-        <Route path="/study/hiragana" component={Hiragana}></Route>
-        <Route path="/study/katakana" component={Katakana}></Route>
-        <Route exact path="/study/kanji/lesson/:id" component={Kanji}></Route>
-        <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
-        <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
-        <Route path="/study/practice/:catName/:lessId" component={Practice} />
-
-        <Route path="/testMemory" component={TestMemory} ></Route>
-        <Route path="/play-game" component={PlayGame}></Route>
-        <Route path="/exam" component={Exam}></Route>
-        <Route path="/game" component={Game}></Route>
-        <Route path="*" component={PageNotFound} ></Route>
+          <Route exact path="/study" component={Study}></Route>
+          <Route path="/study/alphabet" component={Alphabet}></Route>
+          <Route path="/study/hiragana" component={Hiragana}></Route>
+          <Route path="/study/katakana" component={Katakana}></Route>
+          <Route exact path="/study/kanji/lesson/:id" component={Kanji}></Route>
+          <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
+          <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
+          <Route path="/study/practice/:catName/:lessId" component={Practice} />
+          <Route path="/testMemory" component={TestMemory} ></Route>
+          <Route path="/play-game" component={PlayGame}></Route>
+          <Route path="/exam" component={Exam}></Route>
+          <Route path="/game" component={Game}></Route>
+          <Route path="*" component={PageNotFound} ></Route>
         </Switch>)
     case "Admin":
       return (
         <Switch>
-        <Route path="/admin/dashboard" component={Dashboard}></Route>
-        <Route path="/admin/acc-mng" component={AccountManager}></Route>
-        <Route path="*" component={PageNotFound} ></Route>
+          <Route path="/admin/dashboard" component={Dashboard}></Route>
+          <Route path="/admin/acc-mng" component={AccountManager}></Route>
+          <Route path="*" component={PageNotFound} ></Route>
         </Switch>)
     case "Content Manager":
       return (
         <Switch>
-        <Route path="/content-mng/question-mng" component={QuestionManager}></Route>
-        <Route path="/content-mng/lesson-mng/kanji" component={KanjiManager}></Route>
-        <Route path="/content-mng/lesson-mng/vocabulary" component={VocabularyManager}></Route>
-        <Route path="/content-mng/lesson-mng/grammar" component={GrammarManager}></Route>
-        <Route path="*" component={PageNotFound} ></Route>
+          <Route path="/content-mng/question-mng" component={QuestionManager}></Route>
+          <Route path="/content-mng/lesson-mng/kanji" component={KanjiManager}></Route>
+          <Route path="/content-mng/lesson-mng/vocabulary" component={VocabularyManager}></Route>
+          <Route path="/content-mng/lesson-mng/grammar" component={GrammarManager}></Route>
+          <Route path="*" component={PageNotFound} ></Route>
         </Switch>)
   }
 }
@@ -82,7 +81,7 @@ function App() {
         <Route path="/register" component={Register}></Route>
         <Route path="/profile" component={Profile}></Route>
         <Route path="/notfound" component={NotFoundPage} ></Route>
-        {generateRoute(role)}        
+        {generateRoute(role)}
         <Route path="*" component={PageNotFound} ></Route>
       </Switch>
     </Router>

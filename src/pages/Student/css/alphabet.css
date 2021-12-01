@@ -18,7 +18,7 @@ h3 {
   position: fixed;
 }
 .my-card {
-
+  margin : auto;
   border-radius: 15px;
   border: white solid 1px;
   background-color: white;

@@ -110,7 +110,6 @@ export default function GrammarAddModal() {
                                     <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                 </div>
 
-
                                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
                                     Làm mới
                                 </button></div>

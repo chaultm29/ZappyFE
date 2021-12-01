@@ -1,19 +1,8 @@
 import React, { Component } from "react";
 import "./css/sidebar.css";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useHistory,
-} from "react-router-dom";
 import { withRouter } from "react-router-dom";
-import { push } from "react-router";
 import StudyService from "../../services/StudyService";
-import Kanji from "../../pages/Student/Kanji";
-
-// import Hiragana from './Hiragana';
-// import Alphabet from './Alphabet';
-
+import UserServices from "../../services/UserServices";
 class Sidebar extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +15,7 @@ class Sidebar extends Component {
       lessons: [],
       currentSkill: "",
       displaySkill: "",
+      progress: [],
     };
   }
 
@@ -105,8 +95,8 @@ class Sidebar extends Component {
 
   componentDidMount() {
     StudyService.getLesson().then((res) => {
-      if(res !=null)
-      this.setState({ lessons: res.data })
+      if (res != null)
+        this.setState({ lessons: res.data })
     });
     var elem = window.location.pathname.split("/");
     if (elem.length >= 3 && (elem[2] === "vocabulary" || elem[2] === "grammar" || elem[2] === "kanji")) {
@@ -116,6 +106,11 @@ class Sidebar extends Component {
     if (elem.length >= 3 && (elem[2] === "alphabet" || elem[2] === "hiragana" || elem[2] === "katakana")) {
       document.getElementById("alphabet").style.display = "flex";
     }
+
+    UserServices.getProgress().then((res) => {
+      if (res != null)
+        this.setState({ progress: res.data })
+    });
   }
   render() {
     return (
@@ -139,7 +134,7 @@ class Sidebar extends Component {
                 </svg>
                 <div class="number">
                   <h2>
-                    87<span>%</span>
+                    {this.state.progress.progressAll}<span>%</span>
                   </h2>
                 </div>
               </div>
@@ -150,18 +145,10 @@ class Sidebar extends Component {
               <h4 class="text">Kỹ năng</h4>
               <div class="pro">
                 <div class="info">
-                  <span>Bảng chữ cái</span>
-                </div>
-                <div class="progress-line">
-                  <span></span>
-                </div>
-              </div>
-              <div class="pro">
-                <div class="info">
                   <span>Từ vựng</span>
                 </div>
-                <div class="progress-line">
-                  <span></span>
+                <div class="progress-line" >
+                  <span style={{ width: this.state.progress.vocaProgress }}></span>
                 </div>
               </div>
               <div class="pro">
@@ -169,7 +156,7 @@ class Sidebar extends Component {
                   <span>Ngữ pháp</span>
                 </div>
                 <div class="progress-line">
-                  <span></span>
+                  <span style={{ width: this.state.progress.grammarProgess }}></span>
                 </div>
               </div>
               <div class="pro">
@@ -177,7 +164,7 @@ class Sidebar extends Component {
                   <span>Chữ hán</span>
                 </div>
                 <div class="progress-line">
-                  <span></span>
+                  <span style={{ width: this.state.progress.kanjiProgress }}></span>
                 </div>
               </div>
             </div>
