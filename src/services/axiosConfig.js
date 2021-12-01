@@ -10,8 +10,9 @@ instance.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getI
 
 instance.interceptors.response.use(
   (response) => {
-
+    // if(response.data=="") window.location.href = '/notfound' 
     return response
+
   },
 
   (error) => {

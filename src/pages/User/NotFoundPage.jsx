@@ -12,7 +12,7 @@ const NotFoundPage = () => (
       style={{ backgroundColor: "#fceced", borderRadius: "15px" }}
     >
       <div class="row">
-        <Sidebar />
+        {/* <Sidebar /> */}
 
         <div class="col-md-9 mx-auto" style={{ width: "73%", justifyContent: "center" }}>
           Không có bài học nào ở đây cả. Bạn tìm nhầm chăng?

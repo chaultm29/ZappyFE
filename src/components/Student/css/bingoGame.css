@@ -1,6 +1,9 @@
 .inner-container{
     min-height: inherit;
-    background: #FFFFFF;
+    background-image: url("/src/assets/img/gamebg2.jpg");
+    /* background-repeat: no-repeat; */
+    background-attachment: fixed;
+    background-position: bottom;
     margin: 20px;
     width: 100%;
     /* display: flex; */
@@ -8,7 +11,7 @@
 .gameplay {
     
     height: 680px;
-    background: rgb(245, 215, 215);
+    background: none;
     margin: 20px;
   
     /* padding: 10px; */
