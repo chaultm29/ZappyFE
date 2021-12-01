@@ -10,6 +10,20 @@ class UserServices {
         return axiosConfig.put(USER__API_BASE_URL + "/profile", profile);
     }
 
+    getProgress() {
+        return axiosConfig.get("/progress");
+    }
+    getLevel() {
+        return axiosConfig.get("/level");
+    }
+    getAchievement() {
+        return axiosConfig.get("/achievement");
+    }
+    changePassword(password) {
+        return axiosConfig.post("/changePassword", password);
+    }
+
+
 }
 
 export default new UserServices();

@@ -29,9 +29,9 @@ export default function QuestionAddModal() {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                document.getElementById("img").src = reader.result;
                 setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
+                document.getElementById("img").src = reader.result;
             }
         }
         reader.readAsDataURL(e.target.files[0]);
@@ -59,7 +59,9 @@ export default function QuestionAddModal() {
             imgeLink: image
         };
         upload();
-        // LessonServices.addQuestion(questionAdd);
+        LessonServices.addQuestion(questionAdd).then((res) => {
+            console.log(`res`, res);
+        });
         // setTimeout(() => {
         //     history.go(0);
         // }, 1000);
