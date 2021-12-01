@@ -150,7 +150,7 @@ class BingoGame extends Component {
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].onclick = null;
             }
-            this.setState({ score: this.state.score + this.state.seconds * 10, isFinish: true })
+            this.setState({ score: this.state.score + this.state.seconds * this.props.bonus, isFinish: true })
 
             //this.setState({ state: this.state.score += 100 })
             // document.getElementById("isFinish").style.display = "relative";

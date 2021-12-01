@@ -14,6 +14,7 @@ class BingoSetting extends Component {
         this.onHandleChangeLessonIds = this.onHandleChangeLessonIds.bind(this);
         this.state = {
             isSetting: true,
+            bonus: 0,
             time: 0,
             lessons: [],
             messageValidate: "",
@@ -37,12 +38,15 @@ class BingoSetting extends Component {
         switch (level) {
             case "easy":
                 this.state.time = 660;
+                this.state.bonus = 2;
                 break;
             case "medium":
                 this.state.time = 540;
+                this.state.bonus = 4;
                 break;
             case "hard":
                 this.state.time = 420;
+                this.state.bonus = 10;
         }
     }
 
@@ -217,7 +221,8 @@ class BingoSetting extends Component {
                             </p>
                         </div>
                     </div>
-                </div> : <BingoGame time={this.state.time} lessons={this.state.lessons} />}
+                </div> : <BingoGame time={this.state.time} lessons={this.state.lessons} bonus = {this.state.bonus}/>}
+
             </>
         );
     }
