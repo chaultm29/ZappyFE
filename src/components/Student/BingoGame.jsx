@@ -292,11 +292,21 @@ class BingoGame extends Component {
                         </div> : ""}
 
                     <div class="content">
-                        <div class="numbertext" id="currentNumber">
+                        {/* <div class="numbertext" id="currentNumber">
                             Điểm:  {this.state.score}
+                        </div> */}
+                        <div id="timer" class="flex-wrap d-flex justify-content-start">
+                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
                         </div>
                         {/* <button onClick={this.startTimer}>Start</button> */}
-                        <div class="numbertext">Thời gian: {this.state.time.m}:{this.state.time.s}</div>
+                        {/* timer */}
+                        {/* <div class="timer">Thời gian: :</div> */}
+                        <div id="timer" class="flex-wrap d-flex justify-content-end">
+                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>minutes</span></div>
+                            {/* <div id ="dotBetween">:</div> */}
+                            <div id="seconds" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.s}<span>seconds</span></div>
+                        </div>
+                        {/* timer end */}
                     </div>
                     <div class="gamearea">
                         <div id="title">
