@@ -32,7 +32,7 @@ export function SelectColumnFilter({
         setFilter(e.target.value || undefined);
       }}
     >
-      <option value="">All</option>
+      <option value="">Tất cả</option>
       {options.map((option, i) => (
         <option key={i} value={option}>
           {option}
