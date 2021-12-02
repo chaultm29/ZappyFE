@@ -24,7 +24,8 @@ class BingoGame extends Component {
             questions: [],
             listCheckAnswer: [],
             time: {}, seconds: 300,
-            initseconds: 300
+            initseconds: 300,
+            isFinish: false
         }
 
     }
@@ -63,6 +64,8 @@ class BingoGame extends Component {
         if (this.timer == 0 && this.state.seconds > 0) {
             this.timer = setInterval(this.countDown, 1000);
         }
+        // var myMusic = new Sound("game-level.wav");
+        // myMusic.play();
         this.addSelectedNumber(e)
         this.displayQuestion(e)
         this.setState({ state: this.state })
@@ -110,7 +113,7 @@ class BingoGame extends Component {
             }
             if (!check) {
                 //call api to call question and set into question index.
-                GameService.fetchCurrentQuestion(this.state.listQuestionId).then(data => {
+                GameService.fetchCurrentQuestion(this.state.listQuestionId, this.props.lessons).then(data => {
                     console.log(data)
                     this.setState({ currentQuestion: data })
                     this.state.questions.push({ index: this.state.currentIndex, question: this.state.currentQuestion });
@@ -140,7 +143,7 @@ class BingoGame extends Component {
     bingo() {
         var check = this.checkHorizontal() || this.checkVertical() || this.checkDiagonal()
         if (check) {
-            
+
             clearInterval(this.timer);
             //console.log("time " + this.state.seconds)
 
@@ -149,9 +152,19 @@ class BingoGame extends Component {
             for (var i = 0; i < buttons.length; i++) {
                 buttons[i].onclick = null;
             }
-            this.setState({score:this.state.score + this.state.seconds * 10})
-                //this.setState({ state: this.state.score += 100 })
-            alert("Congratulate! BINGO!")
+            this.setState({ score: this.state.score + this.state.seconds * this.props.bonus, isFinish: true })
+
+            //this.setState({ state: this.state.score += 100 })
+            // document.getElementById("isFinish").style.display = "relative";
+            GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+        }
+        else if (this.state.seconds == 0) {
+
+            var buttons = document.getElementsByClassName("square number");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].onclick = null;
+            }
+            this.setState({ isFinish: true })
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
         }
     }
@@ -242,6 +255,7 @@ class BingoGame extends Component {
         // Check if we're at zero.
         if (seconds == 0) {
             clearInterval(this.timer);
+            this.bingo();
         }
     }
 
@@ -251,8 +265,9 @@ class BingoGame extends Component {
 
         //time
         //check time theo level
-        // this.state.initseconds = 300;
-        // this.state.seconds = this.state.initseconds
+        this.state.initseconds = this.props.time;
+        console.log(this.props.lessons)
+        this.state.seconds = this.state.initseconds
         let timeLeftVar = this.secondsToTime(this.state.seconds);
         this.setState({ time: timeLeftVar });
 
@@ -262,6 +277,37 @@ class BingoGame extends Component {
         return (
             <div class="inner-container">
                 <div class="gameplay">
+                    {this.state.isFinish ?
+                        <div class="overlay-text visible" id="isFinish">
+                            <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
+                            <div class="result">
+                                <h4>Tổng điểm : {this.state.score}</h4>
+                                <h4>Thời gian chơi : {this.state.initseconds - this.state.seconds} giây</h4>
+                                <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
+                                {/* <h4>Tổng điểm : {total}</h4> */}
+                            </div>
+                            <br />
+                            <div class="text-play-again" onClick={() => window.location.reload()}  >Click vào đây để chơi lại </div>
+
+                        </div> : ""}
+
+                    <div class="content">
+                        {/* <div class="numbertext" id="currentNumber">
+                            Điểm:  {this.state.score}
+                        </div> */}
+                        <div id="timer" class="flex-wrap d-flex justify-content-start">
+                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
+                        </div>
+                        {/* <button onClick={this.startTimer}>Start</button> */}
+                        {/* timer */}
+                        {/* <div class="timer">Thời gian: :</div> */}
+                        <div id="timer" class="flex-wrap d-flex justify-content-end">
+                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>minutes</span></div>
+                            {/* <div id ="dotBetween">:</div> */}
+                            <div id="seconds" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.s}<span>seconds</span></div>
+                        </div>
+                        {/* timer end */}
+                    </div>
                     <div class="gamearea">
                         <div id="title">
                         </div>
@@ -272,11 +318,7 @@ class BingoGame extends Component {
                     </div>
                     <div class="control">
                         <div class="content">
-                            <div class="numbertext" id="currentNumber">
-                                {this.state.score}
-                            </div>
-                            {/* <button onClick={this.startTimer}>Start</button> */}
-                            {this.state.time.m}:{this.state.time.s}
+
 
                             {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
                             <div class="selectedQuestion" id="currentQuestion">Question for this part:
@@ -284,15 +326,18 @@ class BingoGame extends Component {
 
                                     (<div class="question" key={this.state.currentQuestion.questionID} >
                                         <div class="questionField">{this.state.currentQuestion.question}</div>
+
+                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
                                         {this.state.currentQuestion.answers.map(
                                             answer =>
                                                 <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
                                         )}
                                     </div>) : ""}
                             </div>
-                            <div class="finishGame">
-                                <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
-                            </div>
+                            {/* <div class="finishGame">
+                                    <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
+                                    <div class="congrat">Chúc mừng bạn đã hoàn thành game này</div>
+                                </div> */}
                             {/* <button onclick="nextNumber()"> Next Number</button>
                         <div class="label">Goal</div> */}
                             {/* <select name="goal" id="goal">
@@ -305,10 +350,10 @@ class BingoGame extends Component {
                         {/* <button class="newgame" onclick="newGame()">New game</button> */}
                     </div>
                 </div>
-
             </div>
         );
     }
 }
+
 
 export default BingoGame;

@@ -1,6 +1,9 @@
 .inner-container{
     min-height: inherit;
-    background: #FFFFFF;
+    background-image: url("/src/assets/img/gamebg2.jpg");
+    /* background-repeat: no-repeat; */
+    background-attachment: fixed;
+    background-position: bottom;
     margin: 20px;
     width: 100%;
     /* display: flex; */
@@ -8,14 +11,14 @@
 .gameplay {
     
     height: 680px;
-    background: rgb(245, 215, 215);
+    background: none;
     margin: 20px;
   
     /* padding: 10px; */
     
     /* background: rgb(247, 227, 255); */
     min-height: inherit;
-    min-width: inherit;
+    /* min-width: inherit; */
 }
 
 .control {
@@ -29,9 +32,18 @@
 } */
 
 .content .numbertext {
-    font-size: 90px;
-    margin-bottom: 10px;
+    font-size: 60px;
+    margin-bottom: 5px;
     user-select: none;
+    width: 40%;
+    float: left;
+    display: flex;
+    font-weight: 600;
+}
+.finishGame .congrat{
+    font-family: 'Pacifico', cursive;
+    font-weight: 600;
+    font-size: 40px;
 }
 .gamearea {
     width: 520px;
@@ -109,18 +121,24 @@
     color: black;
     font-size: 30px;
     border: none;
-    background-color: pink;
+    background-image: url("/src/assets/img/sq1.jpeg");
     display: inline-block
 }
 .square:hover{
     background-color: blueviolet;
 }
 
+
 /* .word .title {
     font-size: 40px;
     padding: 25px;
 } */
-
+.imgBingo{
+    width: 500px;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+}
 .number {
     border: 1px solid aqua;
 }
@@ -198,6 +216,9 @@
   .answer:hover {
     background: green;
   }
+  .answer:disabled{
+      background: grey;
+  }
   
   @media (min-width: 768px) {
     .answer {
@@ -211,3 +232,29 @@
 .incorrect{
     background-color: red;
 }
+
+/* for timer */
+#timer div {
+    background-color: pink;
+    color: black;
+    width: 100px;
+    height: 105px;
+    border-radius: 5px;
+    font-size: 35px;
+    font-weight: 700;
+    margin-left: 10px;
+    margin-right: 10px;
+ }
+ #timer div span {
+    display: block;
+    margin-top: -2px;
+    font-size: 15px;
+    font-weight: 500;
+ }
+ #dotBetween{
+    font-size: 35px;
+    font-weight: 700;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+ }

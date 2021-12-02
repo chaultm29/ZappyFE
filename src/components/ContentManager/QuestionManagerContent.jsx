@@ -27,6 +27,7 @@ export default function QuestionManagerContent() {
   const onClickButton = (e) => {
     let questionId = onClickGetQuestionID(e);
     getQuestionDetailByID(questionId);
+    console.log(`questionID`, questionId);
   }
 
 
@@ -35,61 +36,19 @@ export default function QuestionManagerContent() {
   useEffect(() => {
     LessonServices.getListQuestion()
       .then((res) => {
-        res.data.map((record) => {
-          record.action = (
-            <div>
-              <button
-                type="button"
-                class="btn btn-primary mx-1"
-                data-bs-toggle="modal"
-                data-bs-target="#ViewViewModal"
-                value="1"
-                id={record.questionID}
-                onClick={onClickButton}
-              >
-                <i class="far fa-eye"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-success mx-1"
-                data-bs-toggle="modal"
-                data-bs-target="#ViewEditModal"
-                value="2"
-                id={record.questionID}
-                onClick={onClickButton}
-              >
-                <i class="fas fa-user-edit"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-danger mx-1"
-                data-bs-toggle="modal"
-                data-bs-target="#ViewDeleteModal"
-                value="3"
-                id={record.questionID}
-                onClick={onClickButton}
-              >
-                <i class="far fa-minus-square"></i>
-              </button>
-            </div>
-          );
-          setDataQuestion((dataQuestion) => [...dataQuestion, record]);
-        });
+        setDataQuestion(res.data)
       })
       .catch((err) => console.error(err));
   }, []);
 
-  // get value from form
-
-  const getData = () => {
-    return [...dataQuestion];
-  };
+  console.log(`dataQuestion`, dataQuestion);
 
   const columns = React.useMemo(
     () => [
       {
-        Header: "ID",
-        accessor: "questionID",
+        Header: "#",
+        id: "row",
+        Cell: (row) => { return <>{parseInt(row.row.id) + 1}</> }
       },
       {
         Header: "Loại",
@@ -110,12 +69,17 @@ export default function QuestionManagerContent() {
       },
       {
         Header: "Thao tác",
-        accessor: "action",
+        accessor: "questionID",
+        Cell: ({ row }) => (<>
+          <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#ViewViewModal" id={row.values.questionID} style={{ backgroundColor: "#e98c89", borderColor: "#e98c89" }} onClick={onClickButton}>  <i class="far fa-eye"></i></button>
+          <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#ViewEditModal" id={row.values.questionID} onClick={onClickButton}> <i class="fas fa-user-edit"></i></button>
+          <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#ViewDeleteModal" id={row.values.questionID} onClick={onClickButton}><i class="far fa-minus-square"></i></button>
+        </>)
       },
     ],
     []
   );
-  const data = React.useMemo(() => getData(), []);
+  // const data = React.useMemo(() => dataQuestion, [dataQuestion]);
   return (
     <div class="container-fluid px-4">
       <div className="row">

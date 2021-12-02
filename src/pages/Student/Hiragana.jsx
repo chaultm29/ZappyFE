@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import "./css/alphabet.css";
-import a from "../../assets/img/1.png";
-import hirag from "../../assets/img/hiragana.png";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
-import gif from "../../assets/img/pagebg.gif";
 import StudyService from "../../services/StudyService";
 import Speech from "../../services/Speech";
+import bg from "../../assets/img/bg-home-scene-winter.svg";
 
 class Hiragana extends Component {
   constructor(props) {
@@ -28,9 +26,7 @@ class Hiragana extends Component {
   };
   render() {
     return (
-      <div
-      // style={{ backgroundImage: `url(${gif})`, backgroundColor: "#ff9999" }}
-      >
+      <div style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}>
         <Navigation />
         <div
           className="container mt-2"
@@ -57,7 +53,7 @@ class Hiragana extends Component {
                     </span>
                   </div>
                   <img
-                    src= {"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + hira.imageLink}
+                    src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + hira.imageLink}
                     alt="hiragana"
                   />
                   <div class="des">{hira.description}</div>

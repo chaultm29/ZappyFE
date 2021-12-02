@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   AwesomeButton,
 } from 'react-awesome-button';
@@ -110,23 +110,6 @@ export default function Start({ isStartedProps, setOptions, setLevel }) {
                 <h2>24</h2>
               </label>
             </div>
-            {/* <div class="col-md-3 my-1 setting-container">
-              <input
-                type="radio"
-                name="radioCheck"
-                class="d-none"
-                id="radioVeryHard"
-                onClick={() => setNumberOfCard(30)}
-              ></input>
-              <label
-                for="radioVeryHard"
-                class="border border-dark w-100 h-100 rounded"
-              >
-                RẤT KHÓ
-                <h2>30</h2>
-              </label>
-            </div> */}
-
             <div className="col-md-6 mt-3">
               <h5 class="card-title fw-bold">CHỌN BÀI</h5>
               <p class="text-muted">Nội dung tương ứng của từng bài sẽ ở mặt sau của thẻ</p>
@@ -205,6 +188,25 @@ export default function Start({ isStartedProps, setOptions, setLevel }) {
               </button>   
             </div> */}
             <AwesomeButton type="secondary" onPress={onClickStart}><span class="text-light">BẮT ĐẦU</span></AwesomeButton>
+            <div class="count-policy position-absolute bottom-0 end-0 mb-3 me-3" >
+              <button type="button" id="popoverExample" class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="#tutorial">
+                Luật chơi
+              </button>
+              <div class="modal fade" id="tutorial" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Luật chơi</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-start">
+                      Ghi luật  đây nè
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
           </p>
         </div>
       </div>

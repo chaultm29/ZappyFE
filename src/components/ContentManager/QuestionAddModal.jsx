@@ -2,28 +2,52 @@ import React, { useState } from 'react'
 
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
+import S3FileUpload from 'react-s3';
 
 export default function QuestionAddModal() {
     const [image, setImage] = useState("");
+    const [imageUpload, setImageUpload] = useState("");
     const [typeName, setTypeName] = useState("");
     const [skill, setSkill] = useState("");
     const [lesson, setLesson] = useState("");
     const [question, setQuestion] = useState("");
+    // questionDetail.answer
+    const [answer, setAnswer] = useState([]);
     const [validationMsg, setValidationMsg] = useState('');
 
     const history = useHistory();
-    // questionDetail.answer
-    const [answer, setAnswer] = useState([]);
+
+
+    const config = {
+        bucketName: 'imgzappybucket',
+        dirName: 'Avatar', /* optional */
+        region: 'ap-southeast-1',
+        accessKeyId: 'AKIAUTRYR6GNCV4DERUF',
+        secretAccessKey: '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'
+    }
+
+
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setImage(reader.result)
+                setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
+                document.getElementById("img").src = reader.result;
             }
         }
         reader.readAsDataURL(e.target.files[0]);
     }
+
+    const upload = () => {
+        S3FileUpload.uploadFile(imageUpload, config).then((data) => {
+            console.log(data.location);
+        }).catch((err) => {
+            alert(err);
+        })
+    }
+
+
     const onSubmit = (e) => {
         e.preventDefault();
         const isValid = validateAll();
@@ -36,10 +60,13 @@ export default function QuestionAddModal() {
             answer: answer.map(({ id, ...items }) => items),
             imgeLink: image
         };
-        LessonServices.addQuestion(questionAdd);
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+        upload();
+        LessonServices.addQuestion(questionAdd).then((res) => {
+            console.log(`res`, res);
+        });
+        // setTimeout(() => {
+        //     history.go(0);
+        // }, 1000);
     }
 
 
@@ -202,8 +229,9 @@ export default function QuestionAddModal() {
                                         <div class="col-12">
                                             <label class="form-label">Đáp án<span class="text-danger">*</span></label>
                                             <input type="text" id="1" name="true" class="form-control" onChange={onChangeAnswer} autoComplete="none" />
-                                            <p class="text-danger mb-0">{validationMsg.answer}</p>
+
                                         </div>
+                                        <p class="text-danger mb-0">{validationMsg.answer}</p>
                                     </>}
 
 
@@ -212,7 +240,7 @@ export default function QuestionAddModal() {
                                     <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
                                 <div class="col-4">
-                                    <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                    <img src={image} id="img" class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                 </div>
 
                                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100">

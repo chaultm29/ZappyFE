@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import AccountServices from '../../services/AccountServices';
 import { useHistory } from "react-router-dom";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function AccountEditModal({ accountDetail }) {
   const [roleId, setRoleId] = useState("");
   const [roleName, setRoleName] = useState("");
   const [validationMsg, setValidationMsg] = useState('');
+  const [msgErrorResponse, setMsgErrorResponse] = useState("");
+  const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
   const history = useHistory();
 
 
@@ -16,19 +19,35 @@ export default function AccountEditModal({ accountDetail }) {
       username: accountDetail.username
       , dateOfBirth: accountDetail.dateOfBirth, email: accountDetail.email, fullName: accountDetail.fullName, phone: accountDetail.phone, roleDTO: { id: document.getElementById("role").options[document.getElementById("role").selectedIndex].value, name: document.getElementById("role").options[document.getElementById("role").selectedIndex].text }, avatar: accountDetail.avatar
     };
-    console.log(`data`, account);
 
-    // AccountServices.editAccount(account, accountDetail.id);
-    // setTimeout(() => {
-    //   history.go(0);
-    // }, 1000);
+    AccountServices.editAccount(account, accountDetail.id).then((response) => {
+      if (response.status === 200) {
+        if (response.data.includes("thành công")) {
+          setMsgSuccessResponse(response.data);
+        } else if (response.data.includes("đã tồn tại")) {
+          setMsgErrorResponse(response.data);
+        }
+      }
+    })
+      .catch((error) => {
+        setMsgErrorResponse(error);
+      });
+  };
 
-
-  }
 
   const onResetPassword = () => {
-
-    AccountServices.resetPassword(accountDetail.username);
+    AccountServices.resetPassword(accountDetail.username).then((response) => {
+      if (response.status === 200) {
+        if (response.data.message.includes("thành công")) {
+          setMsgSuccessResponse(response.data.message);
+        } else if (response.data.message.includes("đã tồn tại")) {
+          setMsgErrorResponse(response.data.message);
+        }
+      }
+    })
+      .catch((error) => {
+        setMsgErrorResponse(error);
+      });;
   }
   // const imageHandler = (e) => {
   //   const reader = new FileReader();
@@ -48,9 +67,26 @@ export default function AccountEditModal({ accountDetail }) {
     setRoleName(selectRoleName);
   }
 
+  const hideAlert = () => {
+    setMsgSuccessResponse("");
+    setMsgErrorResponse("");
+    setTimeout(() => {
+      history.go(0);
+    }, 1000);
+  }
+
+
   return (
     <>
       {/* edit account */}
+      {msgSuccessResponse !== "" ?
+        < SweetAlert success title="Cập nhật tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+          {msgSuccessResponse}
+        </SweetAlert > : ""}
+      {msgErrorResponse !== "" ?
+        < SweetAlert danger title="Cập nhật tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+          {msgErrorResponse}
+        </SweetAlert > : ""}
       <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -97,16 +133,17 @@ export default function AccountEditModal({ accountDetail }) {
 
                 </div>
 
-                <div class="col-8">
+                {/* <div class="col-8">
                   <label class="form-label">Ảnh đại diện</label>
-                  {/* <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} disabled/>
-                  <input id="imageFieldHidden" class="d-none" onChange={onImageChange} /> */}
+                  <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} disabled/>
+                  <input id="imageFieldHidden" class="d-none" onChange={onImageChange} />
                 </div>
                 <div class="col-4">
                   <img src={accountDetail.avatar} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
-                </div>
+                </div> */}
                 <div class="col-12">
                   <button type="button" class="btn btn-link ps-0" onClick={onResetPassword}>Đặt lại mật khẩu</button>
+                  <span class="text-danger">{msgSuccessResponse ? msgSuccessResponse : msgErrorResponse}</span>
                 </div>
                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
                   Làm mới

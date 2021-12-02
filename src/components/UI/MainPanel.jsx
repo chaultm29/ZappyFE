@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import Profile from "../../pages/User/Profile";
+import AuthenticationService from "../../services/AuthenticationService";
 import "./MainPanel.css";
 
 export default function MainPanel({ username, site, siteContent }) {
+  const [isClicked, setIsClicked] = useState(false);
   return (
     <div id="page-content-wrapper">
       <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
@@ -50,14 +53,14 @@ export default function MainPanel({ username, site, siteContent }) {
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style={{ left: "-43%" }}>
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#profileModal" onClick={() => setIsClicked(true)}>
                     Thông tin tài khoản
                   </a>
                 </li>
                 <li>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="#" onClick={() => AuthenticationService.logout()}>
                     Đăng xuất
                   </a>
                 </li>
@@ -66,6 +69,7 @@ export default function MainPanel({ username, site, siteContent }) {
           </ul>
         </div>
       </nav>
+      <Profile isClicked={isClicked} />
       {siteContent}
     </div>
   );

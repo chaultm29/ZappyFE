@@ -9,17 +9,20 @@ class GameService {
     // saveGame(gameName, timeCreated, timePlayed, score){
     //     return axiosConfig.post("/game/saving");
     // }
-    getRecord() {
-        return axiosConfig.get("/game/record");
-    }
+    // getRecord() {
+    //     return axiosConfig.get("/game/record");
+    // }
+}
+function getRecord() {
+    return axiosConfig.get("/game/record");
 }
 
 function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
     let gameRecord = {
-        gameName : _gameName,
-        timeCreated : _timeCreated,
-        timePlayed : _timePlayed,
-        score : _score
+        gameName: _gameName,
+        timeCreated: _timeCreated,
+        timePlayed: _timePlayed,
+        score: _score
     }
     return fetch("https://backend.zappy-nihongo.com/game/saving",
         {
@@ -29,13 +32,18 @@ function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
         }).then((res) => res.json())
 }
 
-function fetchCurrentQuestion(listQuestionId) {
-    // return fetch("http://localhost:5000/game/bingo/currentQuestion",
+
+function fetchCurrentQuestion(listQuestionId, listLessonId) {
+    let list = {
+        questionIds : listQuestionId,
+        lessonIds : listLessonId
+    }
+     //return fetch("http://localhost:5000/game/bingo/currentQuestion",
     return fetch("https://backend.zappy-nihongo.com/game/bingo/currentQuestion",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
-            body: JSON.stringify(listQuestionId)
+            body: JSON.stringify(list)
         }).then((res) => res.json())
 }
 
@@ -49,8 +57,10 @@ function fetchResultQuestion(questionId, answerId) {
 }
 
 export default {
+    
     fetchSaveGame,
     fetchCurrentQuestion,
     fetchResultQuestion,
+    getRecord,
     GameService
 };

@@ -5,9 +5,30 @@ import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-rou
 import AuthenticationService from "../../services/AuthenticationService";
 import Login from "../../pages/User/Login.jsx";
 import Register from "../../pages/User/Register";
+import UserServices from "../../services/UserServices";
 class Navigation extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { isClicked: false, level: [], avaLink: "" };
+  }
 
 
+  componentDidMount() {
+    if (AuthenticationService.getCurrentUser() !== null) {
+      UserServices.getProfile().then((res) => {
+        this.setState({
+          avaLink: "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Avatar/" + res.data.avatar
+        });
+        console.log(`avaLink`, this.state.avaLink);
+      })
+    }
+    if (AuthenticationService.getRoleName() === "Student") {
+      UserServices.getLevel().then((res) => {
+        this.setState({ level: res.data });
+        console.log(`level`, this.state.level);
+      });
+    }
+  }
   render() {
     return (
       <>
@@ -48,61 +69,65 @@ class Navigation extends Component {
                     avtiveClassName="selected"
                   >Trang chủ</NavLink>
                 </li>
-                <li class="nav-item me-3 text-uppercase ">
+                {AuthenticationService.getRoleName() === "Student" ? <>  <li class="nav-item me-3 text-uppercase ">
                   <NavLink
                     to="/study"
                     className="nav-link"
 
                   >Học tập</NavLink>
                 </li>
-                <li class="nav-item me-3 text-uppercase">
-                  <NavLink
-                    to="/exam"
-                    className="nav-link"
+                  <li class="nav-item me-3 text-uppercase">
+                    <NavLink
+                      to="/exam"
+                      className="nav-link"
 
-                  >Kiểm tra</NavLink>
-                </li>
-                <li class="nav-item me-3 text-uppercase">
-                  <NavLink
-                    to="/play-game"
-                    className="nav-link"
-                  >Chơi game</NavLink>
-                </li>
+                    >Kiểm tra</NavLink>
+                  </li>
+                  <li class="nav-item me-3 text-uppercase">
+                    <NavLink
+                      to="/play-game"
+                      className="nav-link"
+                    >Game</NavLink>
+                  </li> </> : AuthenticationService.getRoleName() === "Content Manager" ? <>
+                    <li class="nav-item me-3 text-uppercase">
+                      <NavLink
+                        to="/content-mng/question-mng"
+                        className="nav-link"
+
+                      >Trang quản lý</NavLink>
+                    </li> </> : AuthenticationService.getRoleName() === "Admin" ?
+                  <> <li class="nav-item me-3 text-uppercase">
+                    <NavLink
+                      to="/admin/acc-mng"
+                      className="nav-link"
+
+                    >Trang quản lý</NavLink>
+                  </li> </> : ""}
+
               </ul>
               {/* <!-- Left links --> */}
             </div>
             {/* <!-- Collapsible wrapper -->
             
                 <!-- Right elements --> */}
-            <div class="d-flex align-items-center">
-              {/* <!-- Icon --> */}
 
-              {/* <!-- Notifications --> */}
-              {AuthenticationService.getCurrentUser() != null ? <>
+            {/* <!-- Icon --> */}
 
-                <div class="nav-item container" id="sim-progress">
-                  <div class="progress progress-striped active sim-pro">
-                    <div class="progress-bar" role="progressbar" style={{ width: "60%" }} aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">45% Complete</span>
+            {/* <!-- Notifications --> */}
+            {AuthenticationService.getCurrentUser() !== null && AuthenticationService.getRoleName() === "Student" ? <>
+              <div class="d-flex align-items-center" style={{ width: "20%" }}>
+                <div class="nav-item container">
+                  <center style={{ color: "#4890E4" }}>Level {this.state.level.level}</center>
+                  <div class="progress progress-striped">
+                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: this.state.level.percentage + "%" }} aria-valuemin="0" aria-valuemax="100">{this.state.level.percentage}% Hoàn thành
                     </div>
                   </div>
                 </div>
-                <a
-                  class="text-reset me-3"
-                  href="#"
-                  id="navbarDropdownMenuLink"
-                  role="button"
-                  data-mdb-toggle="dropdown"
-                  aria-expanded="false"
-                >
+                <div clas="nav-item container">
+                  <span class="me-2"> {AuthenticationService.getCurrentUser()} </span>
+                </div>
 
-                  <i class="fas fa-bell"></i>
-
-                  <span class="badge rounded-pill badge-notification bg-danger">
-                    1
-                  </span>
-                </a>
-
-                <div class="nav-item dropdown">
+                <div class="nav-item dropdown me-2">
                   <a
                     class="dropdown-toggle"
                     data-toggle="dropdown"
@@ -114,7 +139,7 @@ class Navigation extends Component {
                     aria-expanded="true"
                   >
                     <img
-                      src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+                      src={this.state.avaLink}
                       class="rounded-circle"
                       height="25"
                       alt=""
@@ -127,10 +152,9 @@ class Navigation extends Component {
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a class="dropdown-item list" data-bs-toggle="modal" data-bs-target="#profileModal">
+                      <a class="dropdown-item list" data-bs-toggle="modal" data-bs-target="#profileModal" onClick={() => this.setState({ isClicked: true })}>
                         Thông tin cá nhân
                       </a>
-
                     </li>
                     <li>
                       <a class="dropdown-item list" href="#" onClick={() => AuthenticationService.logout()}>
@@ -139,7 +163,52 @@ class Navigation extends Component {
                     </li>
                   </ul>
                 </div>
-              </> :
+              </div>
+            </> : AuthenticationService.getCurrentUser() !== null && AuthenticationService.getRoleName() !== "Student" ? <>
+              <div class="d-flex align-items-center">
+                <div clas="nav-item container">
+                  <span class="me-2"> {AuthenticationService.getCurrentUser()} </span>
+                </div>
+
+                <div class="nav-item dropdown me-2">
+                  <a
+                    class="dropdown-toggle"
+                    data-toggle="dropdown"
+                    href="#"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    aria-haspopup="true"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="true"
+                  >
+                    <img
+                      src={this.state.avaLink}
+                      class="rounded-circle"
+                      height="25"
+                      alt=""
+                      loading="lazy"
+                    />
+                  </a>
+                  <ul
+                    class="dropdown-menu"
+                    style={{ right: "-20%" }}
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a class="dropdown-item list" data-bs-toggle="modal" data-bs-target="#profileModal" onClick={() => this.setState({ isClicked: true })}>
+                        Thông tin cá nhân
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item list" href="#" onClick={() => AuthenticationService.logout()}>
+                        Đăng xuất
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </> :
+              <div class="d-flex align-items-center">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                   <li class="nav-item me-3 text-uppercase">
                     <a
@@ -160,18 +229,13 @@ class Navigation extends Component {
                     <Register />
                   </li>
                 </ul>
-
-              }
-
-
-
-            </div>
-
+              </div>
+            }
             {/* <!-- Right elements --> */}
           </div>
           {/* <!-- Container wrapper --> */}
         </nav>
-        {/* <Profile /> */}
+        <Profile isClicked={this.state.isClicked} />
       </>
       // <!-- Navbar -->
     );
