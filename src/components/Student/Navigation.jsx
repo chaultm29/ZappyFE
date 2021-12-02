@@ -9,15 +9,26 @@ import UserServices from "../../services/UserServices";
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { isClicked: false, level: [] };
+    this.state = { isClicked: false, level: [], avaLink: "" };
   }
 
-  // componentDidUpdate() {
-  //   UserServices.getLevel().then((res) => {
-  //     this.setState({ level: res.data });
-  //     console.log(`level`, this.state.level);
-  //   });
-  // }
+
+  componentDidMount() {
+    if (AuthenticationService.getCurrentUser() !== null) {
+      UserServices.getProfile().then((res) => {
+        this.setState({
+          avaLink: "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Avatar/" + res.data.avatar
+        });
+        console.log(`avaLink`, this.state.avaLink);
+      })
+    }
+    if (AuthenticationService.getRoleName() === "Student") {
+      UserServices.getLevel().then((res) => {
+        this.setState({ level: res.data });
+        console.log(`level`, this.state.level);
+      });
+    }
+  }
   render() {
     return (
       <>
@@ -76,7 +87,7 @@ class Navigation extends Component {
                     <NavLink
                       to="/play-game"
                       className="nav-link"
-                    >Chơi game</NavLink>
+                    >Game</NavLink>
                   </li> </> : AuthenticationService.getRoleName() === "Content Manager" ? <>
                     <li class="nav-item me-3 text-uppercase">
                       <NavLink
@@ -106,9 +117,9 @@ class Navigation extends Component {
             {AuthenticationService.getCurrentUser() !== null && AuthenticationService.getRoleName() === "Student" ? <>
               <div class="d-flex align-items-center" style={{ width: "20%" }}>
                 <div class="nav-item container">
-                  {/* {UserServices.getLevel().then((res) => (<center style={{ color: "#4890E4" }}> {res.data.level}</center>))} */}
+                  <center style={{ color: "#4890E4" }}>Level {this.state.level.level}</center>
                   <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: "90%" }} aria-valuemin="0" aria-valuemax="100">45% Hoàn thành
+                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: this.state.level.percentage + "%" }} aria-valuemin="0" aria-valuemax="100">{this.state.level.percentage}% Hoàn thành
                     </div>
                   </div>
                 </div>
@@ -128,7 +139,7 @@ class Navigation extends Component {
                     aria-expanded="true"
                   >
                     <img
-                      src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+                      src={this.state.avaLink}
                       class="rounded-circle"
                       height="25"
                       alt=""
@@ -171,7 +182,7 @@ class Navigation extends Component {
                     aria-expanded="true"
                   >
                     <img
-                      src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+                      src={this.state.avaLink}
                       class="rounded-circle"
                       height="25"
                       alt=""
