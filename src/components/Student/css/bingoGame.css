@@ -127,6 +127,7 @@
     background-color: blueviolet;
 }
 
+
 /* .word .title {
     font-size: 40px;
     padding: 25px;
@@ -213,6 +214,9 @@
   
   .answer:hover {
     background: green;
+  }
+  .answer:disabled{
+      background: grey;
   }
   
   @media (min-width: 768px) {
