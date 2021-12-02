@@ -31,42 +31,7 @@ export default function GrammarManagerContent() {
     useEffect(() => {
         LessonServices.getListGrammar()
             .then((res) => {
-                res.data.map((record) => {
-                    record.action = (
-                        <div>
-                            <button
-                                type="button"
-                                class="btn btn-primary mx-1"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ViewViewModal"
-                                id={record.id}
-                                onClick={onClickButton}
-                            >
-                                <i class="far fa-eye"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-success mx-1"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ViewEditModal"
-                                id={record.id}
-                                onClick={onClickButton}
-                            >
-                                <i class="fas fa-user-edit"></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="btn btn-danger mx-1"
-                                data-bs-toggle="modal"
-                                data-bs-target="#ViewDeleteModal"
-                                id={record.id}
-                                onClick={onClickButton}>
-                                <i class="far fa-minus-square"></i>
-                            </button>
-                        </div>
-                    );
-                    setDataGrammar((dataGrammar) => [...dataGrammar, record]);
-                });
+                setDataGrammar(res.data)
             })
             .catch((err) => console.error(err));
     }, []);
@@ -77,8 +42,9 @@ export default function GrammarManagerContent() {
     const columns = React.useMemo(
         () => [
             {
-                Header: "ID",
-                accessor: "id",
+                Header: "#",
+                id: "row",
+                Cell: (row) => { return <>{parseInt(row.row.id) + 1}</> }
             },
             {
                 Header: "Bài",
@@ -92,7 +58,12 @@ export default function GrammarManagerContent() {
             },
             {
                 Header: "Thao tác",
-                accessor: "action",
+                accessor: "id",
+                Cell: ({ row }) => (<>
+                    <button type="button" class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#ViewViewModal" id={row.values.id} style={{ backgroundColor: "#e98c89", borderColor: "#e98c89" }} onClick={onClickButton}>  <i class="far fa-eye"></i></button>
+                    <button type="button" class="btn btn-success mx-1" data-bs-toggle="modal" data-bs-target="#ViewEditModal" id={row.values.id} onClick={onClickButton}> <i class="fas fa-user-edit"></i></button>
+                    <button type="button" class="btn btn-danger mx-1" data-bs-toggle="modal" data-bs-target="#ViewDeleteModal" id={row.values.id} onClick={onClickButton}><i class="far fa-minus-square"></i></button>
+                </>)
             },
         ],
         []
