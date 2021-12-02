@@ -85,6 +85,9 @@
   margin-top: 10px;
   height: 100px;
 }
+/* .boxTwo:focus{
+  background-color: pink;
+} */
 
 h3 {
   color: #ec9d9d !important;
@@ -184,4 +187,7 @@ h5 {
   display: flex;
   margin-top: 10px;
   height: 50px;
+}
+.btnLesson:hover{
+background-color: pink;
 }

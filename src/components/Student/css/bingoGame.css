@@ -120,7 +120,7 @@
     color: black;
     font-size: 30px;
     border: none;
-    background-color: pink;
+    background-image: url("/src/assets/img/sq1.jpeg");
     display: inline-block
 }
 .square:hover{
