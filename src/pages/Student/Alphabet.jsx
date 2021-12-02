@@ -38,7 +38,7 @@ class Alphabet extends Component {
           </div>
         </div>
 
-        <Footer /> 
+        <Footer />
       </div>
     );
   }

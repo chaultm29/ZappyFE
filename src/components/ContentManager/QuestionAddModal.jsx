@@ -11,6 +11,8 @@ export default function QuestionAddModal() {
     const [skill, setSkill] = useState("");
     const [lesson, setLesson] = useState("");
     const [question, setQuestion] = useState("");
+    // questionDetail.answer
+    const [answer, setAnswer] = useState([]);
     const [validationMsg, setValidationMsg] = useState('');
 
     const history = useHistory();
@@ -24,8 +26,7 @@ export default function QuestionAddModal() {
         secretAccessKey: 'A3SbbQw4u0ALt97PIwB/AyontKO8VUhEyozJAaKz'
     }
 
-    // questionDetail.answer
-    const [answer, setAnswer] = useState([]);
+
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -228,8 +229,9 @@ export default function QuestionAddModal() {
                                         <div class="col-12">
                                             <label class="form-label">Đáp án<span class="text-danger">*</span></label>
                                             <input type="text" id="1" name="true" class="form-control" onChange={onChangeAnswer} autoComplete="none" />
-                                            <p class="text-danger mb-0">{validationMsg.answer}</p>
+
                                         </div>
+                                        <p class="text-danger mb-0">{validationMsg.answer}</p>
                                     </>}
 
 
