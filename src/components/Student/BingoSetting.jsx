@@ -71,9 +71,9 @@ class BingoSetting extends Component {
         return (
             <>
             {/* <div class="gameName"> Bingo Game </div> */}
-                {this.state.isSetting ? <div className="container mt-2" >
-                    <div class="card mx-auto text-center mb-3" role="start">
-                        <div class="card-body">
+                {this.state.isSetting ? <div className="containerBingo mt-2" >
+                    <div class="card mx-auto text-center mb-3">
+                        <div class="card-body" id= "settingContent">
                             <h4 class="card-title fw-bold">CHỌN ĐỘ KHÓ</h4>
                             <p class="text-muted">Ở mỗi mức độ, thời gian sẽ thay đổi</p>
                             <p class="text-danger mb-0" id="dangerTime" >{this.state.messageValidate}</p>
