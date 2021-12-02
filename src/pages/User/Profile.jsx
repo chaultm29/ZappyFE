@@ -32,8 +32,8 @@ export default function Profile({ isClicked }) {
         bucketName: 'imgzappybucket',
         dirName: 'Avatar', /* optional */
         region: 'ap-southeast-1',
-        accessKeyId: 'AKIAUTRYR6GNGNJ3SGMT',
-        secretAccessKey: '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'
+        accessKeyId: 'AKIAUTRYR6GNCV4DERUF',
+        secretAccessKey: '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'
     }
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export default function Profile({ isClicked }) {
                 setEmail(res.data.email);
                 setFullName(res.data.fullName);
                 setPhone(res.data.phone);
-                setAvatar(baseImg + res.data.avatar);
+                setAvatar(res.data.avatar);
             });
             UserServices.getProgress().then((res) => {
                 setProgress(res.data);
@@ -106,13 +106,13 @@ export default function Profile({ isClicked }) {
     }
 
     const upload = () => {
+        let msg;
         S3FileUpload.uploadFile(imageUpload, config).then((data) => {
-            console.log(data.location);
-            return true;
+            msg = true;
         }).catch((err) => {
-            alert(err);
-            return false;
+            msg = false;
         })
+        return msg;
     }
     const validateUpdate = () => {
         const msg = {};
@@ -180,9 +180,11 @@ export default function Profile({ isClicked }) {
         if (!isValid) return;
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
         console.log(`profile`, profile);
-        let isUploaded = upload();
+        const isUploaded = upload();
         UserServices.updateProfile(profile).then((res) => {
-            if (res.status === 200 && isUploaded) {
+            console.log(`res`, res);
+            console.log(`isUploaded`, isUploaded);
+            if (res.status === 200) {
                 setMsgAPIUpdate("Cập nhật thành công !");
             } else {
                 setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
@@ -194,7 +196,6 @@ export default function Profile({ isClicked }) {
         const isValid = validateChangePass();
         if (!isValid) return;
         let changePassword = { newPassword: newPass, oldPassword: oldPass };
-        console.log(`changePassword`, changePassword);
         UserServices.changePassword(changePassword).then((res) => {
             console.log(`res`, res);
             if (res.data === true) {
@@ -220,7 +221,7 @@ export default function Profile({ isClicked }) {
                                 <div class="col-md-4 border-end h-100">
                                     <div class="avatar h-50 w-100 text-center" >
 
-                                        <img id="img" src={avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
+                                        <img id="img" src={baseImg + avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
 
                                         <a href="#upload" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
                                         <input type='file' id='file' ref={inputFile} class="d-none" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />

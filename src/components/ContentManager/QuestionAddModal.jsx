@@ -18,11 +18,12 @@ export default function QuestionAddModal() {
 
     const config = {
         bucketName: 'imgzappybucket',
-        dirName: 'AnhCauHoi', /* optional */
+        dirName: 'Avatar', /* optional */
         region: 'ap-southeast-1',
-        accessKeyId: 'AKIAUTRYR6GNGNJ3SGMT',
-        secretAccessKey: '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'
+        accessKeyId: 'AKIAUTRYR6GNCV4DERUF',
+        secretAccessKey: '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'
     }
+
     // questionDetail.answer
     const [answer, setAnswer] = useState([]);
     const imageHandler = (e) => {
