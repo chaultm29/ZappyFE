@@ -37,6 +37,7 @@ class Sidebar extends Component {
     switch (skill) {
       case "huongdan":
         text = "Hướng dẫn";
+        window.location.href = "/study";
         break;
       case "alphabet":
         text = "Bảng chữ cái";
@@ -132,7 +133,7 @@ class Sidebar extends Component {
                   <circle cx="70" cy="70" r="55"></circle>
                   <circle cx="70" cy="70" r="55"></circle>
                 </svg>
-                <div class="number">
+                <div class="numberPro">
                   <h2>
                     {this.state.progress.progressAll}<span>%</span>
                   </h2>

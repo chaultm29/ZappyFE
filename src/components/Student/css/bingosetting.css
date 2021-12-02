@@ -3,13 +3,15 @@
 }
 .containerBingo{
     width: 100%;
-    /* background-image: url("/src/assets/img/gamebg6.jpg");
+    background-image: url("/src/assets/img/gamebg2.jpg");
     background-attachment: fixed;
     background-position: bottom;
-    opacity: 0.6; */
+    
+    /* opacity: 0.6; */
 }
 #settingContent{
     background-image: url("/src/assets/img/gamebg2.jpg");
     background-attachment: fixed;
     background-position: bottom;
+    min-height: 500px;
 }
