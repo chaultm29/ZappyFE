@@ -159,7 +159,7 @@ class Vocabulary extends Component {
                                             </div>
                                     )}<div id="finishLearning" class="vocabulary-card" style={{ display: "none" }}>
                                     <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
-                                    <button>Luyện tập</button>
+                                    <button onClick={this.gotoPractice}>Luyện tập</button>
                                 </div>
                                 <div>
 

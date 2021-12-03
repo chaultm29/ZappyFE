@@ -296,7 +296,7 @@ class BingoGame extends Component {
                             Điểm:  {this.state.score}
                         </div> */}
                         <div id="timer" class="flex-wrap d-flex justify-content-start">
-                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
+                            <div  class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
                         </div>
                         {/* <button onClick={this.startTimer}>Start</button> */}
                         {/* timer */}
