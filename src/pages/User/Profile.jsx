@@ -5,8 +5,9 @@ import UserServices from '../../services/UserServices';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import S3FileUpload from 'react-s3';
-export default function Profile({ isClicked }) {
+import S3config from '../../services/S3Config.js';
 
+export default function Profile({ isClicked }) {
     const [userRole, setUserRole] = useState(AuthenticationService.getRoleName());
     const [site, setSite] = useState("account");
     const [id, setId] = useState("");
@@ -26,15 +27,7 @@ export default function Profile({ isClicked }) {
     const [validationPassMsg, setValidationPassMsg] = useState('');
     const [progress, setProgress] = useState("");
     const [achievement, setAchievement] = useState("");
-    const baseImg = "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Avatar/";
 
-    const config = {
-        bucketName: 'imgzappybucket',
-        dirName: 'Avatar', /* optional */
-        region: 'ap-southeast-1',
-        accessKeyId: 'AKIAUTRYR6GNCV4DERUF',
-        secretAccessKey: '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'
-    }
 
     useEffect(() => {
         if (isClicked) {
@@ -46,13 +39,15 @@ export default function Profile({ isClicked }) {
                 setPhone(res.data.phone);
                 setAvatar(res.data.avatar);
             });
-            UserServices.getProgress().then((res) => {
-                setProgress(res.data);
-            })
-            UserServices.getAchievement().then((res) => {
-                setAchievement(res.data);
-            })
 
+            if (userRole === "Student") {
+                UserServices.getProgress().then((res) => {
+                    setProgress(res.data);
+                })
+                UserServices.getAchievement().then((res) => {
+                    setAchievement(res.data);
+                })
+            }
         }
     }, [isClicked])
 
@@ -99,21 +94,24 @@ export default function Profile({ isClicked }) {
             if (reader.readyState === 2) {
                 setImageUpload(e.target.files[0]);
                 setAvatar(e.target.files[0].name);
-                document.getElementById("img").src = reader.result;
+                document.getElementById("imgProfile").src = reader.result;
+
             }
+
         }
-        reader.readAsDataURL(e.target.files[0]);
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
     }
 
-    const upload = () => {
-        let msg;
-        S3FileUpload.uploadFile(imageUpload, config).then((data) => {
-            msg = true;
-        }).catch((err) => {
-            msg = false;
-        })
-        return msg;
-    }
+    // const upload = () => {
+    //     S3FileUpload.uploadFile(imageUpload, S3config.config).then((data) => {
+    //         return true;
+    //     }).catch((err) => {
+    //         return false;
+    //     })
+    // }
     const validateUpdate = () => {
         const msg = {};
         var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
@@ -180,10 +178,10 @@ export default function Profile({ isClicked }) {
         if (!isValid) return;
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
         console.log(`profile`, profile);
-        const isUploaded = upload();
+        // const isUploaded = upload();
         UserServices.updateProfile(profile).then((res) => {
             console.log(`res`, res);
-            console.log(`isUploaded`, isUploaded);
+            // console.log(`isUploaded`, isUploaded);
             if (res.status === 200) {
                 setMsgAPIUpdate("Cập nhật thành công !");
             } else {
@@ -221,7 +219,7 @@ export default function Profile({ isClicked }) {
                                 <div class="col-md-4 border-end h-100">
                                     <div class="avatar h-50 w-100 text-center" >
 
-                                        <img id="img" src={baseImg + avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
+                                        <img id="imgProfile" src={S3config.baseURLAvatar + avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
 
                                         <a href="#upload" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
                                         <input type='file' id='file' ref={inputFile} class="d-none" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />

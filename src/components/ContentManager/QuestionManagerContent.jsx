@@ -27,7 +27,6 @@ export default function QuestionManagerContent() {
   const onClickButton = (e) => {
     let questionId = onClickGetQuestionID(e);
     getQuestionDetailByID(questionId);
-    console.log(`questionID`, questionId);
   }
 
 
@@ -36,12 +35,11 @@ export default function QuestionManagerContent() {
   useEffect(() => {
     LessonServices.getListQuestion()
       .then((res) => {
-        setDataQuestion(res.data)
+        setDataQuestion(res.data);
       })
       .catch((err) => console.error(err));
   }, []);
 
-  console.log(`dataQuestion`, dataQuestion);
 
   const columns = React.useMemo(
     () => [
@@ -77,9 +75,8 @@ export default function QuestionManagerContent() {
         </>)
       },
     ],
-    []
   );
-  // const data = React.useMemo(() => dataQuestion, [dataQuestion]);
+  const data = React.useMemo(() => dataQuestion, [dataQuestion]);
   return (
     <div class="container-fluid px-4">
       <div className="row">
@@ -93,7 +90,7 @@ export default function QuestionManagerContent() {
               title="Add">
               Thêm mới
             </button>
-            <Table columns={columns} data={dataQuestion} />
+            <Table columns={columns} data={data} />
 
           </> : <div class="d-flex justify-content-center">
             <div class="spinner-border" role="status">
