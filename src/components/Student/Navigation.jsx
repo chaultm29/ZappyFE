@@ -6,26 +6,24 @@ import AuthenticationService from "../../services/AuthenticationService";
 import Login from "../../pages/User/Login.jsx";
 import Register from "../../pages/User/Register";
 import UserServices from "../../services/UserServices";
+import S3config from '../../services/S3Config.js';
 class Navigation extends Component {
   constructor(props) {
     super(props);
     this.state = { isClicked: false, level: [], avaLink: "" };
   }
 
-
   componentDidMount() {
     if (AuthenticationService.getCurrentUser() !== null) {
       UserServices.getProfile().then((res) => {
         this.setState({
-          avaLink: "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Avatar/" + res.data.avatar
+          avaLink: S3config.baseURLAvatar + res.data.avatar
         });
-        console.log(`avaLink`, this.state.avaLink);
       })
     }
     if (AuthenticationService.getRoleName() === "Student") {
       UserServices.getLevel().then((res) => {
         this.setState({ level: res.data });
-        console.log(`level`, this.state.level);
       });
     }
   }
