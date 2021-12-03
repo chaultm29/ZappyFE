@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
 import S3FileUpload from 'react-s3';
+import S3config from '../../services/S3Config.js';
 
 export default function QuestionAddModal() {
     const [image, setImage] = useState("");
@@ -33,14 +34,19 @@ export default function QuestionAddModal() {
             if (reader.readyState === 2) {
                 setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
-                document.getElementById("img").src = reader.result;
+                document.getElementById("imgAdd").src = reader.result;
             }
         }
-        reader.readAsDataURL(e.target.files[0]);
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+
+
     }
 
     const upload = () => {
-        S3FileUpload.uploadFile(imageUpload, config).then((data) => {
+        S3FileUpload.uploadFile(imageUpload, S3config.config).then((data) => {
             console.log(data.location);
         }).catch((err) => {
             alert(err);
@@ -62,7 +68,7 @@ export default function QuestionAddModal() {
         };
         upload();
         LessonServices.addQuestion(questionAdd).then((res) => {
-            console.log(`res`, res);
+
         });
         // setTimeout(() => {
         //     history.go(0);
@@ -73,25 +79,25 @@ export default function QuestionAddModal() {
     const onChangeQuestionType = (e) => {
         let typeUser = e.target.value;
         setTypeName(typeUser);
-        console.log(`type`, typeName)
+
     }
 
     const onChangeSkill = (e) => {
         let skillUser = e.target.value;
         setSkill(skillUser);
-        console.log(`skill`, skill)
+
     }
 
     const onChangeLesson = (e) => {
         let lessonUser = e.target.value;
         setLesson(lessonUser);
-        console.log(`lesson`, lesson)
+
     }
 
     const onChangeQuestion = (e) => {
         let questionUser = e.target.value;
         setQuestion(questionUser);
-        console.log(`question`, question)
+
     }
 
     const onChangeAnswer = (e) => {
@@ -99,7 +105,6 @@ export default function QuestionAddModal() {
         let userAnswer = { id: parseInt(id), correct: name === "true" ? true : false, image_link: "", answer: value.trim() }
         let listAnswer = answer.filter((x) => x.id !== userAnswer.id);
         setAnswer([...listAnswer, userAnswer]);
-        console.log(`answer`, answer)
     }
 
     const validateAll = () => {
@@ -240,12 +245,18 @@ export default function QuestionAddModal() {
                                     <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
                                 <div class="col-4">
-                                    <img src={image} id="img" class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                    {image &&
+                                        <>
+                                            <img id="imgAdd" src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                            <a class="btn btn-link d-flex justify-content-center" onClick={() => { setImage(""); document.getElementById("inputImageLink").value = "" }}>Hủy bỏ</a>
+                                        </>}
+
                                 </div>
 
-                                <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
-                                    Làm mới
-                                </button></div>
+                                <div class="col-6">
+                                    <button type="reset" class="btn btn-secondary w-100">
+                                        Làm mới
+                                    </button></div>
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-primary w-100">
                                         Lưu
