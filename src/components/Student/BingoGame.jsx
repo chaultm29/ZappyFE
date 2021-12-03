@@ -327,7 +327,7 @@ class BingoGame extends Component {
                                     (<div class="question" key={this.state.currentQuestion.questionID} >
                                         <div class="questionField">{this.state.currentQuestion.question}</div>
 
-                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
+                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
                                         {this.state.currentQuestion.answers.map(
                                             answer =>
                                                 <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
