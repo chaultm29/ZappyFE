@@ -302,7 +302,7 @@ class BingoGame extends Component {
                         {/* timer */}
                         {/* <div class="timer">Thời gian: :</div> */}
                         <div id="timer" class="flex-wrap d-flex justify-content-end">
-                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>minutes</span></div>
+                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>phút</span></div>
                             {/* <div id ="dotBetween">:</div> */}
                             <div id="seconds" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.s}<span>seconds</span></div>
                         </div>
