@@ -9,6 +9,6 @@ export default function Speech(input) {
   utter.onend = () => {
   };
   utter.lang = "ja";
-  utter.rate = 0.5;
+  utter.rate = 1;
   synthRef.speak(utter);
 }
