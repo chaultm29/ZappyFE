@@ -4,6 +4,7 @@ const instance = axios.create({
   //baseURL: "http://localhost:5000"
   //baseURL: "https://backend.zappy-nihongo.com"
   //baseURL: "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com"
+
   baseURL: "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com"
 })
 instance.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getItem("token"));
@@ -18,7 +19,7 @@ instance.interceptors.response.use(
 
   (error) => {
     const statusCode = error.response.data.status
-    if (statusCode === 401 || statusCode === '401'||error.message.includes('401')) {
+    if (statusCode === 401 || statusCode === '401' || error.message.includes('401')) {
       window.location.href = '/home'
       localStorage.removeItem("token");
       localStorage.removeItem("username");
