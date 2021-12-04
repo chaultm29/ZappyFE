@@ -234,6 +234,7 @@
 }
 
 /* for timer */
+
 #timer div {
     background-color: pink;
     color: black;
@@ -244,6 +245,7 @@
     font-weight: 700;
     margin-left: 10px;
     margin-right: 10px;
+    display: flex;
  }
  #timer div span {
     display: block;

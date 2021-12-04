@@ -1,7 +1,8 @@
 import axios from 'axios';
 const API_URL =
 
-  "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com";//
+ // "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
+ "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com"
 
 // const register = (account) => {
 //   return axios.post(API_URL + "/register", {

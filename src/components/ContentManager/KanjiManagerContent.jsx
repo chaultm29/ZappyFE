@@ -42,13 +42,13 @@ export default function KanjiManagerContent() {
       .catch((err) => console.error(err));
   }, []);
 
-  useEffect(() => {
-    LessonServices.getListQuestion()
-      .then((res) => {
-        setDataQuestion(res.data)
-      })
-      .catch((err) => console.error(err));
-  }, []);
+  // useEffect(() => {
+  //   LessonServices.getListQuestion()
+  //     .then((res) => {
+  //       setDataQuestion(res.data)
+  //     })
+  //     .catch((err) => console.error(err));
+  // }, []);
 
 
   const getData = () => {

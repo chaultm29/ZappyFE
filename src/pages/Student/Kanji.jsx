@@ -132,7 +132,7 @@ class Kanji extends Component {
                 )}
               <div id="finishLearning" class="kanji-card" style={{ display: "none" }}>
                 <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
-                <button>Luyện tập</button>
+                <button onClick={this.gotoPractice}>Luyện tập</button>
               </div>
               <div>
                 <button id="prevButton" class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>
