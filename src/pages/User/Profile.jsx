@@ -221,7 +221,9 @@ export default function Profile({ isClicked }) {
 
                                         <img id="imgProfile" src={S3config.baseURLAvatar + avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
 
-                                        <a href="#upload" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
+                                        <a href="javascript:void(0)" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
+                                        <span class="text-muted px-1">  |  </span>
+                                        <a href="javascript:void(0)" onClick={() => setAvatar("")}>Xóa bỏ</a>
                                         <input type='file' id='file' ref={inputFile} class="d-none" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                     </div>
                                     <div class="menu list-group list-group-item-action mt-2">

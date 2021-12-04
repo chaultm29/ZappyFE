@@ -4,6 +4,8 @@ import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
 import S3FileUpload from 'react-s3';
 import S3config from '../../services/S3Config.js';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import { error } from 'jquery';
 
 export default function QuestionAddModal() {
     const [image, setImage] = useState("");
@@ -15,17 +17,12 @@ export default function QuestionAddModal() {
     // questionDetail.answer
     const [answer, setAnswer] = useState([]);
     const [validationMsg, setValidationMsg] = useState('');
-
+    const [resetSelect, setResetSelect] = useState(true);
+    const [msgErrorResponse, setMsgErrorResponse] = useState("");
+    const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const history = useHistory();
 
 
-    const config = {
-        bucketName: 'imgzappybucket',
-        dirName: 'Avatar', /* optional */
-        region: 'ap-southeast-1',
-        accessKeyId: 'AKIAUTRYR6GNCV4DERUF',
-        secretAccessKey: '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'
-    }
 
 
     const imageHandler = (e) => {
@@ -40,19 +37,32 @@ export default function QuestionAddModal() {
         if (e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
         }
-
-
-
     }
 
-    const upload = () => {
-        S3FileUpload.uploadFile(imageUpload, S3config.config).then((data) => {
-            console.log(data.location);
-        }).catch((err) => {
-            alert(err);
-        })
-    }
+    // const upload = () => {
+    //     S3FileUpload.uploadFile(imageUpload, S3config.config).then((data) => {
+    //         console.log(data.location);
+    //     }).catch((err) => {
+    //         alert(err);
+    //     })
+    // }
+    const onReset = () => {
+        setImage("");
+        setImageUpload("");
+        setTypeName("");
+        setSkill("");
+        setLesson("");
+        setLesson("");
+        setQuestion("");
+        setAnswer([]);
+        setValidationMsg('');
+        setResetSelect(false);
+        let lessonSelect = document.querySelectorAll('select option');
+        for (var i = 0; i < lessonSelect.length; i++) {
+            lessonSelect[i].selected = lessonSelect[i].defaultSelected;
+        }
 
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -66,31 +76,40 @@ export default function QuestionAddModal() {
             answer: answer.map(({ id, ...items }) => items),
             imgeLink: image
         };
-        upload();
-        LessonServices.addQuestion(questionAdd).then((res) => {
-
+        // upload();
+        LessonServices.addQuestion(questionAdd).then((response) => {
+            if (response.status === 200) {
+                if (response.data.includes("thành công")) {
+                    setMsgSuccessResponse(response.data);
+                } else if (response.data.includes("đã tồn tại")) {
+                    setMsgErrorResponse(response.data);
+                }
+            }
+        }).catch((error) => {
+            setMsgErrorResponse(error);
         });
-        // setTimeout(() => {
-        //     history.go(0);
-        // }, 1000);
-    }
+    };
+
 
 
     const onChangeQuestionType = (e) => {
         let typeUser = e.target.value;
         setTypeName(typeUser);
+        setResetSelect(true);
 
     }
 
     const onChangeSkill = (e) => {
         let skillUser = e.target.value;
         setSkill(skillUser);
+        setResetSelect(true);
 
     }
 
     const onChangeLesson = (e) => {
         let lessonUser = e.target.value;
         setLesson(lessonUser);
+        setResetSelect(true);
 
     }
 
@@ -103,8 +122,13 @@ export default function QuestionAddModal() {
     const onChangeAnswer = (e) => {
         let { id, name, value } = e.target;
         let userAnswer = { id: parseInt(id), correct: name === "true" ? true : false, image_link: "", answer: value.trim() }
-        let listAnswer = answer.filter((x) => x.id !== userAnswer.id);
-        setAnswer([...listAnswer, userAnswer]);
+        let listAnswer = answer.filter((x) => x.id !== userAnswer.id || x.answer === "");
+        if (value !== "") {
+            setAnswer([...listAnswer, userAnswer]);
+        }
+        else {
+            setAnswer(listAnswer);
+        }
     }
 
     const validateAll = () => {
@@ -121,6 +145,7 @@ export default function QuestionAddModal() {
         if (question.length === 0) {
             msg.question = "Không được để trống";
         }
+        console.log(`answer`, answer)
         if (answer.length === 0) {
             msg.answer = "Không được để trống";
         } else if (typeName === "Chọn đáp án đúng" && answer.length !== 4) {
@@ -132,11 +157,27 @@ export default function QuestionAddModal() {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
-
+    const hideAlert = () => {
+        setMsgSuccessResponse("");
+        setMsgErrorResponse("");
+        setTimeout(() => {
+            history.go(0);
+        }, 1000);
+    }
 
     return (
         <>
             {/* add question */}
+            <div class="alert-wrapper position-absolute" >
+                {msgSuccessResponse !== "" ?
+                    < SweetAlert success title="Thêm câu hỏi thành công!" timeout={2000} onConfirm={hideAlert}>
+                        {msgSuccessResponse}
+                    </SweetAlert > : ""}
+                {msgErrorResponse !== "" ?
+                    < SweetAlert danger title="Thêm câu hỏi thất bại!" timeout={2000} onConfirm={hideAlert}>
+                        {msgErrorResponse}
+                    </SweetAlert > : ""}
+            </div>
             <div class="modal fade" id="ViewAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -150,8 +191,8 @@ export default function QuestionAddModal() {
                             <form class="row g-3" method="post" onSubmit={onSubmit} autoComplete="none" >
                                 <div class="col-8">
                                     <label class="form-label">Loại câu hỏi<span class="text-danger">*</span></label>
-                                    <select class="form-select" onChange={onChangeQuestionType} autoComplete="none" >
-                                        <option value="" selected disabled>Loại câu hỏi</option>
+                                    <select class="form-select" onChange={onChangeQuestionType} id="lesson" autoComplete="none" >
+                                        <option value="" selected disabled={resetSelect}>Loại câu hỏi</option>
                                         <option value="Chọn đáp án đúng">Chọn đáp án đúng</option>
                                         <option value="Điền vào chỗ trống">Điền vào chỗ trống</option>
                                         <option value="Đúng/Sai">Đúng/Sai</option>
@@ -164,7 +205,7 @@ export default function QuestionAddModal() {
                                     <label class="form-label">Kĩ năng<span class="text-danger">*</span></label>
 
                                     <select id="inputSkill" class="form-select" onChange={onChangeSkill} autoComplete="none">
-                                        <option value="" selected disabled>Kĩ năng</option>
+                                        <option value="" selected disabled={resetSelect}>Kĩ năng</option>
                                         <option value="Từ vựng">Từ vựng</option>
                                         <option value="Ngữ pháp">Ngữ pháp</option>
                                         <option value="Chữ Hán">Chữ Hán</option>
@@ -175,7 +216,7 @@ export default function QuestionAddModal() {
                                 <div class="col-6">
                                     <label for="inputLesson" class="form-label">Bài<span class="text-danger">*</span></label>
                                     <select id="inputLesson" class="form-select" onChange={onChangeLesson} autoComplete="none">
-                                        <option value="" selected disabled>Bài</option>
+                                        <option value="" selected disabled={resetSelect}>Bài</option>
                                         <option value="Bài 1">Bài 1</option>
                                         <option value="Bài 2">Bài 2</option>
                                         <option value="Bài 3">Bài 3</option>
@@ -254,7 +295,7 @@ export default function QuestionAddModal() {
                                 </div>
 
                                 <div class="col-6">
-                                    <button type="reset" class="btn btn-secondary w-100">
+                                    <button type="reset" class="btn btn-secondary w-100" onClick={onReset}>
                                         Làm mới
                                     </button></div>
                                 <div class="col-6">
