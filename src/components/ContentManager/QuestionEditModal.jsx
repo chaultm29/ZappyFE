@@ -1,28 +1,35 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
 
 export default function QuestionEditModal({ questionDetail }) {
     const [image, setImage] = useState("");
+    const [imageUpload, setImageUpload] = useState("");
     const [typeName, setTypeName] = useState("");
     const [skill, setSkill] = useState("");
     const [lesson, setLesson] = useState("");
     const [question, setQuestion] = useState("");
     const history = useHistory();
     const [validationMsg, setValidationMsg] = useState('');
+    const [resetSelect, setResetSelect] = useState(true);
+    const inputFile = useRef(null);
 
     // questionDetail.answer
     const [answer, setAnswer] = useState([]);
+
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setImage(reader.result)
+                setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
+                document.getElementById("imgEdit").src = reader.result;
             }
         }
-        reader.readAsDataURL(e.target.files[0]);
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
     }
 
     useEffect(() => {
@@ -51,10 +58,11 @@ export default function QuestionEditModal({ questionDetail }) {
             answer: answer,
             imgeLink: image
         };
-        LessonServices.editQuestion(questionUpdate, questionDetail.questionID);
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+        console.log(`questionUpdate`, questionUpdate);
+        LessonServices.editQuestion(questionUpdate, questionDetail.questionID).then((res) => { console.log(res) });
+        // setTimeout(() => {
+        //     history.go(0);
+        // }, 1000);
 
     }
 
@@ -80,9 +88,14 @@ export default function QuestionEditModal({ questionDetail }) {
 
     const onChangeAnswer = (e) => {
         let { id, name, value } = e.target;
-        let userAnswer = { id: parseInt(id), correct: name === "true" ? true : false, image_link: questionDetail.answer[0].image_link, answer: value }
-        let listAnswer = answer.filter((x) => x.id !== userAnswer.id);
-        setAnswer([...listAnswer, userAnswer]);
+        let userAnswer = { id: parseInt(id), correct: name === "true" ? true : false, image_link: "", answer: value.trim() }
+        let listAnswer = answer.filter((x) => x.id !== userAnswer.id || x.answer === "");
+        if (value !== "") {
+            setAnswer([...listAnswer, userAnswer]);
+        }
+        else {
+            setAnswer(listAnswer);
+        }
     }
     const validateAll = () => {
         const msg = {};
@@ -105,6 +118,7 @@ export default function QuestionEditModal({ questionDetail }) {
         } else if (typeName === "Đúng/Sai" && answer.length !== 2) {
             msg.answer = "Không được để trống";
         }
+        console.log(`answer`, answer);
         setValidationMsg(msg);
         if (Object.keys(msg).length > 0) return false;
         return true;
@@ -218,17 +232,20 @@ export default function QuestionEditModal({ questionDetail }) {
                                         <p class="text-danger mb-0">{validationMsg.answer}</p>
                                     </>}
 
-                                <div class="col-8">
+                                <div class="col-7">
                                     <label class="form-label">Hình ảnh</label>
-                                    <input class="collapse collapse-horizontal" id="inputImgLink" class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
+                                    <input type="text" class="form-control" defaultValue={image ? image : "Không có hình ảnh"} disabled />
+                                    <input ref={inputFile} class="d-none" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
-                                <div class="col-4 text-center">
-                                    <img src={image} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
-                                    <a data-bs-toggle="collapse" href="#inputImgLink" aria-expanded="false" aria-controls="inputImgLink">Thay đổi</a>
+                                <div class="col-5 text-center">
+                                    <img id="imgEdit" src={image} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <a href="javascript:void(0)" onClick={() => inputFile.current.click()}>Thay đổi</a>
+                                    {image && <> <span class="text-muted px-1">  |  </span>
+                                        <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
                                 </div>
 
-                                <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
-                                    Làm mới
+                                <div class="col-6"><button class="btn btn-secondary w-100" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                    Không lưu
                                 </button></div>
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-primary w-100">

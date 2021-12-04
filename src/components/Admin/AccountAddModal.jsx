@@ -15,6 +15,7 @@ export default function AccountAddModal({ dataAcc }) {
   const [validationMsg, setValidationMsg] = useState('');
   const [msgErrorResponse, setMsgErrorResponse] = useState("");
   const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
+  const [resetSelect, setResetSelect] = useState(true);
   const history = useHistory();
 
 
@@ -27,11 +28,9 @@ export default function AccountAddModal({ dataAcc }) {
     AccountServices.addAccount(account).then((response) => {
       if (response.status === 200) {
         if (response.data.includes("thành công")) {
-
           setMsgSuccessResponse(response.data);
         } else if (response.data.includes("đã tồn tại")) {
           setMsgErrorResponse(response.data);
-
         }
       }
     })
@@ -56,6 +55,7 @@ export default function AccountAddModal({ dataAcc }) {
 
     setRoleId(selectRoleId);
     setRoleName(selectRoleName);
+    setResetSelect(true);
   }
   const onUsernameChange = (e) => {
     let input = e.target.value;
@@ -89,7 +89,7 @@ export default function AccountAddModal({ dataAcc }) {
     var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
     var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
     var validatePhone = /(0[3|5|7|8|9])+([0-9]{8,9})\b/;
-    var inputDate = new Date(dateOfBirth);
+    var inputDate = dateOfBirth.length > 0 ? new Date(dateOfBirth) : "";
     var today = new Date();
     if (roleId.length === 0) {
       msg.roleId = "Vui lòng chọn chức năng";
@@ -122,16 +122,26 @@ export default function AccountAddModal({ dataAcc }) {
     else if (!validatePhone.test(phone)) {
       msg.phone = "Độ dài từ 10-11 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
-    if (dateOfBirth.length === 0) {
-      msg.dob = "Không được để trống";
-    } else if (inputDate > today) {
+    if (dateOfBirth.length > 0 && inputDate > today) {
       msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
     }
-
 
     setValidationMsg(msg);
     if (Object.keys(msg).length > 0) return false;
     return true;
+  }
+  const onReset = () => {
+    setUsername("");
+    setFullname("");
+    setEmail("");
+    setPhone("");
+    setDateOfBirth("");
+    setResetSelect(false);
+    let lessonSelect = document.querySelectorAll('select option');
+    for (var i = 0; i < lessonSelect.length; i++) {
+      lessonSelect[i].selected = lessonSelect[i].defaultSelected;
+    }
+
   }
 
   const hideAlert = () => {
@@ -144,14 +154,16 @@ export default function AccountAddModal({ dataAcc }) {
   return (
     <>
       {/* add account */}
-      {msgSuccessResponse !== "" ?
-        < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
-          {msgSuccessResponse}
-        </SweetAlert > : ""}
-      {msgErrorResponse !== "" ?
-        < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
-          {msgErrorResponse}
-        </SweetAlert > : ""}
+      <div class="alert-wrapper position-absolute" >
+        {msgSuccessResponse !== "" ?
+          < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+            {msgSuccessResponse}
+          </SweetAlert > : ""}
+        {msgErrorResponse !== "" ?
+          < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+            {msgErrorResponse}
+          </SweetAlert > : ""}
+      </div>
       <div class="modal fade" id="ViewAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -167,7 +179,7 @@ export default function AccountAddModal({ dataAcc }) {
                   <label class="form-label">Vai trò<span class="text-danger">*</span></label>
 
                   <select class="form-select" onChange={onRoleIdChange}>
-                    <option value="" selected disabled>Chọn vai trò</option>
+                    <option value="" selected disabled={resetSelect}>Chọn vai trò</option>
                     <option value="2">Quản lý nội dung</option>
                   </select>
                   <p class="text-danger mb-0">{validationMsg.roleId}</p>
@@ -198,7 +210,7 @@ export default function AccountAddModal({ dataAcc }) {
                   <p class="text-danger mb-0">{validationMsg.phone}</p>
                 </div>
                 <div class="col-md-6">
-                  <label class="form-label">Ngày sinh<span class="text-danger">*</span></label>
+                  <label class="form-label">Ngày sinh</label>
                   <input name="date" class="form-control" type="date" onChange={onDateOfBirthChange} />
                   <p class="text-danger mb-0">{validationMsg.dob}</p>
                 </div>
@@ -211,7 +223,7 @@ export default function AccountAddModal({ dataAcc }) {
                 <div class="col-4">
                   <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                 </div> */}
-                <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
+                <div class="col-6"><button type="reset" class="btn btn-secondary w-100" onClick={onReset}>
                   Làm mới
                 </button></div>
                 <div class="col-6">

@@ -1,7 +1,7 @@
 import axios from 'axios';
 const API_URL =
 
-  "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
+  "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com";//
 
 // const register = (account) => {
 //   return axios.post(API_URL + "/register", {
@@ -32,7 +32,7 @@ const login = (username, password) => {
           window.location.href = "/home"
         }
         else if (response.data.rolename == "Admin") {
-          window.location.href ="/admin/dashboard"
+          window.location.href = "/admin/dashboard"
         }
         else if (response.data.rolename == "Content Manager") {
           window.location.href = "/content-mng/question-mng"
