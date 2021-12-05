@@ -351,14 +351,15 @@ export default function Profile({ isClicked }) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        {achievement.map((a, index) => (<>
+
+                                                    {achievement.map((a, index) => (<>
+                                                        <tr>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>{a.name}</td>
                                                             <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
-                                                        </>
-                                                        ))}
-                                                    </tr>
+                                                        </tr></>
+                                                    ))}
+
 
 
                                                 </tbody>
@@ -375,7 +376,7 @@ export default function Profile({ isClicked }) {
                                                     <div class="card">
                                                         <div class="card-body" style={{ width: "35%", textAlign: "center", margin: "auto" }}>
                                                             <h5 class="card-title text-center"></h5>
-                                                            <CircularProgressbar value={progress.progressAll} text={progress.progressAll + "%"} />
+                                                            <CircularProgressbar value={progress.progressAll * (100 / 21)} text={parseInt(progress.progressAll * (100 / 21)) + "%"} />
                                                             <ul class="list-group list-group-flush">
 
                                                             </ul>

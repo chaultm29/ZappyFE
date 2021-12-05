@@ -100,7 +100,7 @@ export default function AccountEditModal({ accountDetail }) {
               <form class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Vai trò<span class="text-danger">*</span></label>
-                  <select id="role" class="form-select" onChange={onRoleIdChange}>
+                  <select id="role" class="form-select" onChange={onRoleIdChange} disabled={typeof accountDetail.roleDTO !== 'undefined' && accountDetail.roleDTO.name === "Admin" ? true : false}>
                     {typeof accountDetail.roleDTO !== 'undefined' ? <option value={accountDetail.roleDTO.id} selected disabled>{accountDetail.roleDTO.name}</option> : ""}
                     <option value="2">Content Manager</option>
                     <option value="3">Student</option>

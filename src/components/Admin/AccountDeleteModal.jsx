@@ -25,9 +25,7 @@ export default function AccountDeleteModal({ accountDetail }) {
     const hideAlert = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+        history.go(0);
     }
     return (
         <>
