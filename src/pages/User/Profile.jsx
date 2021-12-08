@@ -5,7 +5,8 @@ import UserServices from '../../services/UserServices';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import S3FileUpload from 'react-s3';
-import S3config from '../../services/S3Config.js';
+import S3Config from '../../services/S3Config.js';
+import noImage from "../../assets/img/noImage.png"
 
 export default function Profile({ isClicked }) {
     const [userRole, setUserRole] = useState(AuthenticationService.getRoleName());
@@ -28,6 +29,31 @@ export default function Profile({ isClicked }) {
     const [progress, setProgress] = useState("");
     const [achievement, setAchievement] = useState("");
 
+
+    const [config, setConfig] = useState({});
+    useEffect(() => {
+        if (isClicked) {
+            S3Config.getConfig().then((res) => {
+                setConfig({
+                    bucketName: res.data[0].value,
+                    dirName: 'Avatar',
+                    region: res.data[1].value,
+                    accessKeyId: res.data[2].value,
+                    secretAccessKey: res.data[3].value
+                })
+            });
+        }
+    }, [isClicked])
+
+    const upload = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, config).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
 
     useEffect(() => {
         if (isClicked) {
@@ -95,7 +121,6 @@ export default function Profile({ isClicked }) {
                 setImageUpload(e.target.files[0]);
                 setAvatar(e.target.files[0].name);
                 document.getElementById("imgProfile").src = reader.result;
-
             }
 
         }
@@ -105,18 +130,13 @@ export default function Profile({ isClicked }) {
 
     }
 
-    // const upload = () => {
-    //     S3FileUpload.uploadFile(imageUpload, S3config.config).then((data) => {
-    //         return true;
-    //     }).catch((err) => {
-    //         return false;
-    //     })
-    // }
+
     const validateUpdate = () => {
+        setValidationUpdateMsg('');
         const msg = {};
         var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
         var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-        var validatePhone = /(0[3|5|7|8|9])+([0-9]{8,9})\b/;
+        var validatePhone = /(0)+([0-9]{9})\b/;
         var inputDate = new Date(dateOfBirth);
         var today = new Date();
 
@@ -136,7 +156,7 @@ export default function Profile({ isClicked }) {
             msg.phone = "Không được để trống";
         }
         else if (!validatePhone.test(phone)) {
-            msg.phone = "Độ dài từ 10-11 số, không bao gồm kí tự đặc biệt và dấu cách";
+            msg.phone = "Độ dài từ 10 số, không bao gồm kí tự đặc biệt và dấu cách";
         }
         if (dateOfBirth.length === 0) {
             msg.dob = "Không được để trống";
@@ -149,6 +169,7 @@ export default function Profile({ isClicked }) {
     }
 
     const validateChangePass = () => {
+        setValidationPassMsg('');
         const msg = {};
         var validatePassword = /^[a-z\d\S]+$/i;
         if (oldPass.length === 0) {
@@ -177,17 +198,19 @@ export default function Profile({ isClicked }) {
         const isValid = validateUpdate();
         if (!isValid) return;
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
-        console.log(`profile`, profile);
-        // const isUploaded = upload();
-        UserServices.updateProfile(profile).then((res) => {
-            console.log(`res`, res);
-            // console.log(`isUploaded`, isUploaded);
-            if (res.status === 200) {
-                setMsgAPIUpdate("Cập nhật thành công !");
-            } else {
-                setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
-            }
-        });
+        const uploadImageSuccess = upload(imageUpload);
+        if (uploadImageSuccess) {
+            console.log(`ok`);
+            UserServices.updateProfile(profile).then((res) => {
+                if (res.status === 200) {
+                    setMsgAPIUpdate("Cập nhật thành công !");
+                } else {
+                    setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
+            });
+        } else {
+            setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
+        }
     }
     const onSubmitPassword = (e) => {
         e.preventDefault();
@@ -219,11 +242,11 @@ export default function Profile({ isClicked }) {
                                 <div class="col-md-4 border-end h-100">
                                     <div class="avatar h-50 w-100 text-center" >
 
-                                        <img id="imgProfile" src={S3config.baseURLAvatar + avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
+                                        <img id="imgProfile" src={avatar ? S3Config.baseURLAvatar + avatar : noImage} class="img-fluid rounded mx-auto d-block" alt="..." />
 
                                         <a href="javascript:void(0)" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
-                                        <span class="text-muted px-1">  |  </span>
-                                        <a href="javascript:void(0)" onClick={() => setAvatar("")}>Xóa bỏ</a>
+                                        {avatar && <>     <span class="text-muted px-1">  |  </span>
+                                            <a href="javascript:void(0)" onClick={() => setAvatar("")}>Xóa bỏ</a> </>}
                                         <input type='file' id='file' ref={inputFile} class="d-none" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                     </div>
                                     <div class="menu list-group list-group-item-action mt-2">
@@ -249,7 +272,7 @@ export default function Profile({ isClicked }) {
                                                     Họ và tên
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={fullName} onChange={onFullNameChange} />
+                                                    <input type="text" class="form-control" value={fullName} onChange={onFullNameChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.fullName}</p>
                                                 </div>
                                             </div>
@@ -258,7 +281,7 @@ export default function Profile({ isClicked }) {
                                                     Email
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={email} onChange={onEmailChange} />
+                                                    <input type="text" class="form-control" value={email} onChange={onEmailChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.email}</p>
                                                 </div>
                                             </div>
@@ -267,7 +290,7 @@ export default function Profile({ isClicked }) {
                                                     Tên tài khoản
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={AuthenticationService.getCurrentUser()} disabled />
+                                                    <input type="text" class="form-control" value={AuthenticationService.getCurrentUser()} disabled />
 
                                                 </div>
                                             </div>
@@ -276,7 +299,7 @@ export default function Profile({ isClicked }) {
                                                     Ngày sinh
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="date" class="form-control" defaultValue={dateOfBirth} onChange={onDateOfBirthChange} />
+                                                    <input type="date" class="form-control" value={dateOfBirth} onChange={onDateOfBirthChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.dob}</p>
                                                 </div>
                                             </div>
@@ -285,7 +308,7 @@ export default function Profile({ isClicked }) {
                                                     Số điện thoại
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={phone} onChange={onPhoneChange} />
+                                                    <input type="text" class="form-control" value={phone} onChange={onPhoneChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.phone}</p>
                                                 </div>
                                             </div>
@@ -351,14 +374,15 @@ export default function Profile({ isClicked }) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        {achievement.map((a, index) => (<>
+
+                                                    {achievement.map((a, index) => (<>
+                                                        <tr>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>{a.name}</td>
                                                             <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
-                                                        </>
-                                                        ))}
-                                                    </tr>
+                                                        </tr></>
+                                                    ))}
+
 
 
                                                 </tbody>
@@ -375,7 +399,7 @@ export default function Profile({ isClicked }) {
                                                     <div class="card">
                                                         <div class="card-body" style={{ width: "35%", textAlign: "center", margin: "auto" }}>
                                                             <h5 class="card-title text-center"></h5>
-                                                            <CircularProgressbar value={progress.progressAll} text={progress.progressAll + "%"} />
+                                                            <CircularProgressbar value={progress.progressAll * (100 / 21)} text={parseInt(progress.progressAll * (100 / 21)) + "%"} />
                                                             <ul class="list-group list-group-flush">
 
                                                             </ul>

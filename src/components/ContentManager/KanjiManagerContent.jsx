@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import CalendarEmb from "../Admin/Calendar.jsx";
 import Schedule from "../Admin/Schedule.jsx";
 import Table, { SelectColumnFilter } from "../UI/Table.jsx";
-
 import LessonServices from "../../services/LessonServices.jsx";
 import KanjiViewModal from "./KanjiViewModal.jsx";
 import KanjiAddModal from "./KanjiAddModal.jsx";
 import KanjiEditModal from "./KanjiEditModal.jsx";
 import KanjiDeleteModal from "./KanjiDeleteModal.jsx";
+
 
 
 
@@ -31,8 +31,6 @@ export default function KanjiManagerContent() {
     getKanjiDetailByID(kanjiId);
   }
 
-
-
   //   get list kanji
   useEffect(() => {
     LessonServices.getListKanji()
@@ -42,13 +40,7 @@ export default function KanjiManagerContent() {
       .catch((err) => console.error(err));
   }, []);
 
-  // useEffect(() => {
-  //   LessonServices.getListQuestion()
-  //     .then((res) => {
-  //       setDataQuestion(res.data)
-  //     })
-  //     .catch((err) => console.error(err));
-  // }, []);
+
 
 
   const getData = () => {

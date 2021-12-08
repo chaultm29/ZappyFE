@@ -135,7 +135,7 @@ class Sidebar extends Component {
                 </svg>
                 <div class="numberPro">
                   <h2>
-                    {this.state.progress.progressAll}<span>%</span>
+                    {parseInt(this.state.progress.progressAll * (100 / 21))}<span>%</span>
                   </h2>
                 </div>
               </div>

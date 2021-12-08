@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-
-import LessonServices from '../../services/LessonServices';
-
+import noImage from "../../assets/img/noImage.png"
 export default function QuestionViewModal({ questionDetail }) {
 
     return (
@@ -94,7 +92,7 @@ export default function QuestionViewModal({ questionDetail }) {
                                         {/* <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" /> */}
                                     </div>
                                     <div class="col-4">
-                                        <img src={questionDetail.imgeLink} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                        <img src={questionDetail.imgeLink ? questionDetail.imgeLink : noImage} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                     </div>
                                 </form>
                             </div>

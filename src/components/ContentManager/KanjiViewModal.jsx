@@ -1,8 +1,10 @@
 import React from 'react'
+import S3Config from '../../services/S3Config';
 
 export default function KanjiViewModal({ kanjiDetail }) {
     return (
         <>
+
             {/* View modal */}
             <div class="modal fade" id="ViewViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -53,13 +55,13 @@ export default function KanjiViewModal({ kanjiDetail }) {
                                 </div>
                                 <div class="col-6">
                                     <label for="inputImageLink" class="form-label">Hình ảnh</label>
-                                    {/* <input class="form-control" type="file" id="inputImageLink" disabled /> */}
-                                    <img src={kanjiDetail.imageLink} class="rounded mx-auto d-block" alt="..." />
+
+                                    <img src={S3Config.baseURLKanjiDes + kanjiDetail.imageLink} class="rounded mx-auto d-block" alt="..." />
                                 </div>
                                 <div class="col-6">
-                                    <label for="inputGifLink" class="form-label">Cách viết</label>
-                                    {/* <input class="form-control" type="file" id="inputGifLink" disabled /> */}
-                                    <img src={kanjiDetail.gifLink} class="rounded mx-auto d-block" alt="..." />
+                                    <label for="inputImageLink" class="form-label">Cách viết</label>
+
+                                    <img src={S3Config.baseURLKanjiGif + kanjiDetail.imageLink} class="rounded mx-auto d-block" alt="..." />
                                 </div>
                             </form>
                         </div>
