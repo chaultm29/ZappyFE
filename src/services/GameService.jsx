@@ -17,14 +17,16 @@ function getRecord() {
     return axiosConfig.get("/game/record");
 }
 
-function fetchSaveGame(_gameName, _timeCreated, _timePlayed, _score) {
+function fetchSaveGame(_activityId, _gameName, _timeCreated, _timePlayed, _score) {
     let gameRecord = {
+        activityId: _activityId,
         gameName: _gameName,
         timeCreated: _timeCreated,
         timePlayed: _timePlayed,
         score: _score
     }
-    return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/saving",
+    return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/saving",
+    //return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/saving",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
@@ -48,7 +50,7 @@ function fetchCurrentQuestion(listQuestionId, listLessonId) {
 }
 
 function fetchResultQuestion(questionId, answerId) {
-    // return fetch("http://localhost:5000/game/bingo/result/" + questionId + "/" + answerId, 
+     //return fetch("http://localhost:5000/game/bingo/result/" + questionId + "/" + answerId, 
     //return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
     return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
         {

@@ -10,7 +10,7 @@ import S3config from '../../services/S3Config.js';
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { isClicked: false, level: [], avaLink: "" };
+    this.state = { isClicked: false, level: [], percentage:0, avaLink: "" };
   }
 
   componentDidMount() {
@@ -22,9 +22,11 @@ class Navigation extends Component {
       })
     }
     if (AuthenticationService.getRoleName() === "Student") {
-      // UserServices.getLevel().then((res) => {
-      //   this.setState({ level: res.data });
-      // });
+      UserServices.getLevel().then((res) => {
+      //  this.setState({ level: (res? res.data: 0), percentage: (res.data.currentExp*100/res.data.levelExp)});
+        console.log(res)
+      });
+
     }
   }
   render() {
@@ -116,7 +118,8 @@ class Navigation extends Component {
                 <div class="nav-item container">
                   <center style={{ color: "#4890E4" }}>Level {this.state.level.level} &nbsp;&nbsp;&nbsp;  Điểm : {typeof (this.state.level.curentExp) !== "undefined" ? this.state.level.curentExp + "/" + this.state.level.levelExp : ""}</center>
                   <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: parseInt((this.state.level.curentExp / this.state.level.levelExp) * 100) + "%" }} aria-valuemin="0" aria-valuemax="100">{parseInt((this.state.level.curentExp / this.state.level.levelExp) * 100)}% Hoàn thành
+                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: this.state.percentage + "%" }} aria-valuemin="0" aria-valuemax="100">{this.state.level.currentExp+"/"+this.state.level.levelExp} EXP
+
                     </div>
                   </div>
                 </div>
