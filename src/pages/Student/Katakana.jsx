@@ -53,7 +53,7 @@ class Katakana extends Component {
                                                     ></i>
                                                 </span></div>
 
-                                            <img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + kata.imageLink} alt="hiragana" />
+                                            <img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/Alphabet/" + kata.imageLink} alt="hiragana" />
                                             <div class="des">{kata.description}</div>
                                         </div>
                                 )}

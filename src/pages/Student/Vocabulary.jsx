@@ -147,7 +147,10 @@ class Vocabulary extends Component {
                                                                 ></i>
                                                             </span>
                                                         </div>
-                                                        <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
+                                                        <div class="vocabulary-image">
+                                                        <img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForVoca/" + vocabulary.imageLink} alt="hiragana" />
+                                                        {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
+                                                        </div>
 
                                                     </div>
                                                     <div class="box-back">

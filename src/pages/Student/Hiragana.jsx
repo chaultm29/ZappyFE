@@ -53,7 +53,7 @@ class Hiragana extends Component {
                     </span>
                   </div>
                   <img
-                    src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Alphabet/" + hira.imageLink}
+                    src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/Alphabet/" + hira.imageLink}
                     alt="hiragana"
                   />
                   <div class="des">{hira.description}</div>

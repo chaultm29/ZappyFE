@@ -51,7 +51,10 @@ class Grammar extends Component {
                                                         <div>{grammar.explanation}</div>
                                                         <div>{grammar.example}</div>
                                                         <div>{grammar.exampleMeaning}</div>
-                                                        <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
+                                                        <div class="vocabulary-image">
+                                                        <img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForGrammar/" + grammar.imageLink} alt="hiragana" />
+                                                        {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
