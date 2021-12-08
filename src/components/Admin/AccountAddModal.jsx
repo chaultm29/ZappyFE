@@ -84,6 +84,7 @@ export default function AccountAddModal({ dataAcc }) {
   }
 
   const validateAll = () => {
+    setValidationMsg('');
     const msg = {};
     var validateUsername = /^[a-z\d]+$/i;
     var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
@@ -136,6 +137,7 @@ export default function AccountAddModal({ dataAcc }) {
     setEmail("");
     setPhone("");
     setDateOfBirth("");
+    setValidationMsg('');
     setResetSelect(false);
     let lessonSelect = document.querySelectorAll('select option');
     for (var i = 0; i < lessonSelect.length; i++) {
@@ -147,9 +149,7 @@ export default function AccountAddModal({ dataAcc }) {
   const hideAlert = () => {
     setMsgSuccessResponse("");
     setMsgErrorResponse("");
-    setTimeout(() => {
-      history.go(0);
-    }, 1000);
+    history.go(0);
   }
   return (
     <>

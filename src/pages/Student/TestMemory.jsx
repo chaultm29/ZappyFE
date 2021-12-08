@@ -158,7 +158,7 @@ export default function TestMemory() {
         setBonus(bonusCurrent);
         setTotal(point + bonusCurrent);
         document.getElementById("flips").innerHTML = point;
-        GameService.fetchSaveGame("Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
+        GameService.fetchSaveGame(3, "Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
 
     }
 

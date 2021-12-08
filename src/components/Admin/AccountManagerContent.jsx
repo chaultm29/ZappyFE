@@ -5,7 +5,7 @@ import Table, { SelectColumnFilter } from "../UI/Table.jsx";
 import AccountAddModal from "./AccountAddModal.jsx";
 import AccountServices from "../../services/AccountServices.jsx";
 import { useHistory } from "react-router-dom";
-import AccountEditModal from "./AccountEditModal.jsx";
+// import AccountEditModal from "./AccountEditModal.jsx";
 import AccountDeleteModal from "./AccountDeleteModal.jsx";
 import AccountViewModal from "./AccountViewDetail.jsx";
 
@@ -138,7 +138,7 @@ export default function AccountManagerContent() {
         {/* View Modal */}
         <AccountAddModal dataAcc={dataAcc} />
         <AccountViewModal accountDetail={accountDetail} />
-        <AccountEditModal accountDetail={accountDetail} />
+        {/* <AccountEditModal accountDetail={accountDetail} /> */}
         <AccountDeleteModal accountDetail={accountDetail} />
         <div className="col-sm-3">
           <CalendarEmb />

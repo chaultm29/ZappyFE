@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
-
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
+import noImage from "../../assets/img/noImage.png"
 
 export default function QuestionEditModal({ questionDetail }) {
     const [image, setImage] = useState("");
@@ -24,7 +24,7 @@ export default function QuestionEditModal({ questionDetail }) {
             if (reader.readyState === 2) {
                 setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
-                document.getElementById("imgEdit").src = reader.result;
+                document.getElementById("imgEditQuestion").src = reader.result;
             }
         }
         if (e.target.files[0]) {
@@ -63,7 +63,6 @@ export default function QuestionEditModal({ questionDetail }) {
         // setTimeout(() => {
         //     history.go(0);
         // }, 1000);
-
     }
 
     const onChangeQuestionType = (e) => {
@@ -176,7 +175,7 @@ export default function QuestionEditModal({ questionDetail }) {
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Câu hỏi<span class="text-danger">*</span></label>
-                                    <input name="question" type="text" class="form-control" defaultValue={question} onChange={onChangeQuestion} />
+                                    <input name="question" type="text" class="form-control" value={question} onChange={onChangeQuestion} />
 
                                 </div>
 
@@ -186,12 +185,12 @@ export default function QuestionEditModal({ questionDetail }) {
                                             item.correct ?
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án<span class="text-success"> đúng</span><span class="text-danger">*</span></label>
-                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" value={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                                 :
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án <span class="text-danger"> sai</span><span class="text-danger">*</span></label>
-                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" value={item.answer} onChange={onChangeAnswer} />
                                                 </div>
 
                                         )}
@@ -204,12 +203,12 @@ export default function QuestionEditModal({ questionDetail }) {
                                             item.correct ?
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án<span class="text-success"> đúng</span><span class="text-danger">*</span></label>
-                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" value={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                                 :
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án <span class="text-danger"> sai</span><span class="text-danger">*</span></label>
-                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" value={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                         )}
                                         <p class="text-danger mb-0">{validationMsg.answer}</p>
@@ -221,12 +220,12 @@ export default function QuestionEditModal({ questionDetail }) {
                                             item.correct ?
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án<span class="text-success"> đúng</span><span class="text-danger">*</span></label>
-                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" value={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                                 :
                                                 <div class="col-12">
                                                     <label class="form-label">{index + 1}. Đáp án <span class="text-danger"> sai</span><span class="text-danger">*</span></label>
-                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" defaultValue={item.answer} onChange={onChangeAnswer} />
+                                                    <input type="text" id={item.id} name={(item.correct).toString()} class="form-control" value={item.answer} onChange={onChangeAnswer} />
                                                 </div>
                                         ) : ""}
                                         <p class="text-danger mb-0">{validationMsg.answer}</p>
@@ -234,22 +233,24 @@ export default function QuestionEditModal({ questionDetail }) {
 
                                 <div class="col-7">
                                     <label class="form-label">Hình ảnh</label>
-                                    <input type="text" class="form-control" defaultValue={image ? image : "Không có hình ảnh"} disabled />
+                                    <input type="text" class="form-control" value={image ? image : "Không có hình ảnh"} disabled />
                                     <input ref={inputFile} class="d-none" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
                                 <div class="col-5 text-center">
-                                    <img id="imgEdit" src={image} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img id="imgEditQuestion" src={image ? image : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                     <a href="javascript:void(0)" onClick={() => inputFile.current.click()}>Thay đổi</a>
                                     {image && <> <span class="text-muted px-1">  |  </span>
                                         <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
                                 </div>
 
-                                <div class="col-6"><button class="btn btn-secondary w-100" type="button" data-bs-dismiss="modal" aria-label="Close">
-                                    Không lưu
-                                </button></div>
+                                <div class="col-6">
+                                    <button class="btn btn-secondary w-100" type="button" data-bs-dismiss="modal" aria-label="Close">
+                                        Không lưu thay đổi
+                                    </button>
+                                </div>
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-primary w-100">
-                                        Lưu
+                                        Lưu thay đổi
                                     </button>
                                 </div>
                             </form>
