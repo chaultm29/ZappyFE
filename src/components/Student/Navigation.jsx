@@ -22,9 +22,9 @@ class Navigation extends Component {
       })
     }
     if (AuthenticationService.getRoleName() === "Student") {
-      UserServices.getLevel().then((res) => {
-        this.setState({ level: res.data });
-      });
+      // UserServices.getLevel().then((res) => {
+      //   this.setState({ level: res.data });
+      // });
     }
   }
   render() {

@@ -39,7 +39,7 @@ export default function Sidebar({ role }) {
               title="Quản lý bài học"
               class="list-group-item list-group-item-action bg-transparent"
             >
-              <p> Quản lý bài học </p>
+              <p> Quản lý<br /> bài học </p>
             </a>
             <div class="collapse border-top border-light mx-3" id="collapseOption">
               <NavLink
@@ -47,20 +47,19 @@ export default function Sidebar({ role }) {
                 title="Quản lý chữ Hán"
                 className="list-group-item list-group-item-action bg-transparent"
                 avtiveClassName="active"
-              >  <p>Quản lý <br /> Chữ Hán</p></NavLink>
+              >  <p id="child-list">Quản lý <br /> Chữ Hán</p></NavLink>
               <NavLink
                 to="/content-mng/lesson-mng/vocabulary"
                 title="Quản lý từ vựng"
                 className="list-group-item list-group-item-action bg-transparent"
                 avtiveClassName="active"
-              >  <p>Quản lý <br /> Từ vựng</p></NavLink>
-
+              >  <p id="child-list">Quản lý <br /> Từ vựng</p></NavLink>
               <NavLink
                 to="/content-mng/lesson-mng/grammar"
                 title="Quản lý ngữ pháp"
                 className="list-group-item list-group-item-action bg-transparent"
                 avtiveClassName="active"
-              >  <p>Quản lý <br /> Ngữ pháp</p></NavLink>
+              >  <p id="child-list">Quản lý <br /> Ngữ pháp</p></NavLink>
             </div>
           </div>
         )}

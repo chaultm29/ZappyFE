@@ -11,12 +11,12 @@
 
 #sidebar-wrapper .sidebar-heading {
   padding: 1.2rem 1.25rem;
-  font-size: 1.2rem;
+  font-size: 2rem;
 }
 
-#sidebar-wrapper .list-group {
+/* #sidebar-wrapper .list-group {
   width: 8rem;
-}
+} */
 
 #page-content-wrapper {
   min-width: 100vw;
@@ -31,22 +31,29 @@
 }
 
 .list-group-item {
+  font-weight: bold;
   border: none;
   padding: 20px 0px;
 }
 
 .list-group-item p {
+  font-size: 20px;
   color: white;
 }
-#sidebar-wrapper .list-group-item.active p {
+.list-group-item p#child-list {
   font-size: 16px;
+  color: white;
+  font-weight: lighter;
+}
+#sidebar-wrapper .list-group-item.active p {
+  font-size: 20px;
   background-color: #e98c89;
   border-left: 5px solid white;
   border-right: 5px solid white;
   font-weight: bold;
 }
 #sidebar-wrapper .list-group-item p:hover {
-  font-size: 16px;
+  font-size: 20px;
   /* background-color: white; */
   color: white;
   border-left: 5px solid white;

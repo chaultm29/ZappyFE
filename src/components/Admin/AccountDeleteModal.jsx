@@ -8,6 +8,7 @@ export default function AccountDeleteModal({ accountDetail }) {
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const onClickYesButton = () => {
         AccountServices.deleteAccount(accountDetail.id).then((response) => {
+            console.log(`response`, response)
             if (response.status === 200) {
                 if (response.data) {
                     setMsgSuccessResponse("Xóa tài khoản thành công");
@@ -18,7 +19,7 @@ export default function AccountDeleteModal({ accountDetail }) {
             }
         })
             .catch((error) => {
-                setMsgErrorResponse(error);
+                setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
             });
     };
 
@@ -30,14 +31,16 @@ export default function AccountDeleteModal({ accountDetail }) {
     return (
         <>
             {/* Delete modal */}
-            {msgSuccessResponse !== "" ?
-                < SweetAlert success title="Xóa tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
-                    {msgSuccessResponse}
-                </SweetAlert > : ""}
-            {msgErrorResponse !== "" ?
-                < SweetAlert danger title="Xóa tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
-                    {msgErrorResponse}
-                </SweetAlert > : ""}
+            <div class="alert-wrapper position-absolute" >
+                {msgSuccessResponse !== "" ?
+                    < SweetAlert success title="Xóa tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+                        {msgSuccessResponse}
+                    </SweetAlert > : ""}
+                {msgErrorResponse !== "" ?
+                    < SweetAlert danger title="Xóa tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+                        {msgErrorResponse}
+                    </SweetAlert > : ""}
+            </div>
             <div class="modal fade" id="ViewDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
