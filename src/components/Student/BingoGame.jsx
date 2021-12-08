@@ -156,7 +156,7 @@ class BingoGame extends Component {
 
             //this.setState({ state: this.state.score += 100 })
             // document.getElementById("isFinish").style.display = "relative";
-            GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            GameService.fetchSaveGame(2, "Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
         }
         else if (this.state.seconds == 0) {
 
