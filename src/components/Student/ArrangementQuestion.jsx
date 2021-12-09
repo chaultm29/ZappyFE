@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import S3Config from "../../services/S3Config";
 
 export default function ArrangementQuestion({
   record,
@@ -12,7 +13,6 @@ export default function ArrangementQuestion({
   const [isCorrect, setIsCorrect] = useState(false);
   const [correctAnswer, setCorrectAnswer] = useState("");
   const [userAnswer, setUserAnswer] = useState("");
-  const baseImg = "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/AnhCauHoi/";
   const onHandleChange = (e) => {
     let value = e.target.value.trim();
     setUserAnswer(value);
@@ -52,7 +52,7 @@ export default function ArrangementQuestion({
             : "card-header"}>{index}. Sắp xếp câu </div>
         <div class="card-body">
           <h5 class="card-title fw-bolder">{record.question}</h5>
-          {record.imgLink ? <img src={baseImg + record.imgLink} class="rounded" alt="..." width="400px" /> : ""}
+          {record.imgLink ? <img src={S3Config.baseURLImgForQuestion + record.imgLink} class="rounded" alt="..." width="400px" /> : ""}
           <p class="text-muted m-0">Đáp án của bạn</p>
           <div class="card-text mt-2">
             <input

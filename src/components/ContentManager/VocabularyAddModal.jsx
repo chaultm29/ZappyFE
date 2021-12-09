@@ -3,6 +3,8 @@ import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
 import noImage from "../../assets/img/noImage.png"
 import SweetAlert from 'react-bootstrap-sweetalert';
+import S3Config from '../../services/S3Config';
+import S3FileUpload from 'react-s3';
 export default function VocabularyAddModal() {
 
     const history = useHistory();
@@ -20,6 +22,28 @@ export default function VocabularyAddModal() {
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const [lessonList, setLessonList] = useState(["Bài 1", "Bài 2", "Bài 3", "Bài 4", "Bài 5", "Bài 6", "Bài 7"]);
 
+    const [config, setConfig] = useState({});
+
+    useEffect(() => {
+        S3Config.getConfig().then((res) => {
+            setConfig({
+                bucketName: res.data[0].value,
+                dirName: 'ImgForVocab',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+    }, [])
+    const upload = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, config).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
     const onSubmit = (e) => {
         e.preventDefault();
         const isValid = validateAll();
@@ -32,18 +56,23 @@ export default function VocabularyAddModal() {
             example: example,
             exampleMeaning: exampleMeaning,
         };
-        LessonServices.addVocabulary(vocabAdd).then((response) => {
-            if (response.status === 200) {
-                if (response.data.includes("thành công")) {
-                    setMsgSuccessResponse(response.data);
-                } else if (response.data.includes("đã tồn tại")) {
-                    setMsgErrorResponse(response.data);
+        const uploadImageSuccess = upload(imageUpload);
+        if (uploadImageSuccess) {
+            LessonServices.addVocabulary(vocabAdd).then((response) => {
+                if (response.status === 200) {
+                    if (response.data.includes("thành công")) {
+                        setMsgSuccessResponse(response.data);
+                    } else if (response.data.includes("tồn tại")) {
+                        setMsgErrorResponse(response.data);
+                    }
                 }
-            }
-        })
-            .catch((error) => {
-                setMsgErrorResponse(error);
-            });
+            })
+                .catch((error) => {
+                    setMsgErrorResponse(error);
+                });
+        } else {
+            setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+        }
     }
 
     const imageHandler = (e) => {
@@ -97,9 +126,9 @@ export default function VocabularyAddModal() {
         if (exampleMeaning.length === 0) {
             msg.exampleMeaning = "Không được để trống";
         }
-        if (image.length === 0) {
-            msg.image = "Vui lòng chọn 1 ảnh (Định dạng: .png.jpeg.jpg)";
-        }
+        // if (image.length === 0) {
+        //     msg.image = "Vui lòng chọn 1 ảnh (Định dạng: .png.jpeg.jpg)";
+        // }
         setValidationMsg(msg);
         if (Object.keys(msg).length > 0) return false;
         return true;
@@ -118,10 +147,13 @@ export default function VocabularyAddModal() {
             lessonSelect[i].selected = lessonSelect[i].defaultSelected;
         }
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
         history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
     }
 
     return (
@@ -129,11 +161,11 @@ export default function VocabularyAddModal() {
             {/* add vocab */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Thêm từ vựng thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Thêm từ vựng thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Thêm từ vựng thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Thêm từ vựng thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
@@ -181,8 +213,8 @@ export default function VocabularyAddModal() {
                                 </div>
 
                                 <div class="col-7">
-                                    <label class="form-label">Hình ảnh<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" value={image} disabled />
+                                    <label class="form-label">Hình ảnh</label>
+                                    <input type="text" class="form-control" value={image ? image : "Không có hình ảnh"} disabled />
 
                                     <input ref={inputFile} class="d-none" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                     <p class="text-danger mb-0">{validationMsg.image}</p>

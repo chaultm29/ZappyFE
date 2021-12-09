@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import SweetAlert from 'react-bootstrap-sweetalert';
 import S3Config from '../../services/S3Config';
 import S3FileUpload from 'react-s3';
+import noImage from "../../assets/img/noImage.png"
 export default function KanjiEditModal({ kanjiDetail }) {
 
     const [character, setCharacter] = useState("");
@@ -25,12 +26,22 @@ export default function KanjiEditModal({ kanjiDetail }) {
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const [lessonList, setLessonList] = useState(["Bài 1", "Bài 2", "Bài 3", "Bài 4", "Bài 5", "Bài 6", "Bài 7"]);
 
-    const [config, setConfig] = useState({});
+    const [configImg, setConfigImg] = useState({});
+    const [configGif, setConfigGif] = useState({});
     useEffect(() => {
         S3Config.getConfig().then((res) => {
-            setConfig({
+            setConfigImg({
                 bucketName: res.data[0].value,
-                dirName: 'Avatar',
+                dirName: 'KanjiDes',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+        S3Config.getConfig().then((res) => {
+            setConfigGif({
+                bucketName: res.data[0].value,
+                dirName: 'KanjiGif',
                 region: res.data[1].value,
                 accessKeyId: res.data[2].value,
                 secretAccessKey: res.data[3].value
@@ -39,9 +50,19 @@ export default function KanjiEditModal({ kanjiDetail }) {
     }, [])
 
 
-    const upload = (file) => {
+
+    const uploadImg = (file) => {
         const msg = {};
-        S3FileUpload.uploadFile(file, config).then((data) => {
+        S3FileUpload.uploadFile(file, configImg).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
+    const uploadGif = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, configGif).then((data) => {
         }).catch((err) => {
             msg.err = err;
         })
@@ -64,8 +85,8 @@ export default function KanjiEditModal({ kanjiDetail }) {
             imageLink: image,
             gifLink: gif
         };
-        const uploadImageSuccess = upload(imageUpload, "KanjiDes");
-        const uploadGifSuccess = upload(gifUpload, "KanjiGif");
+        const uploadImageSuccess = uploadImg(imageUpload);
+        const uploadGifSuccess = uploadGif(gifUpload);
         if (uploadImageSuccess && uploadGifSuccess) {
             LessonServices.editKanji(kanjiUpdate, kanjiDetail.id).then((response) => {
                 if (response.status === 200) {
@@ -204,10 +225,13 @@ export default function KanjiEditModal({ kanjiDetail }) {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
         history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
     }
 
 
@@ -218,11 +242,11 @@ export default function KanjiEditModal({ kanjiDetail }) {
             {/* Edit modal */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Sửa chữ Hán thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Sửa chữ Hán thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Sửa chữ hán thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Sửa chữ hán thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
@@ -290,11 +314,12 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                     <div class="col-8">
                                         <label for="inputImageLink" class="form-label">Hình ảnh<span class="text-danger">*</span></label>
                                         <input class="d-none" type="file" ref={inputImageFile} id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
-                                        <input name="imageLink" value={image} disabled />
+                                        <br />
+                                        <input name="imageLink" value={image ? image : "Không có hình ảnh"} class="form-control" disabled />
                                         <p class="text-danger mb-0">{validationMsg.image}</p>
                                     </div>
                                     <div class="col-4 text-center">
-                                        <img src={image} id="imgEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                        <img src={image ? S3Config.baseURLKanjiDes + image : noImage} id="imgEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                         <a href="javascript:void(0)" onClick={() => inputImageFile.current.click()}>Thay đổi</a>
                                         {image && <> <span class="text-muted px-1">  |  </span>
                                             <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
@@ -304,12 +329,13 @@ export default function KanjiEditModal({ kanjiDetail }) {
 
                                         <label for="inputGifLink" class="form-label">Cách viết<span class="text-danger">*</span></label>
                                         <input class="d-none" type="file" ref={inputGifFile} id="inputGifLink" accept="image/gif" onChange={gifHandler} />
-                                        <input value={gif} disabled />
+                                        <br />
+                                        <input value={gif ? gif : "Không có hình ảnh"} class="form-control" disabled />
                                         <p class="text-danger mb-0">{validationMsg.gif}</p>
                                     </div>
 
                                     <div class="col-4 text-center">
-                                        <img src={gif} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                        <img src={gif ? S3Config.baseURLKanjiGif + image : noImage} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                         <a href="javascript:void(0)" onClick={() => inputGifFile.current.click()}>Thay đổi</a>
                                         {gif && <> <span class="text-muted px-1">  |  </span>
                                             <a href="javascript:void(0)" onClick={() => setGif("")}>Xóa bỏ</a></>}

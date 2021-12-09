@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import S3Config from "../../services/S3Config";
 
 export default function TrueFalseQuestion({
   record,
@@ -54,7 +55,7 @@ export default function TrueFalseQuestion({
         <div class="card-body">
           <div class="">
             <h5 class="card-title fw-bolder">{record.question}</h5>
-            {record.imgLink ? <img src={baseImg + record.imgLink} class="rounded" alt="..." width="400px" /> : ""}
+            {record.imgLink ? <img src={S3Config.baseURLImgForQuestion + record.imgLink} class="rounded" alt="..." width="400px" /> : ""}
             <p class="text-muted m-0 ">Chọn đáp án đúng</p>
           </div>
           <div class="card-text">
