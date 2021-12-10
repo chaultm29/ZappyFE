@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
+import SweetAlert from 'react-bootstrap-sweetalert';
+import S3Config from '../../services/S3Config';
+import S3FileUpload from 'react-s3';
 import noImage from "../../assets/img/noImage.png"
 
 export default function QuestionEditModal({ questionDetail }) {
@@ -14,10 +17,36 @@ export default function QuestionEditModal({ questionDetail }) {
     const [validationMsg, setValidationMsg] = useState('');
     const [resetSelect, setResetSelect] = useState(true);
     const inputFile = useRef(null);
+    const [lessonList, setLessonList] = useState(["Bài 1", "Bài 2", "Bài 3", "Bài 4", "Bài 5", "Bài 6", "Bài 7"]);
+    const [skillList, setSkillList] = useState(["Từ vựng", "Ngữ pháp", "Chữ Hán"]);
+    const [typeList, setTypeList] = useState(["Chọn đáp án đúng", "Điền vào chỗ trống", "Đúng/Sai", "Nối từ"])
+    const [msgErrorResponse, setMsgErrorResponse] = useState("");
+    const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
 
     // questionDetail.answer
     const [answer, setAnswer] = useState([]);
+    const [config, setConfig] = useState({});
+    useEffect(() => {
+        S3Config.getConfig().then((res) => {
+            setConfig({
+                bucketName: res.data[0].value,
+                dirName: 'ImgForQuestion',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+    }, [])
 
+    const upload = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, config).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
@@ -58,12 +87,24 @@ export default function QuestionEditModal({ questionDetail }) {
             answer: answer,
             imgeLink: image
         };
-        console.log(`questionUpdate`, questionUpdate);
-        LessonServices.editQuestion(questionUpdate, questionDetail.questionID).then((res) => { console.log(res) });
-        // setTimeout(() => {
-        //     history.go(0);
-        // }, 1000);
+        const uploadImageSuccess = upload(imageUpload);
+        if (uploadImageSuccess) {
+            LessonServices.editQuestion(questionUpdate, questionDetail.questionID).then((response) => {
+                if (response.status === 200) {
+                    setMsgSuccessResponse("Sửa câu hỏi thành công");
+                } else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
+            })
+                .catch((error) => {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                });
+        } else {
+            setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+        }
     }
+
+
 
     const onChangeQuestionType = (e) => {
         let typeUser = e.target.value;
@@ -86,15 +127,14 @@ export default function QuestionEditModal({ questionDetail }) {
     }
 
     const onChangeAnswer = (e) => {
-        let { id, name, value } = e.target;
-        let userAnswer = { id: parseInt(id), correct: name === "true" ? true : false, image_link: "", answer: value.trim() }
-        let listAnswer = answer.filter((x) => x.id !== userAnswer.id || x.answer === "");
-        if (value !== "") {
-            setAnswer([...listAnswer, userAnswer]);
-        }
-        else {
-            setAnswer(listAnswer);
-        }
+        let { id, value } = e.target;
+        const answers = answer.slice();
+        answers.map((item) => {
+            if (item.id == id) {
+                item.answer = value;
+            }
+        })
+        setAnswer(answers);
     }
     const validateAll = () => {
         const msg = {};
@@ -122,12 +162,30 @@ export default function QuestionEditModal({ questionDetail }) {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
+    const hideAlertSuccess = () => {
+        setMsgSuccessResponse("");
+        setMsgErrorResponse("");
+        history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
+    }
 
 
 
     return (
         <>
             {/* edit question */}
+            <div class="alert-wrapper position-absolute" >
+                {msgSuccessResponse !== "" ?
+                    < SweetAlert success title="Sửa câu hỏi thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+                        {msgSuccessResponse}
+                    </SweetAlert > : ""}
+                {msgErrorResponse !== "" ?
+                    < SweetAlert danger title="Sửa câu hỏi thất bại!" timeout={2000} onConfirm={hideAlertError}>
+                        {msgErrorResponse}
+                    </SweetAlert > : ""}
+            </div>
             {questionDetail && <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -153,23 +211,18 @@ export default function QuestionEditModal({ questionDetail }) {
                                 <div class="col-6">
                                     <label class="form-label">Kĩ năng<span class="text-danger">*</span></label>
                                     <select id="inputSkill" class="form-select" value={skill} onChange={onChangeSkill}>
-                                        <option value="Từ vựng">Từ vựng</option>
-                                        <option value="Ngữ pháp">Ngữ pháp</option>
-                                        <option value="Chữ Hán">Chữ Hán</option>
-
+                                        {skillList.map((skill) => (
+                                            <option value={skill}>{skill}</option>
+                                        ))}
                                     </select>
                                     <p class="text-danger mb-0">{validationMsg.skill}</p>
                                 </div>
                                 <div class="col-6">
                                     <label for="inputLesson" class="form-label">Bài<span class="text-danger">*</span></label>
                                     <select id="inputLesson" class="form-select" value={lesson} onChange={onChangeLesson}>
-                                        <option value="Bài 1">Bài 1</option>
-                                        <option value="Bài 2">Bài 2</option>
-                                        <option value="Bài 3">Bài 3</option>
-                                        <option value="Bài 4">Bài 4</option>
-                                        <option value="Bài 5">Bài 5</option>
-                                        <option value="Bài 6">Bài 6</option>
-                                        <option value="Bài 7">Bài 7</option>
+                                        {lessonList.map((lesson) => (
+                                            <option value={lesson}>{lesson}</option>
+                                        ))}
                                     </select>
                                     <p class="text-danger mb-0">{validationMsg.lesson}</p>
                                 </div>
@@ -237,7 +290,7 @@ export default function QuestionEditModal({ questionDetail }) {
                                     <input ref={inputFile} class="d-none" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                 </div>
                                 <div class="col-5 text-center">
-                                    <img id="imgEditQuestion" src={image ? image : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img id="imgEditQuestion" src={image ? S3Config.baseURLImgForQuestion + image : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                     <a href="javascript:void(0)" onClick={() => inputFile.current.click()}>Thay đổi</a>
                                     {image && <> <span class="text-muted px-1">  |  </span>
                                         <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}

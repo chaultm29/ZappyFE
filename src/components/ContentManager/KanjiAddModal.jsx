@@ -5,6 +5,7 @@ import LessonServices from '../../services/LessonServices';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import S3FileUpload from 'react-s3';
 import S3Config from "../../services/S3Config.js";
+import noImage from "../../assets/img/noImage.png"
 
 export default function KanjiAddModal() {
     const [character, setCharacter] = useState("");
@@ -194,11 +195,6 @@ export default function KanjiAddModal() {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
-    const hideAlert = () => {
-        setMsgSuccessResponse("");
-        setMsgErrorResponse("");
-        history.go(0);
-    }
     const onReset = () => {
         setCharacter("");
         setChinese("");
@@ -217,6 +213,14 @@ export default function KanjiAddModal() {
         }
 
     }
+    const hideAlertSuccess = () => {
+        setMsgSuccessResponse("");
+        setMsgErrorResponse("");
+        history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
+    }
 
 
     return (
@@ -225,11 +229,11 @@ export default function KanjiAddModal() {
             {/* Edit modal */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Thêm chữ Hán thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Thêm chữ Hán thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Thêm chữ Hán thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Thêm chữ Hán thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
@@ -298,11 +302,11 @@ export default function KanjiAddModal() {
                                     <label for="inputImageLink" class="form-label">Hình ảnh<span class="text-danger">*</span></label>
                                     <input class="d-none" type="file" ref={inputImageFile} id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                     <br />
-                                    <input name="imageLink" defaultValue={image} disabled />
+                                    <input name="imageLink" value={image ? image : "Không có hình ảnh"} disabled />
                                     <p class="text-danger mb-0">{validationMsg.image}</p>
                                 </div>
                                 <div class="col-4 text-center">
-                                    <img src={image} id="imgEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img src={image ? image : noImage} id="imgEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                     <a href="javascript:void(0)" onClick={() => inputImageFile.current.click()}>Thay đổi</a>
                                     {image && <> <span class="text-muted px-1">  |  </span>
                                         <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
@@ -313,12 +317,12 @@ export default function KanjiAddModal() {
                                     <label for="inputGifLink" class="form-label">Cách viết<span class="text-danger">*</span></label>
                                     <input class="d-none" type="file" ref={inputGifFile} id="inputGifLink" accept="image/gif" onChange={gifHandler} />
                                     <br />
-                                    <input defaultValue={gif} disabled />
+                                    <input value={gif ? gif : "Không có hình ảnh"} disabled />
                                     <p class="text-danger mb-0">{validationMsg.gif}</p>
                                 </div>
 
                                 <div class="col-4 text-center">
-                                    <img src={gif} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img src={gif ? gif : noImage} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                     <a href="javascript:void(0)" onClick={() => inputGifFile.current.click()}>Thay đổi</a>
                                     {gif && <> <span class="text-muted px-1">  |  </span>
                                         <a href="javascript:void(0)" onClick={() => setGif("")}>Xóa bỏ</a></>}

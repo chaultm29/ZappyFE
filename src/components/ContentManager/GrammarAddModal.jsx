@@ -27,7 +27,7 @@ export default function GrammarAddModal() {
         S3Config.getConfig().then((res) => {
             setConfig({
                 bucketName: res.data[0].value,
-                dirName: 'Avatar',
+                dirName: 'ImgForGrammar',
                 region: res.data[1].value,
                 accessKeyId: res.data[2].value,
                 secretAccessKey: res.data[3].value
@@ -138,10 +138,13 @@ export default function GrammarAddModal() {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
         history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
     }
     const onReset = () => {
         setLessonName("");
@@ -164,11 +167,11 @@ export default function GrammarAddModal() {
             {/* add grammar */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Thêm ngữ pháp thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Thêm ngữ pháp thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Thêm ngữ pháp thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Thêm ngữ pháp thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
@@ -233,7 +236,7 @@ export default function GrammarAddModal() {
                                 </div>
 
                                 <div class="col-4 text-center">
-                                    <img src={exampleImageLink ? exampleImageLink : noImage} id="imgAddGrammar" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img src={exampleImageLink ? S3Config.baseURLImgForGrammar + exampleImageLink : noImage} id="imgAddGrammar" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                     <a href="javascript:void(0)" onClick={() => inputImageFile.current.click()}>Thay đổi</a>
                                     {exampleImageLink && <> <span class="text-muted px-1">  |  </span>
                                         <a href="javascript:void(0)" onClick={() => setExampleImageLink("")}>Xóa bỏ</a></>}

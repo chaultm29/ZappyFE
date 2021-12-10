@@ -5,6 +5,7 @@ import Navigation from "../../components/Student/Navigation";
 import StudyService from "../../services/StudyService";
 import Speech from "../../services/Speech";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
+import S3Config from "../../services/S3Config";
 
 class Hiragana extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class Hiragana extends Component {
                     </span>
                   </div>
                   <img
-                    src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/Alphabet/" + hira.imageLink}
+                    src={S3Config.baseURLAlphabet + hira.imageLink}
                     alt="hiragana"
                   />
                   <div class="des">{hira.description}</div>

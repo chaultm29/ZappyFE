@@ -3,15 +3,13 @@ import AccountServices from '../../services/AccountServices';
 import { useHistory } from "react-router-dom";
 import SweetAlert from 'react-bootstrap-sweetalert';
 
-export default function AccountAddModal({ dataAcc }) {
-  const [roleId, setRoleId] = useState("");
-  const [roleName, setRoleName] = useState("");
+export default function AccountAddModal() {
   const [username, setUsername] = useState("");
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [image, setImage] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
+  const [image, setImage] = useState("");
   const [validationMsg, setValidationMsg] = useState('');
   const [msgErrorResponse, setMsgErrorResponse] = useState("");
   const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
@@ -23,13 +21,14 @@ export default function AccountAddModal({ dataAcc }) {
     e.preventDefault();
     const isValid = validateAll();
     if (!isValid) return;
-    let account = { username: username, passwordOld: "", passwordNew: "contentmanager@123", dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
-
+    let account = { username: username, passwordOld: "", passwordNew: "contentmanager@123", dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: 2, name: "Content Manager" }, avatar: "default.png" };
+    console.log(`account`, account);
     AccountServices.addAccount(account).then((response) => {
+      console.log(`response`, response);
       if (response.status === 200) {
         if (response.data.includes("thành công")) {
           setMsgSuccessResponse(response.data);
-        } else if (response.data.includes("đã tồn tại")) {
+        } else if (response.data.includes("tồn tại")) {
           setMsgErrorResponse(response.data);
         }
       }
@@ -49,14 +48,6 @@ export default function AccountAddModal({ dataAcc }) {
     reader.readAsDataURL(e.target.files[0]);
   }
 
-  const onRoleIdChange = (e) => {
-    let selectRoleId = e.target.options[e.target.selectedIndex].value;
-    let selectRoleName = e.target.options[e.target.selectedIndex].text;
-
-    setRoleId(selectRoleId);
-    setRoleName(selectRoleName);
-    setResetSelect(true);
-  }
   const onUsernameChange = (e) => {
     let input = e.target.value;
     setUsername(input);
@@ -89,12 +80,9 @@ export default function AccountAddModal({ dataAcc }) {
     var validateUsername = /^[a-z\d]+$/i;
     var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
     var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-    var validatePhone = /(0[3|5|7|8|9])+([0-9]{8,9})\b/;
+    var validatePhone = /(0)+([0-9]{9})\b/;
     var inputDate = dateOfBirth.length > 0 ? new Date(dateOfBirth) : "";
     var today = new Date();
-    if (roleId.length === 0) {
-      msg.roleId = "Vui lòng chọn chức năng";
-    }
     if (username.length === 0) {
       msg.username = "Không được để trống";
     } else if (!validateUsername.test(username)) {
@@ -102,9 +90,6 @@ export default function AccountAddModal({ dataAcc }) {
     } else if (username.length < 4 || username.length > 20) {
       msg.username = "Độ dài từ 4-20 kí tự";
     }
-    // else if (JSON.stringify(dataAcc).includes(username)) {
-    //   msg.username = "Tài khoản đã tồn tại";
-    // }
     if (fullname.length === 0) {
       msg.fullname = "Không được để trống";
     } else if (!validateFullname.test(fullname)) {
@@ -117,11 +102,8 @@ export default function AccountAddModal({ dataAcc }) {
     } else if (!validateEmail.test(email)) {
       msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
     }
-    if (phone.length === 0) {
-      msg.phone = "Không được để trống";
-    }
-    else if (!validatePhone.test(phone)) {
-      msg.phone = "Độ dài từ 10-11 số, không bao gồm kí tự đặc biệt và dấu cách";
+    if (phone.length > 0 && !validatePhone.test(phone)) {
+      msg.phone = "Độ dài từ 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
     if (dateOfBirth.length > 0 && inputDate > today) {
       msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
@@ -143,24 +125,26 @@ export default function AccountAddModal({ dataAcc }) {
     for (var i = 0; i < lessonSelect.length; i++) {
       lessonSelect[i].selected = lessonSelect[i].defaultSelected;
     }
-
   }
 
-  const hideAlert = () => {
+  const hideAlertSuccess = () => {
     setMsgSuccessResponse("");
     setMsgErrorResponse("");
     history.go(0);
+  }
+  const hideAlertError = () => {
+    setMsgErrorResponse("");
   }
   return (
     <>
       {/* add account */}
       <div class="alert-wrapper position-absolute" >
         {msgSuccessResponse !== "" ?
-          < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
+          < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
             {msgSuccessResponse}
           </SweetAlert > : ""}
         {msgErrorResponse !== "" ?
-          < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
+          < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
             {msgErrorResponse}
           </SweetAlert > : ""}
       </div>
@@ -177,12 +161,8 @@ export default function AccountAddModal({ dataAcc }) {
               <form class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Vai trò<span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" disabled value="Quản lý nội dung" />
 
-                  <select class="form-select" onChange={onRoleIdChange}>
-                    <option value="" selected disabled={resetSelect}>Chọn vai trò</option>
-                    <option value="2">Quản lý nội dung</option>
-                  </select>
-                  <p class="text-danger mb-0">{validationMsg.roleId}</p>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Tài khoản<span class="text-danger">*</span></label>

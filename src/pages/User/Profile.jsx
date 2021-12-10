@@ -200,7 +200,6 @@ export default function Profile({ isClicked }) {
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
-            console.log(`ok`);
             UserServices.updateProfile(profile).then((res) => {
                 if (res.status === 200) {
                     setMsgAPIUpdate("Cập nhật thành công !");

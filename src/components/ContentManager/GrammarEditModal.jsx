@@ -26,7 +26,7 @@ export default function GrammarEditModal({ grammarDetail }) {
         S3Config.getConfig().then((res) => {
             setConfig({
                 bucketName: res.data[0].value,
-                dirName: '',
+                dirName: 'ImgForGrammar',
                 region: res.data[1].value,
                 accessKeyId: res.data[2].value,
                 secretAccessKey: res.data[3].value
@@ -34,9 +34,8 @@ export default function GrammarEditModal({ grammarDetail }) {
         });
     }, [])
 
-    const upload = (file, folder) => {
+    const upload = (file) => {
         const msg = {};
-        setConfig({ ...config, dirName: folder });
         S3FileUpload.uploadFile(file, config).then((data) => {
         }).catch((err) => {
             msg.err = err;
@@ -58,7 +57,7 @@ export default function GrammarEditModal({ grammarDetail }) {
             exampleImageLink: exampleImageLink,
             exampleMeaning: exampleMeaning,
         };
-        const uploadImageSuccess = upload(imageUpload, 'Avatar');
+        const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
             LessonServices.editGrammar(grammarUpdate, grammarDetail.id).then((response) => {
                 console.log(`response`, response)
@@ -152,11 +151,15 @@ export default function GrammarEditModal({ grammarDetail }) {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
         history.go(0);
     }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
+    }
+
 
 
     return (
@@ -164,11 +167,11 @@ export default function GrammarEditModal({ grammarDetail }) {
             {/* edit grammar */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Sửa ngữ pháp thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Sửa ngữ pháp thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Sửa ngữ pháp thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Sửa ngữ pháp thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
