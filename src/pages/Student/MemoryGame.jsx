@@ -7,8 +7,10 @@ import Start from './Start';
 import ExamServices from '../../services/ExamServices';
 import { useHistory } from 'react-router';
 import GameService from '../../services/GameService';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import UserServices from "../../services/UserServices.jsx";
 
-export default function TestMemory() {
+export default function MemoryGame() {
     const [isStarted, setStart] = useState(false);
     const [options, setOptions] = useState([]);
     const [level, setLevel] = useState(null);
@@ -23,6 +25,7 @@ export default function TestMemory() {
     const [bonus, setBonus] = useState(0);
     const [total, setTotal] = useState(0);
     const [num, setNum] = useState(100);
+    const [hasAchievement, setHasAchievement] = useState([]);
     const history = useHistory();
 
     let myInterval = useRef();
@@ -159,12 +162,27 @@ export default function TestMemory() {
         setTotal(point + bonusCurrent);
         document.getElementById("flips").innerHTML = point;
         GameService.fetchSaveGame(3, "Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
-
+        UserServices.checkAchievement().then((res) => {
+            console.log(`res`, res)
+            // setHasAchievement(res.data);
+            setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
+        })
     }
+    const hideAlert = () => {
+        setHasAchievement([]);
+    }
+
 
 
     return (
         <div>
+            <div class="alert-wrapper position-absolute" >
+                {hasAchievement.length !== 0 ?
+                    < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={hideAlert}>
+                        <h3> {hasAchievement[0].name}</h3>
+                        <h4>{hasAchievement[0].desciption}</h4>
+                    </SweetAlert > : ""}
+            </div>
             <div
                 style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                 <Navigation />
@@ -181,7 +199,7 @@ export default function TestMemory() {
 
                         </div> : ""}
                         <div class="col-md-12" >
-                            <h1 class="page-title"> Trúng hay hụt </h1>
+                            <h1 class="page-title"> Memory Game </h1>
                             {!isStarted ? <Start isStartedProps={setStart} setOptions={setOptions} setLevel={setLevel} /> : (<>
                                 <div className="game-container">
 
