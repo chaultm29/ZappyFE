@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect, useRef } from 'react'
 import LessonServices from '../../services/LessonServices';
 import { useHistory } from "react-router-dom";
 import S3FileUpload from 'react-s3';
-import S3config from '../../services/S3Config.js';
+import noImage from "../../assets/img/noImage.png"
 import SweetAlert from 'react-bootstrap-sweetalert';
-import { error } from 'jquery';
+import S3Config from '../../services/S3Config.js';
 
 export default function QuestionAddModal() {
     const [image, setImage] = useState("");
@@ -21,17 +20,37 @@ export default function QuestionAddModal() {
     const [msgErrorResponse, setMsgErrorResponse] = useState("");
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const history = useHistory();
+    const inputFile = useRef(null);
 
 
-
-
+    const [config, setConfig] = useState({});
+    useEffect(() => {
+        S3Config.getConfig().then((res) => {
+            setConfig({
+                bucketName: res.data[0].value,
+                dirName: 'ImgForGrammar',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+    }, [])
+    const upload = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, config).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
                 setImageUpload(e.target.files[0]);
                 setImage(e.target.files[0].name);
-                document.getElementById("imgAdd").src = reader.result;
+                document.getElementById("imgAddQuestion").src = reader.result;
             }
         }
         if (e.target.files[0]) {
@@ -39,13 +58,7 @@ export default function QuestionAddModal() {
         }
     }
 
-    // const upload = () => {
-    //     S3FileUpload.uploadFile(imageUpload, S3config.config).then((data) => {
-    //         console.log(data.location);
-    //     }).catch((err) => {
-    //         alert(err);
-    //     })
-    // }
+
     const onReset = () => {
         setImage("");
         setImageUpload("");
@@ -76,21 +89,23 @@ export default function QuestionAddModal() {
             answer: answer.map(({ id, ...items }) => items),
             imgeLink: image
         };
-        // upload();
-        LessonServices.addQuestion(questionAdd).then((response) => {
-            if (response.status === 200) {
-                if (response.data.includes("thành công")) {
-                    setMsgSuccessResponse(response.data);
-                } else if (response.data.includes("đã tồn tại")) {
-                    setMsgErrorResponse(response.data);
+        const uploadImageSuccess = upload(imageUpload);
+        if (uploadImageSuccess) {
+            LessonServices.addQuestion(questionAdd).then((response) => {
+                if (response.status === 200) {
+                    if (response.data.includes("thành công")) {
+                        setMsgSuccessResponse(response.data);
+                    } else if (response.data.includes("tồn tại")) {
+                        setMsgErrorResponse(response.data);
+                    }
                 }
-            }
-        }).catch((error) => {
-            setMsgErrorResponse(error);
-        });
+            }).catch((error) => {
+                setMsgErrorResponse(error);
+            });
+        } else {
+            setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+        }
     };
-
-
 
     const onChangeQuestionType = (e) => {
         let typeUser = e.target.value;
@@ -103,20 +118,16 @@ export default function QuestionAddModal() {
         let skillUser = e.target.value;
         setSkill(skillUser);
         setResetSelect(true);
-
     }
-
     const onChangeLesson = (e) => {
         let lessonUser = e.target.value;
         setLesson(lessonUser);
         setResetSelect(true);
-
     }
 
     const onChangeQuestion = (e) => {
         let questionUser = e.target.value;
         setQuestion(questionUser);
-
     }
 
     const onChangeAnswer = (e) => {
@@ -132,6 +143,7 @@ export default function QuestionAddModal() {
     }
 
     const validateAll = () => {
+        setValidationMsg('');
         const msg = {};
         if (typeName.length === 0) {
             msg.typeName = "Vui lòng chọn loại câu hỏi";
@@ -157,24 +169,24 @@ export default function QuestionAddModal() {
         if (Object.keys(msg).length > 0) return false;
         return true;
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+        history.go(0);
     }
-
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
+    }
     return (
         <>
             {/* add question */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Thêm câu hỏi thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Thêm câu hỏi thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Thêm câu hỏi thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Thêm câu hỏi thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
@@ -283,15 +295,16 @@ export default function QuestionAddModal() {
 
                                 <div class="col-8">
                                     <label for="inputImageLink" class="form-label">Hình ảnh</label>
-                                    <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
-                                </div>
-                                <div class="col-4">
-                                    {image &&
-                                        <>
-                                            <img id="imgAdd" src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
-                                            <a class="btn btn-link d-flex justify-content-center" onClick={() => { setImage(""); document.getElementById("inputImageLink").value = "" }}>Hủy bỏ</a>
-                                        </>}
+                                    <input class="d-none" type="file" ref={inputFile} id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
+                                    <br />
+                                    <input name="imageLink" value={image ? image : "Không có hình ảnh"} disabled />
 
+                                </div>
+                                <div class="col-4 text-center">
+                                    <img src={image ? image : noImage} id="imgAddQuestion" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <a href="javascript:void(0)" onClick={() => inputFile.current.click()}>Thay đổi</a>
+                                    {image && <> <span class="text-muted px-1">  |  </span>
+                                        <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
                                 </div>
 
                                 <div class="col-6">

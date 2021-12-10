@@ -5,6 +5,7 @@ import Navigation from '../../components/Student/Navigation';
 import StudyService from '../../services/StudyService';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import Speech from "../../services/Speech";
+import S3Config from '../../services/S3Config';
 class Katakana extends Component {
     constructor(props) {
         super(props)
@@ -30,7 +31,7 @@ class Katakana extends Component {
         return (
             <div style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom", minHeight: "100vh" }}>
                 <Navigation />
-                <div className="container mt-2" style={{ backgroundColor: "#fceced", borderRadius: "15px"}}>
+                <div className="container mt-2" style={{ backgroundColor: "#fceced", borderRadius: "15px" }}>
                     <div class="row">
                         <Sidebar />
                         <div class="col-md-9 mx-auto" style={{ width: "73%" }}>
@@ -53,7 +54,7 @@ class Katakana extends Component {
                                                     ></i>
                                                 </span></div>
 
-                                            <img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/Alphabet/" + kata.imageLink} alt="hiragana" />
+                                            <img src={S3Config.baseURLAlphabet + kata.imageLink} alt="hiragana" />
                                             <div class="des">{kata.description}</div>
                                         </div>
                                 )}

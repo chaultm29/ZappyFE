@@ -3,6 +3,8 @@ import Navigation from './Navigation';
 import './css/bingoGame.css';
 import GameService from '../../services/GameService';
 import bingoGif from '../../assets/img/bingo1.gif';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import UserServices from "../../services/UserServices.jsx";
 
 class BingoGame extends Component {
 
@@ -11,6 +13,7 @@ class BingoGame extends Component {
         this.generateTitle = this.generateTitle.bind(this);
         this.generateGameboard = this.generateGameboard.bind(this);
         this.bingo = this.bingo.bind(this);
+        this.hideAlert = this.hideAlert.bind(this);
 
         this.timer = 0;
         // this.startTimer = this.startTimer.bind(this);
@@ -25,7 +28,8 @@ class BingoGame extends Component {
             listCheckAnswer: [],
             time: {}, seconds: 300,
             initseconds: 300,
-            isFinish: false
+            isFinish: false,
+            hasAchievement: [],
         }
 
     }
@@ -157,6 +161,11 @@ class BingoGame extends Component {
             //this.setState({ state: this.state.score += 100 })
             // document.getElementById("isFinish").style.display = "relative";
             GameService.fetchSaveGame(2, "Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            UserServices.checkAchievement().then((res) => {
+                // console.log(`res`, res)
+                this.setState({ setHasAchievement: res.data });
+                // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
+            })
         }
         else if (this.state.seconds == 0) {
 
@@ -166,7 +175,13 @@ class BingoGame extends Component {
             }
             this.setState({ isFinish: true })
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            UserServices.checkAchievement().then((res) => {
+                // console.log(`res`, res)
+                this.setState({ setHasAchievement: res.data });
+                // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
+            })
         }
+
     }
 
     checkHorizontal() {
@@ -272,11 +287,22 @@ class BingoGame extends Component {
         this.setState({ time: timeLeftVar });
 
     }
+    hideAlert = () => {
+        this.setState({ hasAchievement: [] });
+    }
+
 
     render() {
         return (
             <div class="inner-container">
-                <div class="gameplay">
+                <div class="alert-wrapper position-absolute" >
+                    {this.state.hasAchievement.length !== 0 ?
+                        < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={this.hideAlert}>
+                            <h3> {this.state.hasAchievement[0].name}</h3>
+                            <h4>{this.state.hasAchievement[0].desciption}</h4>
+                        </SweetAlert > : ""}
+                </div>
+                <div class="gameplay" style={{ position: 'relative' }}>
                     {this.state.isFinish ?
                         <div class="overlay-text visible" id="isFinish">
                             <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
@@ -296,7 +322,7 @@ class BingoGame extends Component {
                             Điểm:  {this.state.score}
                         </div> */}
                         <div id="timer" class="flex-wrap d-flex justify-content-start">
-                            <div  class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
+                            <div class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
                         </div>
                         {/* <button onClick={this.startTimer}>Start</button> */}
                         {/* timer */}
@@ -322,7 +348,7 @@ class BingoGame extends Component {
 
                             {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
                             <div class="selectedQuestion" id="currentQuestion">Question for this part:
-                       {this.state.currentQuestion != null ?
+                                {this.state.currentQuestion != null ?
 
                                     (<div class="question" key={this.state.currentQuestion.questionID} >
                                         <div class="questionField">{this.state.currentQuestion.question}</div>

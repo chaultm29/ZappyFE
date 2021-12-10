@@ -7,7 +7,6 @@ export default function QuestionDeleteModal({ questionDetail }) {
     const [msgErrorResponse, setMsgErrorResponse] = useState("");
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const onClickYesButton = () => {
-        console.log(`questionDetail.id`, questionDetail.questionID)
         LessonServices.deleteQuestion(questionDetail.questionID).then((response) => {
             if (response.status === 200) {
                 setMsgSuccessResponse("Xóa câu hỏi thành công");
@@ -21,21 +20,24 @@ export default function QuestionDeleteModal({ questionDetail }) {
         });
 
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
         history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
     }
     return (
         <>
             {/* Delete modal */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Xóa câu hỏi thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Xóa câu hỏi thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Xóa câu hỏi thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Xóa câu hỏi thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>

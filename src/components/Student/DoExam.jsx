@@ -7,6 +7,8 @@ import FillBlankQuestion from "./FillBlankQuestion.jsx";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion.jsx";
 import TrueFalseQuestion from "./TrueFalseQuestion.jsx";
 import PracticeServices from "../../services/PracticeServices.jsx";
+import UserServices from "../../services/UserServices.jsx";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function DoExam({ options }) {
   const [listQuestion, setListQuestion] = useState([
@@ -17,6 +19,7 @@ export default function DoExam({ options }) {
   const [isPractice, setIsPractice] = useState(false);
   const [listCorrectQuestion, setListCorrectQuestion] = useState([]);
   const [listCorrectAnswer, setListCorrectAnswer] = useState([]);
+  const [hasAchievement, setHasAchievement] = useState([]);
   const history = useHistory();
   const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
@@ -85,7 +88,13 @@ export default function DoExam({ options }) {
       })
       setIsPractice(true);
     }
+    UserServices.checkAchievement().then((res) => {
+      // console.log(`res`, res)
+      setHasAchievement(res.data);
+      // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
+    })
     setIsShow(true);
+
   };
   const [numberOfCorrect, setNumberOfCorrect] = useState("");
   const [proportion, setProportion] = useState("")
@@ -153,9 +162,19 @@ export default function DoExam({ options }) {
         );
     }
   };
+  const hideAlert = () => {
+    setHasAchievement([]);
+  }
 
   return (
     <>
+      <div class="alert-wrapper position-absolute" >
+        {hasAchievement.length !== 0 ?
+          < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={hideAlert}>
+            <h3> {hasAchievement[0].name}</h3>
+            <h4>{hasAchievement[0].desciption}</h4>
+          </SweetAlert > : ""}
+      </div>
       <div id="back-to-top"></div>
       {isShow && (
         <div class="alert alert-success text-center" role="alert">

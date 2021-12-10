@@ -19,21 +19,24 @@ export default function KanjiDeleteModal({ kanjiDetail }) {
                 setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
             });
     }
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
         history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
     }
     return (
         <>
             {/* Delete modal */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Xóa chữ Hán thành công!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert success title="Xóa chữ Hán thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Xóa chữ Hán thất bại!" timeout={2000} onConfirm={hideAlert}>
+                    < SweetAlert danger title="Xóa chữ Hán thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
