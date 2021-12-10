@@ -24,7 +24,7 @@ import PageNotFound from "./pages/User/PageNotFound";
 import Game from "./pages/Student/Game";
 // import { Redirect } from "react-router/cjs/react-router.min";
 import Practice from "./pages/Student/Practice";
-import TestMemory from "./pages/Student/TestMemory";
+import MemoryGame from "./pages/Student/MemoryGame";
 import PlayGame from "./pages/Student/PlayGame";
 
 
@@ -42,7 +42,7 @@ function generateRoute(username) {
           <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
           <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
           <Route path="/study/practice/:catName/:lessId" component={Practice} />
-          <Route path="/testMemory" component={TestMemory} ></Route>
+          <Route path="/testMemory" component={MemoryGame} ></Route>
           <Route path="/play-game" component={PlayGame}></Route>
           <Route path="/exam" component={Exam}></Route>
           <Route path="/game" component={Game}></Route>
