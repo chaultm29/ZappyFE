@@ -90,6 +90,8 @@ class BingoGame extends Component {
             }
             var buttons = document.getElementsByClassName("answer");
             for (var i = 0; i < buttons.length; i++) {
+                if(buttons[i].className.search("answer correct")!=-1)  buttons[i].style.background = "green";
+                else if(buttons[i].className.search("answer incorrect")!=-1)  buttons[i].style.background = "red";
                 buttons[i].disabled = true;
             }
             this.bingo();
@@ -305,7 +307,7 @@ class BingoGame extends Component {
                 <div class="gameplay" style={{ position: 'relative' }}>
                     {this.state.isFinish ?
                         <div class="overlay-text visible" id="isFinish">
-                            <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
+                            <div class="game-over">Kết thúc game</div>
                             <div class="result">
                                 <h4>Tổng điểm : {this.state.score}</h4>
                                 <h4>Thời gian chơi : {this.state.initseconds - this.state.seconds} giây</h4>
@@ -316,17 +318,12 @@ class BingoGame extends Component {
                             <div class="text-play-again" onClick={() => window.location.reload()}  >Click vào đây để chơi lại </div>
 
                         </div> : ""}
-
-                    <div class="content">
-                        {/* <div class="numbertext" id="currentNumber">
-                            Điểm:  {this.state.score}
-                        </div> */}
-                        <div id="timer" class="flex-wrap d-flex justify-content-start">
+                    {/* content for point and timer */}
+                    <div class="row content">
+                        <div id="score" class="flex-wrap d-flex justify-content-start">
                             <div class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
                         </div>
-                        {/* <button onClick={this.startTimer}>Start</button> */}
                         {/* timer */}
-                        {/* <div class="timer">Thời gian: :</div> */}
                         <div id="timer" class="flex-wrap d-flex justify-content-end">
                             <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>minutes</span></div>
                             {/* <div id ="dotBetween">:</div> */}
@@ -334,6 +331,7 @@ class BingoGame extends Component {
                         </div>
                         {/* timer end */}
                     </div>
+                    <div class="row">
                     <div class="gamearea">
                         <div id="title">
                         </div>
@@ -345,13 +343,12 @@ class BingoGame extends Component {
                     <div class="control">
                         <div class="content">
 
-
                             {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
-                            <div class="selectedQuestion" id="currentQuestion">Question for this part:
+                            <div class="selectedQuestion" id="currentQuestion">
                                 {this.state.currentQuestion != null ?
 
                                     (<div class="question" key={this.state.currentQuestion.questionID} >
-                                        <div class="questionField">{this.state.currentQuestion.question}</div>
+                                        <div class="questionField"> {this.state.currentQuestion.question}</div>
 
                                         {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
                                         {this.state.currentQuestion.answers.map(
@@ -360,20 +357,8 @@ class BingoGame extends Component {
                                         )}
                                     </div>) : ""}
                             </div>
-                            {/* <div class="finishGame">
-                                    <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
-                                    <div class="congrat">Chúc mừng bạn đã hoàn thành game này</div>
-                                </div> */}
-                            {/* <button onclick="nextNumber()"> Next Number</button>
-                        <div class="label">Goal</div> */}
-                            {/* <select name="goal" id="goal">
-                            <option value="horizontal">Horizontal</option>
-                            <option value="vertical">Vertical</option>
-                            <option value="diagonal">Diagonal</option>
-                        </select>
-                        <button onclick={() => this.bingo()}> Bingo !</button> */}
                         </div>
-                        {/* <button class="newgame" onclick="newGame()">New game</button> */}
+                    </div>
                     </div>
                 </div>
             </div>

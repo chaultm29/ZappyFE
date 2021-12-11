@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navigation from "../../components/Student/Navigation";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
+import bingoImage from "../../assets/img/bingo-games.jpg";
 import BingoGame from "../../components/Student/BingoGame";
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-router-dom";
 import GameService from "../../services/GameService";
@@ -66,13 +67,14 @@ export default function PlayGame() {
                                 <div class="card mb-3 shadow">
                                     <div class="row g-0">
                                         <div class="col-md-4">
+                                        <img src={bingoImage}width="100%" height="150" alt="img"/>
                                             {/* <img src="..." class="img-fluid rounded-start" alt="..." /> */}
-                                            <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="43%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
+                                            {/* <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> */}
                                         </div>
                                         <div class="col-md-8">
                                             <div class="card-body">
                                                 <h5 class="card-title">Bingo Game</h5>
-                                                <p class="card-text">Ghi cái mô tả vào đây :))</p>
+                                                <p class="card-text">Ai chơi BINGO rồi thì chắc biết, không cần giới thiệu nhỉ</p>
                                                 {/* <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> */}
 
                                                 <div class="d-md-flex justify-content-md-end">

@@ -3,7 +3,8 @@ import './css/grammar.css';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
-import StudyService from '../../services/StudyService'
+import StudyService from '../../services/StudyService';
+import S3Config from "../../services/S3Config";
 class Grammar extends Component {
     constructor(props) {
         super(props)
@@ -52,7 +53,7 @@ class Grammar extends Component {
                                                         <div>{grammar.example}</div>
                                                         <div>{grammar.exampleMeaning}</div>
                                                         <div class="vocabulary-image">
-                                                        <img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForGrammar/" + grammar.imageLink} alt="hiragana" />
+                                                        <img src={S3Config.baseURLImgForGrammar + grammar.exampleImageLink} alt="hiragana" />
                                                         {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
                                                         </div>
                                                     </div>
