@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CalendarEmb from "../Admin/Calendar.jsx";
-import Schedule from "../Admin/Schedule.jsx";
 import Table, { SelectColumnFilter } from "../UI/Table.jsx";
 import { useHistory } from "react-router-dom";
 import QuestionAddModal from "./QuestionAddModal.jsx";
@@ -108,7 +107,6 @@ export default function QuestionManagerContent() {
         <div className="col-sm-3">
 
           <CalendarEmb />
-          <Schedule />
         </div>
       </div>
     </div>

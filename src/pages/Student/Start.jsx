@@ -26,6 +26,7 @@ export default function Start({ isStartedProps, setOptions, setLevel }) {
     } else {
       setLessonIds(lessonIds.filter((item) => item !== parseInt(value)));
     }
+    console.log(`numberOfQuestion`, numberOfQuestion);
   }
 
   const onHandleChangeSkillIds = (e) => {

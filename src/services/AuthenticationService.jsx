@@ -41,7 +41,7 @@ const login = (username, password) => {
           window.location.href = "/home"
         }
         else if (response.data.rolename == "Admin") {
-          window.location.href = "/admin/dashboard"
+          window.location.href = "/admin/acc-mng"
         }
         else if (response.data.rolename == "Content Manager") {
           window.location.href = "/content-mng/question-mng"
