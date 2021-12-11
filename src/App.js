@@ -26,6 +26,7 @@ import Game from "./pages/Student/Game";
 import Practice from "./pages/Student/Practice";
 import MemoryGame from "./pages/Student/MemoryGame";
 import PlayGame from "./pages/Student/PlayGame";
+import ForgotPassword from "./pages/User/ForgotPassword";
 
 
 function generateRoute(username) {
@@ -80,6 +81,8 @@ function App() {
         <Route path="/home" component={Homepage}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/profile" component={Profile}></Route>
+        {/* <Route path="/forgot?email=:emailUser&token=:tokenUser" component={ForgotPassword}></Route> */}
+        <Route path="/forgot" component={ForgotPassword}></Route>
         <Route path="/notfound" component={NotFoundPage} ></Route>
         {generateRoute(role)}
         <Route path="*" component={PageNotFound} ></Route>
