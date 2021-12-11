@@ -5,7 +5,7 @@ import Navigation from '../../components/Student/Navigation';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService';
 import Speech from "../../services/Speech";
-
+import S3Config from "../../services/S3Config";
 class Vocabulary extends Component {
     constructor(props) {
         super(props)
@@ -148,7 +148,7 @@ class Vocabulary extends Component {
                                                             </span>
                                                         </div>
                                                         <div class="vocabulary-image">
-                                                        <img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForVoca/" + vocabulary.imageLink} alt="hiragana" />
+                                                        <img id ="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="hiragana" />
                                                         {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
                                                         </div>
 

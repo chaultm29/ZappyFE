@@ -10,7 +10,7 @@
 }
 .gameplay {
     
-    height: 680px;
+    height: 880px;
     background: none;
     margin: 20px;
   
@@ -24,12 +24,12 @@
 .control {
     width: 55%;
     float: right;
-    padding: 10px;
+    /* padding: 10px; */
 }
-/* .control .content {
-    text-align: center;
-    box-shadow: 5px 5px 15px #000;
-} */
+
+.content{
+    margin-bottom: 20px;
+}
 
 .content .numbertext {
     font-size: 60px;
@@ -122,7 +122,8 @@
     font-size: 30px;
     border: none;
     background-image: url("/src/assets/img/koi.jpg");
-    display: inline-block
+    display: inline-block;
+    background-size: cover;
 }
 .square:hover{
     background-color: blueviolet;
@@ -134,7 +135,7 @@
     padding: 25px;
 } */
 .imgBingo{
-    width: 500px;
+    width: 300px;
     height: auto;
     justify-content: center;
     align-items: center;
@@ -153,12 +154,18 @@
     
 }
 .selectedQuestion .question{
+    /* background-image: url("/src/assets/img/gamebg4.jpg"); */
+    background-color: pink;
+    padding: 20px;
+    background-size: cover;
+    box-shadow: black 3px;
+    border-radius: 15px;
     
 }
 .selectedQuestion .questionField{
     background-color: antiquewhite;
     margin-bottom: 10px; 
-    border-radius: 15px;
+    border-radius: 10px;
     border: grey 1px;
     box-shadow: 1px 1px 2px 1px;
     float: right;
@@ -232,6 +239,9 @@
 .incorrect{
     background-color: red;
 }
+.answer correct {
+    background-color: green;
+}
 
 /* for timer */
 
@@ -253,10 +263,28 @@
     font-size: 15px;
     font-weight: 500;
  }
- #dotBetween{
+/* for score */
+#score div {
+    background-color: skyblue;
+    color: black;
+    width: 150px;
+    height: 105px;
+    border-radius: 5px;
     font-size: 35px;
     font-weight: 700;
-    justify-content: center;
-    align-items: center;
-    margin-top: 50px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+ }
+ #score div span {
+    display: block;
+    margin-top: -2px;
+    font-size: 20px;
+    font-weight: 600;
+ }
+ #score{
+     width: 30%;
+ }
+ #timer{
+     width: 70%;
  }
