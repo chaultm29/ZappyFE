@@ -10,12 +10,6 @@ export default function Sidebar({ role }) {
         </div>
         {role == "Account Manager" && (
           <div class="list-group list-group-flush">
-
-            <NavLink
-              to="/admin/dashboard"
-              className="list-group-item list-group-item-action bg-transparent"
-              avtiveClassName="active"
-            >  <p>Dashboard</p></NavLink>
             <NavLink
               to="/admin/acc-mng" title="Quản lý tài khoản"
               className="list-group-item list-group-item-action bg-transparent"

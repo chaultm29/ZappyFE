@@ -102,6 +102,8 @@ export default function MemoryGame() {
     const shuffleCards = () => {
         const shuffledCards = [...listQuestion, ...listAnswer].sort(() => Math.random() - 0.5)
             .map((card) => ({ ...card, preId: Math.random() }))
+        console.log(`listQuestion`, listQuestion);
+        console.log(`listAnswer`, listAnswer)
         setChoiceOne(null);
         setChoiceTwo(null);
         setCards(shuffledCards);

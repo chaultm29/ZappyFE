@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CalendarEmb from "../Admin/Calendar.jsx";
-import Schedule from "../Admin/Schedule.jsx";
 import Table, { SelectColumnFilter } from "../UI/Table.jsx";
 import LessonServices from "../../services/LessonServices.jsx";
 import KanjiViewModal from "./KanjiViewModal.jsx";
@@ -120,7 +119,7 @@ export default function KanjiManagerContent() {
 
         <div className="col-sm-3">
           <CalendarEmb />
-          <Schedule />
+
         </div>
       </div>
     </div>

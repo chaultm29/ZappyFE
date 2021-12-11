@@ -1,6 +1,5 @@
 import "./App.css";
 import React, { Profiler } from "react";
-import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
 import Study from "./pages/Student/Study";
@@ -52,7 +51,6 @@ function generateRoute(username) {
     case "Admin":
       return (
         <Switch>
-          <Route path="/admin/dashboard" component={Dashboard}></Route>
           <Route path="/admin/acc-mng" component={AccountManager}></Route>
           <Route path="*" component={PageNotFound} ></Route>
         </Switch>)
@@ -81,7 +79,6 @@ function App() {
         <Route path="/home" component={Homepage}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/profile" component={Profile}></Route>
-        {/* <Route path="/forgot?email=:emailUser&token=:tokenUser" component={ForgotPassword}></Route> */}
         <Route path="/forgot" component={ForgotPassword}></Route>
         <Route path="/notfound" component={NotFoundPage} ></Route>
         {generateRoute(role)}
