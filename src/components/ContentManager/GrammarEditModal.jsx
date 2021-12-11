@@ -235,7 +235,7 @@ export default function GrammarEditModal({ grammarDetail }) {
                                 </div>
 
                                 <div class="col-4 text-center">
-                                    <img src={exampleImageLink ? S3Config.baseURLAvatar + exampleImageLink : noImage} id="imgEditGrammar" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img src={exampleImageLink ? S3Config.baseURLImgForGrammar + exampleImageLink : noImage} id="imgEditGrammar" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                     <a href="javascript:void(0)" onClick={() => inputImageFile.current.click()}>Thay đổi</a>
                                     {exampleImageLink && <> <span class="text-muted px-1">  |  </span>
                                         <a href="javascript:void(0)" onClick={() => setExampleImageLink("")}>Xóa bỏ</a></>}

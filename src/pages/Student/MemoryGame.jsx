@@ -38,7 +38,7 @@ export default function MemoryGame() {
             case 18:
                 setNum(270);
                 break;
-            case 27:
+            case 24:
                 setNum(360);
                 break;
         }
@@ -163,9 +163,9 @@ export default function MemoryGame() {
         document.getElementById("flips").innerHTML = point;
         GameService.fetchSaveGame(3, "Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
         UserServices.checkAchievement().then((res) => {
-            console.log(`res`, res)
-            // setHasAchievement(res.data);
-            setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
+            // console.log(`res`, res)
+            setHasAchievement(res.data);
+            // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
         })
     }
     const hideAlert = () => {
