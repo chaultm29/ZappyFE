@@ -1,8 +1,8 @@
 import axios from 'axios';
 const API_URL =
 
- // "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
- "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com"
+  // "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";//
+  "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com"
 //"http://localhost:5000"
 // const register = (account) => {
 //   return axios.post(API_URL + "/register", {
@@ -12,7 +12,15 @@ const API_URL =
 const register = (account) => {
   return axios.post(API_URL + "/register", account);
 }
-
+const forgotPassword = (email) => {
+  return axios.put(API_URL + "/forgotPassword?email=" + email);
+}
+const checkEmailTokenOnURL = (email, token) => {
+  return axios.get(API_URL + "/forgotPassword?email=" + email + "&token=" + token);
+}
+const changePasswordInCaseOK = (email, token, userPass) => {
+  return axios.post(API_URL + "/forgotPassword?email=" + email + "&token=" + token, userPass);
+}
 
 const login = (username, password) => {
   return axios
@@ -55,6 +63,7 @@ const logout = () => {
   //return false;
 };
 
+
 const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("username"));
 };
@@ -69,6 +78,9 @@ const getToken = () => {
 
 export default {
   register,
+  forgotPassword,
+  checkEmailTokenOnURL,
+  changePasswordInCaseOK,
   login,
   logout,
   getCurrentUser,
