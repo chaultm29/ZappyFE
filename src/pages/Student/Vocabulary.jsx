@@ -179,7 +179,8 @@ class Vocabulary extends Component {
 
                                             <div class="row my-card shadow mt-2" key={vocabulary.id}>
                                                 <div class="voca">{vocabulary.vocabulary}</div>
-                                                <div class="des">{vocabulary.meaning}</div>
+                                                <div class="voca-des">{vocabulary.meaning}</div>
+                                                <div class="voca-des">{vocabulary.example} : {vocabulary.exampleMeaning}</div>
                                             </div>
                                     )}
                                 <div class="row">

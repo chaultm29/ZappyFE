@@ -32,34 +32,34 @@ class Sidebar extends Component {
   }
 
   learning(skill) {
-    var text = "Hướng dẫn";
+    var text = "Học tập";
     var rightContent = document.getElementsByClassName("rightContent");
     switch (skill) {
       case "huongdan":
-        text = "Hướng dẫn";
+        // text = "Hướng dẫn";
         window.location.href = "/study";
         break;
       case "alphabet":
-        text = "Bảng chữ cái";
+        // text = "Bảng chữ cái";
         this.props.history.push("/study/alphabet");
         break;
       case "hiragana":
-        text = "Hiragana";
+        // text = "Hiragana";
         this.props.history.push("/study/hiragana");
         break;
       case "katakana":
-        text = "Katakana";
+        // text = "Katakana";
         this.props.history.push("/study/katakana");
         break;
       case "vocabulary":
-        text = "Từ vựng";
+        // text = "Từ vựng";
 
         break;
       case "grammar":
-        text = "Ngữ pháp";
+        // text = "Ngữ pháp";
         break;
       case "kanji":
-        text = "Chữ hán";
+        // text = "Chữ hán";
         break;
     }
     var title = document.getElementById("title");
@@ -124,7 +124,7 @@ class Sidebar extends Component {
             id="title"
             class="text-lg-center lh-base font-normal text-lg text-decoration-none text-reset mt-2"
           >
-            Hướng dẫn
+            Học tập
           </h3>
           <div class="row ${1| ,row-cols-2,row-cols-3, auto,justify-content-md-center,|} mx-0">
             <div class="col-md-6 box shadow me-2" style={{ width: "48%" }}>

@@ -117,8 +117,8 @@ class Kanji extends Component {
                               onClick={this.onUserClickSpeaker.bind(this)}
                             ></i>
                           </span></li>
-                          <li>Âm hán: <span>{kanji.chinese}</span></li>
-                          <li>Âm nghĩa: <span>{kanji.vietnamese}</span></li>
+                          <li>Nghĩa: <span>{kanji.chinese}</span></li>
+                          <li>Giải nghĩa: <span>{kanji.vietnamese}</span></li>
                         </ul>
                       </div>
                       {/* <div class="kanji-gif"><img src={require(`https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/${kanji.gifLink == "" ? "1.gif" : kanji.gifLink}`).default} alt="hiragana" /></div> */}
