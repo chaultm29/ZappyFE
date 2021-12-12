@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import noImage from "../../assets/img/noImage.png"
+import S3Config from '../../services/S3Config'
 export default function QuestionViewModal({ questionDetail }) {
 
     return (
@@ -92,7 +93,7 @@ export default function QuestionViewModal({ questionDetail }) {
                                         {/* <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" /> */}
                                     </div>
                                     <div class="col-4">
-                                        <img src={questionDetail.imgeLink ? questionDetail.imgeLink : noImage} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                        <img src={questionDetail.imgeLink ? S3Config.baseURLImgForQuestion + questionDetail.imgeLink : noImage} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                     </div>
                                 </form>
                             </div>

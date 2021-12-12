@@ -95,27 +95,27 @@ export default function GrammarAddModal() {
     }
 
     const onChangeGrammar = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setGrammar(valueUser);
     }
 
     const onChangeExplanation = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setExplanation(valueUser);
     }
 
     const onChangeGrammarMeaning = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setGrammarMeaning(valueUser);
     }
 
     const onChangeExample = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setExample(valueUser);
     }
 
     const onChangeExampleMeaning = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setExampleMeaning(valueUser);
     }
 
@@ -185,14 +185,14 @@ export default function GrammarAddModal() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" onSubmit={onSubmit}>
+                            <form class="row g-3" onSubmit={onSubmit} autoComplete="off">
                                 <div class="col-md-6">
 
                                     <label class="form-label">Bài<span class="text-danger">*</span></label>
                                     <select class="form-select" onChange={onChangeLesson}>
                                         <option value="" selected disabled={resetSelect}>Chọn bài</option>
                                         {lessonList.map((lesson) => (
-                                            <option value={lesson} selected>{lesson}</option>
+                                            <option value={lesson}>{lesson}</option>
                                         ))}
                                     </select>
                                     <p class="text-danger mb-0">{validationMsg.lessonName}</p>

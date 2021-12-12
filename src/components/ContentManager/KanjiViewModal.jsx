@@ -11,7 +11,7 @@ export default function KanjiViewModal({ kanjiDetail }) {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Xem chi tiết
+                                Xem chữ Hán
                             </h5>
                             <button
                                 type="button"
@@ -56,12 +56,12 @@ export default function KanjiViewModal({ kanjiDetail }) {
                                 <div class="col-6">
                                     <label for="inputImageLink" class="form-label">Hình ảnh</label>
 
-                                    <img src={S3Config.baseURLKanjiDes + kanjiDetail.imageLink} class="rounded mx-auto d-block" alt="..." />
+                                    <img src={S3Config.baseURLKanjiDes + kanjiDetail.imageLink} class="rounded mx-auto d-block" alt="..." width="200px" />
                                 </div>
                                 <div class="col-6">
                                     <label for="inputImageLink" class="form-label">Cách viết</label>
 
-                                    <img src={S3Config.baseURLKanjiGif + kanjiDetail.imageLink} class="rounded mx-auto d-block" alt="..." />
+                                    <img src={S3Config.baseURLKanjiGif + kanjiDetail.gifLink} class="rounded mx-auto d-block" alt="..." width="200px" />
                                 </div>
                             </form>
                         </div>

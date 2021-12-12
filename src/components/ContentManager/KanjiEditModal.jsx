@@ -152,29 +152,29 @@ export default function KanjiEditModal({ kanjiDetail }) {
     }
 
     const onChangeCharacter = (e) => {
-        let characterUser = e.target.value;
+        let characterUser = e.target.value.trim();
         setCharacter(characterUser);
     }
 
     const onChangeChinese = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setChinese(valueUser);
     }
     const onChangeVietnamese = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setVietnamese(valueUser);
     }
     const onChangeOnyomi = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setOnyomi(valueUser);
     }
     const onChangeKunyomi = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setKunyomi(valueUser);
     }
 
     const onChangeDescription = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setDescription(valueUser);
     }
 
@@ -335,7 +335,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                     </div>
 
                                     <div class="col-4 text-center">
-                                        <img src={gif ? S3Config.baseURLKanjiGif + image : noImage} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                        <img src={gif ? S3Config.baseURLKanjiGif + gif : noImage} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                         <a href="javascript:void(0)" onClick={() => inputGifFile.current.click()}>Thay đổi</a>
                                         {gif && <> <span class="text-muted px-1">  |  </span>
                                             <a href="javascript:void(0)" onClick={() => setGif("")}>Xóa bỏ</a></>}

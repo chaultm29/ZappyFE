@@ -104,19 +104,19 @@ export default function VocabularyEditModal({ vocabDetail }) {
         setLessonName(inputUser);
     }
     const onChangeVocabulary = (e) => {
-        let inputUser = e.target.value;
+        let inputUser = e.target.value.trim();
         setVocabulary(inputUser);
     }
     const onChangeMeaning = (e) => {
-        let inputUser = e.target.value;
+        let inputUser = e.target.value.trim();
         setMeaning(inputUser);
     }
     const onChangeExample = (e) => {
-        let inputUser = e.target.value;
+        let inputUser = e.target.value.trim();
         setExample(inputUser);
     }
     const onChangeExampleMeaning = (e) => {
-        let inputUser = e.target.value;
+        let inputUser = e.target.value.trim();
         setExampleMeaning(inputUser);
     }
     const validateAll = () => {
