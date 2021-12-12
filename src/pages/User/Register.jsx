@@ -24,9 +24,8 @@ export default function Register() {
     const isValid = validateAll();
     if (!isValid) return;
     let account = { username: username, passwordOld: "", passwordNew: password, dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
-    console.log(`account`, account);
     AuthenticationService.register(account).then((response) => {
-      console.log(`response`, response);
+
       if (response.status === 200) {
         if (response.data.includes("thành công")) {
           setMsgSuccessResponse(response.data);
@@ -42,12 +41,12 @@ export default function Register() {
   }
 
   const onUsernameChange = (e) => {
-    let input = e.target.value;
-    setUsername(input.toLowerCase());
+    let input = e.target.value.toLowerCase().trim();
+    setUsername(input);
   }
   const onFullnameChange = (e) => {
-    let input = e.target.value;
-    setFullname(input.toUpperCase());
+    let input = e.target.value.toUpperCase().trim();
+    setFullname(input);
   }
   const onEmailChange = (e) => {
     let input = e.target.value;
@@ -211,7 +210,6 @@ export default function Register() {
                   </div>
                   <div class="text-start mb-2">
                     <p class="text-danger mb-0">{validationMsg.email}</p>
-
                   </div>
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">

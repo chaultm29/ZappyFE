@@ -126,7 +126,7 @@ export default function QuestionAddModal() {
     }
 
     const onChangeQuestion = (e) => {
-        let questionUser = e.target.value;
+        let questionUser = e.target.value.trim();
         setQuestion(questionUser);
     }
 
@@ -157,13 +157,12 @@ export default function QuestionAddModal() {
         if (question.length === 0) {
             msg.question = "Không được để trống";
         }
-        console.log(`answer`, answer)
         if (answer.length === 0) {
-            msg.answer = "Không được để trống";
+            msg.answer = "Cần điền đầy đủ các đáp án";
         } else if (typeName === "Chọn đáp án đúng" && answer.length !== 4) {
-            msg.answer = "Không được để trống";
+            msg.answer = "Cần điền đầy đủ các đáp án";
         } else if (typeName === "Đúng/Sai" && answer.length !== 2) {
-            msg.answer = "Không được để trống";
+            msg.answer = "Cần điền đầy đủ các đáp án";
         }
         setValidationMsg(msg);
         if (Object.keys(msg).length > 0) return false;
