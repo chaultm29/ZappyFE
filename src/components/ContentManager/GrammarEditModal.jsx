@@ -108,27 +108,27 @@ export default function GrammarEditModal({ grammarDetail }) {
     }
 
     const onChangeGrammar = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setGrammar(valueUser);
     }
 
     const onChangeExplanation = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setExplanation(valueUser);
     }
 
     const onChangeGrammarMeaning = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setGrammarMeaning(valueUser);
     }
 
     const onChangeExample = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setExample(valueUser);
     }
 
     const onChangeExampleMeaning = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setExampleMeaning(valueUser);
     }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import noImage from "../../assets/img/noImage.png"
+import S3Config from '../../services/S3Config'
 export default function VocabularyViewModal({ vocabDetail }) {
 
     return (
@@ -11,7 +12,7 @@ export default function VocabularyViewModal({ vocabDetail }) {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Thêm từ vựng
+                                Xem từ vựng
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -47,7 +48,7 @@ export default function VocabularyViewModal({ vocabDetail }) {
 
                                 </div>
                                 <div class="col-5 text-center">
-                                    <img id="imgEdit" src={vocabDetail.imageLink ? vocabDetail.imageLink : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <img id="imgEdit" src={vocabDetail.imageLink ? S3Config.baseURLVocabulary + vocabDetail.imageLink : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
 
 
                                 </div>

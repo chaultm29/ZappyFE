@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import AccountServices from '../../services/AccountServices';
 import { useHistory } from "react-router-dom";
 import SweetAlert from 'react-bootstrap-sweetalert';
+import AccountConfirmResetPasswordModal from "./AccountConfirmResetPasswordModal";
 
 export default function AccountEditModal({ accountDetail }) {
   // console.log(`accountDetail`, accountDetail.roleDTO.id);
@@ -40,6 +41,8 @@ export default function AccountEditModal({ accountDetail }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    const isValid = validateAll();
+    if (!isValid) return;
     let account = {
       username: username,
       dateOfBirth: dateOfBirth,
@@ -64,21 +67,6 @@ export default function AccountEditModal({ accountDetail }) {
   };
 
 
-  const onResetPassword = () => {
-    AccountServices.resetPassword(accountDetail.username).then((response) => {
-      if (response.status === 200) {
-        if (response.data.message.includes("thành công")) {
-          setMsgSuccessResponse(response.data.message);
-        } else if (response.data.message.includes("tồn tại")) {
-          setMsgErrorResponse(response.data.message);
-        }
-      }
-    })
-      .catch((error) => {
-        setMsgErrorResponse(error);
-      });
-  }
-
   const onRoleIdChange = (e) => {
     let selectRoleId = e.target.options[e.target.selectedIndex].value;
     let selectRoleName = e.target.options[e.target.selectedIndex].text;
@@ -86,19 +74,19 @@ export default function AccountEditModal({ accountDetail }) {
     setRoleName(selectRoleName);
   }
   const onUsernameChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setUsername(input);
   }
   const onFullnameChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setFullname(input);
   }
   const onEmailChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.toLowerCase().trim();
     setEmail(input);
   }
   const onPhoneChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setPhone(input);
   }
   const onDateOfBirthChange = (e) => {
@@ -188,7 +176,6 @@ export default function AccountEditModal({ accountDetail }) {
                   <label class="form-label">Vai trò<span class="text-danger">*</span></label>
                   <select id="role" class="form-select" onChange={onRoleIdChange} disabled={roleName === "Admin" ? true : false}>
                     {roleName === "Admin" ? <option vale="1">Admin</option> :
-
                       listRole.map((role) => (
                         <option value={role.id} selected={role.name === roleName}>{role.name}</option>
                       ))
@@ -210,7 +197,7 @@ export default function AccountEditModal({ accountDetail }) {
 
                 <div class="col-md-6">
                   <label class="form-label">Email<span class="text-danger">*</span></label>
-                  <input name="email" type="email" class="form-control" value={email} onChange={onEmailChange} />
+                  <input name="email" type="email" class="form-control" style={{ textTransform: "lowercase" }} value={email} onChange={onEmailChange} />
 
                 </div>
                 <div class="col-md-6">
@@ -224,8 +211,8 @@ export default function AccountEditModal({ accountDetail }) {
                 </div>
 
                 <div class="col-12">
-                  <button type="button" class="btn btn-link ps-0" onClick={onResetPassword}>Đặt lại mật khẩu</button>
-                  <span class="text-danger">{msgSuccessResponse ? msgSuccessResponse : msgErrorResponse}</span>
+                  <button type="button" class="btn btn-link ps-0" data-bs-toggle="modal" data-bs-target="#ViewResetPasswordModal">Đặt lại mật khẩu</button>
+
                 </div>
                 <div class="col-6">
                   <button class="btn btn-secondary w-100" type="button" data-bs-dismiss="modal" aria-label="Close">

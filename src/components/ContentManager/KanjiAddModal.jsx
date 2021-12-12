@@ -122,29 +122,29 @@ export default function KanjiAddModal() {
     }
 
     const onChangeCharacter = (e) => {
-        let characterUser = e.target.value;
+        let characterUser = e.target.value.trim();
         setCharacter(characterUser);
     }
 
     const onChangeChinese = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setChinese(valueUser);
     }
     const onChangeVietnamese = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setVietnamese(valueUser);
     }
     const onChangeOnyomi = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setOnyomi(valueUser);
     }
     const onChangeKunyomi = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setKunyomi(valueUser);
     }
 
     const onChangeDescription = (e) => {
-        let valueUser = e.target.value;
+        let valueUser = e.target.value.trim();
         setDescription(valueUser);
     }
 

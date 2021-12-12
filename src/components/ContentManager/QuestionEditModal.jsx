@@ -104,8 +104,6 @@ export default function QuestionEditModal({ questionDetail }) {
         }
     }
 
-
-
     const onChangeQuestionType = (e) => {
         let typeUser = e.target.value;
         setTypeName(typeUser);
@@ -122,7 +120,7 @@ export default function QuestionEditModal({ questionDetail }) {
     }
 
     const onChangeQuestion = (e) => {
-        let questionUser = e.target.value;
+        let questionUser = e.target.value.trim();
         setQuestion(questionUser);
     }
 
@@ -131,7 +129,7 @@ export default function QuestionEditModal({ questionDetail }) {
         const answers = answer.slice();
         answers.map((item) => {
             if (item.id == id) {
-                item.answer = value;
+                item.answer = value.trim();
             }
         })
         setAnswer(answers);
@@ -151,13 +149,12 @@ export default function QuestionEditModal({ questionDetail }) {
             msg.question = "Không được để trống";
         }
         if (answer.length === 0) {
-            msg.answer = "Không được để trống";
+            msg.answer = "Cần điền đầy đủ các đáp án";
         } else if (typeName === "Chọn đáp án đúng" && answer.length !== 4) {
-            msg.answer = "Không được để trống";
+            msg.answer = "Cần điền đầy đủ các đáp án";
         } else if (typeName === "Đúng/Sai" && answer.length !== 2) {
-            msg.answer = "Không được để trống";
+            msg.answer = "Cần điền đầy đủ các đáp án";
         }
-        console.log(`answer`, answer);
         setValidationMsg(msg);
         if (Object.keys(msg).length > 0) return false;
         return true;
@@ -229,7 +226,7 @@ export default function QuestionEditModal({ questionDetail }) {
                                 <div class="col-12">
                                     <label class="form-label">Câu hỏi<span class="text-danger">*</span></label>
                                     <input name="question" type="text" class="form-control" value={question} onChange={onChangeQuestion} />
-
+                                    <p class="text-danger mb-0">{validationMsg.question}</p>
                                 </div>
 
                                 {typeName === "Chọn đáp án đúng" &&
