@@ -28,7 +28,7 @@ export default function QuestionAddModal() {
         S3Config.getConfig().then((res) => {
             setConfig({
                 bucketName: res.data[0].value,
-                dirName: 'ImgForGrammar',
+                dirName: 'ImgForQuestion',
                 region: res.data[1].value,
                 accessKeyId: res.data[2].value,
                 secretAccessKey: res.data[3].value

@@ -1,0 +1,14 @@
+#homepage-description {
+    color : #DF6951 !important;
+    font-weight: 800 !important;
+    font-size: 25px;
+}
+.homepage-title {
+    font-size: 60px;
+    font-weight: 700;
+    color : #68A39D;
+}
+
+.homepage-title::before {
+
+}

@@ -53,10 +53,8 @@ export default function Login() {
         })
     }
 
-
     return (
         <>
-
             <div
                 class="modal fade"
                 id="loginModal"
@@ -150,41 +148,9 @@ export default function Login() {
                                             >
                                                 Đăng nhập
                                             </button>
-
                                         </form>
 
-                                        <div class="text-center text-muted delimiter">
-                                            Hoặc sử dụng phương thức khác
-                                        </div>
-                                        <div class="d-flex justify-content-center social-buttons">
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary btn-round"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Twitter"
-                                            >
-                                                <i class="fab fa-twitter"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary btn-round"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Facebook"
-                                            >
-                                                <i class="fab fa-facebook"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                class="btn btn-secondary btn-round"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Linkedin"
-                                            >
-                                                <i class="fab fa-linkedin"></i>
-                                            </button>
-                                        </div>
+
                                         <div class="text-center fst-italic fst-normal">
                                             <a href="#forgotPassword" onClick={onOptionChange}>quên mật khẩu ? </a>
                                         </div>
@@ -193,7 +159,7 @@ export default function Login() {
                             }
                             {site.includes("forgotPassword") &&
                                 <>
-                                    <div class="form-title text-center">
+                                    <div class="form-title text-center mt-2">
                                         <h4>Quên mật khẩu</h4>
                                     </div>
                                     <div class="d-flex flex-column text-center">

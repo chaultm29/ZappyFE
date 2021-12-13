@@ -330,7 +330,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                         <label for="inputGifLink" class="form-label">Cách viết<span class="text-danger">*</span></label>
                                         <input class="d-none" type="file" ref={inputGifFile} id="inputGifLink" accept="image/gif" onChange={gifHandler} />
                                         <br />
-                                        <input value={gif ? gif : "Không có hình ảnh"} class="form-control" disabled />
+                                        <input value={gif ? gif : "Không có gif"} class="form-control" disabled />
                                         <p class="text-danger mb-0">{validationMsg.gif}</p>
                                     </div>
 
