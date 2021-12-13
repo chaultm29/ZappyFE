@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import S3Config from '../../services/S3Config'
-
+import noImage from "../../assets/img/noImage.png"
 export default function GrammarViewModal({ grammarDetail }) {
 
 
@@ -50,7 +50,7 @@ export default function GrammarViewModal({ grammarDetail }) {
                                     <label class="form-label">Hình ảnh minh họa ví dụ</label>
                                 </div>
                                 <div class="col-4">
-                                    <img src={S3Config.baseURLImgForGrammar + grammarDetail.exampleImageLink} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                    <img src={grammarDetail.exampleImageLink ? S3Config.baseURLImgForGrammar + grammarDetail.exampleImageLink : noImage} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
                                 </div>
 
                             </form>

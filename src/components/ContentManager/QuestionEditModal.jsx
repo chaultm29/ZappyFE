@@ -134,8 +134,10 @@ export default function QuestionEditModal({ questionDetail }) {
         })
         setAnswer(answers);
     }
+
     const validateAll = () => {
         const msg = {};
+        const answers = answer.filter((x) => x.answer !== "");
         if (typeName.length === 0) {
             msg.typeName = "Vui lòng chọn loại câu hỏi";
         }
@@ -150,9 +152,10 @@ export default function QuestionEditModal({ questionDetail }) {
         }
         if (answer.length === 0) {
             msg.answer = "Cần điền đầy đủ các đáp án";
-        } else if (typeName === "Chọn đáp án đúng" && answer.length !== 4) {
+
+        } else if (typeName === "Chọn đáp án đúng" && answers.length !== 4) {
             msg.answer = "Cần điền đầy đủ các đáp án";
-        } else if (typeName === "Đúng/Sai" && answer.length !== 2) {
+        } else if (typeName === "Đúng/Sai" && answers.length !== 2) {
             msg.answer = "Cần điền đầy đủ các đáp án";
         }
         setValidationMsg(msg);

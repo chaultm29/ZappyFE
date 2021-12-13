@@ -184,7 +184,7 @@ export default function AccountAddModal() {
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Mật khẩu<span class="text-danger">*</span></label>
-                  <input name="password" type="text" class="form-control" placeholder="contentmanager@123" disabled />
+                  <input name="password" type="text" class="form-control" placeholder="abcd@1234" disabled />
 
                 </div>
                 <div class="col-md-6">

@@ -27,12 +27,23 @@ export default function KanjiAddModal() {
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const history = useHistory();
     const [lessonList, setLessonList] = useState(["Bài 1", "Bài 2", "Bài 3", "Bài 4", "Bài 5", "Bài 6", "Bài 7"]);
-    const [config, setConfig] = useState({});
+
+    const [configImg, setConfigImg] = useState({});
+    const [configGif, setConfigGif] = useState({});
     useEffect(() => {
         S3Config.getConfig().then((res) => {
-            setConfig({
+            setConfigImg({
                 bucketName: res.data[0].value,
-                dirName: '',
+                dirName: 'KanjiDes',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+        S3Config.getConfig().then((res) => {
+            setConfigGif({
+                bucketName: res.data[0].value,
+                dirName: 'KanjiGif',
                 region: res.data[1].value,
                 accessKeyId: res.data[2].value,
                 secretAccessKey: res.data[3].value
@@ -41,10 +52,18 @@ export default function KanjiAddModal() {
     }, [])
 
 
-    const upload = (file, folder) => {
+    const uploadImg = (file) => {
         const msg = {};
-        setConfig({ ...config, dirName: folder });
-        S3FileUpload.uploadFile(file, config).then((data) => {
+        S3FileUpload.uploadFile(file, configImg).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
+    const uploadGif = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, configGif).then((data) => {
         }).catch((err) => {
             msg.err = err;
         })
@@ -67,8 +86,8 @@ export default function KanjiAddModal() {
             imageLink: image,
             gifLink: gif
         };
-        const uploadImageSuccess = upload(imageUpload, 'KanjiDes');
-        const uploadGifSuccess = upload(gifUpload, 'KanjiGif');
+        const uploadImageSuccess = uploadImg(imageUpload);
+        const uploadGifSuccess = uploadGif(gifUpload);
         if (uploadImageSuccess && uploadGifSuccess) {
             LessonServices.addKanji(kanjiAdd).then((response) => {
                 if (response.status === 200) {
@@ -317,7 +336,7 @@ export default function KanjiAddModal() {
                                     <label for="inputGifLink" class="form-label">Cách viết<span class="text-danger">*</span></label>
                                     <input class="d-none" type="file" ref={inputGifFile} id="inputGifLink" accept="image/gif" onChange={gifHandler} />
                                     <br />
-                                    <input value={gif ? gif : "Không có hình ảnh"} disabled />
+                                    <input value={gif ? gif : "Không có gif"} disabled />
                                     <p class="text-danger mb-0">{validationMsg.gif}</p>
                                 </div>
 
