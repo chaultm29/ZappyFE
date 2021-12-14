@@ -46,21 +46,41 @@ export default function DoExam({ options }) {
   }
 
   useEffect(() => {
-    ExamServices.getListQuestion(options[0])
-      .then((res) => {
-        setListQuestion(
-          res.data.listQuestions.map((item, index) => ({
-            id: item.questionID,
-            type: item.typeName,
-            question: item.question,
-            imgLink: item.imgeLink,
-            option: item.answer,
-          }))
-        );
-        setMinutes(parseInt(res.data.time / 60));
-        setSeconds(Math.ceil(res.data.time % 60));
-      })
-      .catch((err) => console.error(err));
+    if (location.pathname.includes("exam")) {
+      ExamServices.getListQuestion(options[0])
+        .then((res) => {
+          setListQuestion(
+            res.data.listQuestions.map((item, index) => ({
+              id: item.questionID,
+              type: item.typeName,
+              question: item.question,
+              imgLink: item.imgeLink,
+              option: item.answer,
+            }))
+          );
+          setMinutes(parseInt(res.data.time / 60));
+          setSeconds(Math.ceil(res.data.time % 60));
+        })
+        .catch((err) => console.error(err));
+    }
+    if (location.pathname.includes("practice")) {
+      PracticeServices.getListQuestion(options[0])
+        .then((res) => {
+          setListQuestion(
+            res.data.listQuestions.map((item, index) => ({
+              id: item.questionID,
+              type: item.typeName,
+              question: item.question,
+              imgLink: item.imgeLink,
+              option: item.answer,
+            }))
+          );
+          setMinutes(parseInt(res.data.time / 60));
+          setSeconds(Math.ceil(res.data.time % 60));
+        })
+        .catch((err) => console.error(err));
+      setIsPractice(true);
+    }
   }, []);
 
 
@@ -233,9 +253,9 @@ export default function DoExam({ options }) {
                     Tạo bài kiểm tra mới
 
                   </a> : <>
-                    <Timer minutes={minutes} seconds={seconds}
+                    {!isPractice && <Timer minutes={minutes} seconds={seconds}
                       setMinutes={setMinutes} setSeconds={setSeconds}
-                      onTimeUp={onClickFinish} />
+                      onTimeUp={onClickFinish} />}
                     <a
                       href="#back-to-top"
                       class="btn btn-link w-100 mt-2 text-decoration-none"

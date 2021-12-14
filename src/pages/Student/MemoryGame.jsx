@@ -3,12 +3,12 @@ import Navigation from "../../components/Student/Navigation";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import "./css/memory.css"
 import imgCenter from "../../assets/img/imgCenter.png"
-import Start from './Start';
 import ExamServices from '../../services/ExamServices';
 import { useHistory } from 'react-router';
 import GameService from '../../services/GameService';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import UserServices from "../../services/UserServices.jsx";
+import MemorySetting from './MemorySetting';
 
 export default function MemoryGame() {
     const [isStarted, setStart] = useState(false);
@@ -84,7 +84,6 @@ export default function MemoryGame() {
                         res.data.listQuestions.map((item, index) => ({
                             id: item.questionID,
                             content: item.question,
-                            // option: item.answer[0].answer,
                             matched: false
                         }))
                     );
@@ -102,8 +101,6 @@ export default function MemoryGame() {
     const shuffleCards = () => {
         const shuffledCards = [...listQuestion, ...listAnswer].sort(() => Math.random() - 0.5)
             .map((card) => ({ ...card, preId: Math.random() }))
-        console.log(`listQuestion`, listQuestion);
-        console.log(`listAnswer`, listAnswer)
         setChoiceOne(null);
         setChoiceTwo(null);
         setCards(shuffledCards);
@@ -202,7 +199,7 @@ export default function MemoryGame() {
                         </div> : ""}
                         <div class="col-md-12" >
                             <h1 class="page-title"> Memory Game </h1>
-                            {!isStarted ? <Start isStartedProps={setStart} setOptions={setOptions} setLevel={setLevel} /> : (<>
+                            {!isStarted ? <MemorySetting isStartedProps={setStart} setOptions={setOptions} setLevel={setLevel} /> : (<>
                                 <div className="game-container">
 
                                     <div className="game-info-container">
