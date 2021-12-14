@@ -59,19 +59,17 @@ export default function GrammarAddModal() {
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
             LessonServices.addGrammar(grammarAdd).then((response) => {
-                console.log(`response`, response)
+                if (response.status === 200) {
+                    if (response.data.includes("thành công")) {
+                        setMsgSuccessResponse(response.data);
+                    } else if (response.data.includes("tồn tại")) {
+                        setMsgErrorResponse(response.data);
+                    }
+                }
             })
-            //     if (response.status === 200) {
-            //         if (response.data.includes("thành công")) {
-            //             setMsgSuccessResponse(response.data);
-            //         } else if (response.data.includes("tồn tại")) {
-            //             setMsgErrorResponse(response.data);
-            //         }
-            //     }
-            // })
-            //     .catch((error) => {
-            //         setMsgErrorResponse(error);
-            //     });
+                .catch((error) => {
+                    setMsgErrorResponse(error);
+                });
         } else {
             setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
         }

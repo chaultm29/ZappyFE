@@ -127,7 +127,7 @@ export default function AccountEditModal({ accountDetail }) {
       msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
     }
     if (phone.length > 0 && !validatePhone.test(phone)) {
-      msg.phone = "Độ dài từ 10 số, không bao gồm kí tự đặc biệt và dấu cách";
+      msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
     if (dateOfBirth.length > 0 && inputDate > today) {
       msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
@@ -153,14 +153,16 @@ export default function AccountEditModal({ accountDetail }) {
   return (
     <>
       {/* edit account */}
-      {msgSuccessResponse !== "" ?
-        < SweetAlert success title="Cập nhật tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
-          {msgSuccessResponse}
-        </SweetAlert > : ""}
-      {msgErrorResponse !== "" ?
-        < SweetAlert danger title="Cập nhật tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
-          {msgErrorResponse}
-        </SweetAlert > : ""}
+      <div class="alert-wrapper position-absolute" >
+        {msgSuccessResponse !== "" ?
+          < SweetAlert success title="Cập nhật tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+            {msgSuccessResponse}
+          </SweetAlert > : ""}
+        {msgErrorResponse !== "" ?
+          < SweetAlert danger title="Cập nhật tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
+            {msgErrorResponse}
+          </SweetAlert > : ""}
+      </div>
       <div class="modal fade" id="ViewEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         {accountDetail && <div class="modal-dialog">
           <div class="modal-content">
