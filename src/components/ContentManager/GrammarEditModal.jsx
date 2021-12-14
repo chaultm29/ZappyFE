@@ -60,7 +60,6 @@ export default function GrammarEditModal({ grammarDetail }) {
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
             LessonServices.editGrammar(grammarUpdate, grammarDetail.id).then((response) => {
-                console.log(`response`, response)
                 if (response.status === 200) {
                     setMsgSuccessResponse("Sửa ngữ pháp thành công");
                 } else {

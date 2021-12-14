@@ -102,7 +102,7 @@ export default function AccountAddModal() {
       msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
     }
     if (phone.length > 0 && !validatePhone.test(phone)) {
-      msg.phone = "Độ dài từ 10 số, không bao gồm kí tự đặc biệt và dấu cách";
+      msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
     if (dateOfBirth.length > 0 && inputDate > today) {
       msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
@@ -185,7 +185,6 @@ export default function AccountAddModal() {
                 <div class="col-md-6">
                   <label class="form-label">Mật khẩu<span class="text-danger">*</span></label>
                   <input name="password" type="text" class="form-control" placeholder="abcd@1234" disabled />
-
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Email<span class="text-danger">*</span></label>
