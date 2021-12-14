@@ -89,27 +89,27 @@ export default function Profile({ isClicked }) {
 
 
     const onEmailChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.toLowerCase().trim();
         setEmail(input);
     }
     const onDateOfBirthChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setDateOfBirth(input);
     }
     const onPhoneChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setPhone(input);
     }
     const onOldPassChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setOldPass(input);
     }
     const onNewPassChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setNewPass(input);
     }
     const onReNewPassChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setReNewPass(input);
     }
 
@@ -387,7 +387,32 @@ export default function Profile({ isClicked }) {
                                                 </tbody>
                                             </table>
                                             <div class="count-policy position-absolute bottom-0 end-0 mb-3 me-3" >
-                                                <button type="button" class="btn btn-link">Cách tính thành tựu</button>
+                                                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#achievementExplanation">Cách tính thành tựu</button>
+                                                {/* <div class="modal fade" id="achievementExplanation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Luật chơi</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body text-start">
+                                                                <div>Trò chơi này gồm các thẻ (số lượng thẻ sẽ thay đổi tùy theo mức độ khó). <br />Các thẻ sẽ được chia thành các cặp thẻ gồm thuật ngữ - định nghĩa</div>
+
+                                                                <div>Nhiệm vụ của người chơi là sẽ phải lật các thẻ và tìm ra các thuật ngữ tương ứng với định nghĩa hoặc ngược lại.</div>
+                                                                <div>Ví dụ : わたし - Tôi , おはようございます - Chào buổi sáng</div>
+                                                                <div>Mỗi cặp thẻ được tìm ra đúng sẽ được 100 điểm, trả lời sai sẽ bị trừ 5 điểm</div>
+
+                                                                <div>Thời gian : 6 phút </div>
+                                                                <div>Nếu thắng vẫn còn thời gian thì bạn sẽ nhận được điểm thưởng. Điểm thưởng sẽ thay đổi tùy theo mức độ bạn chọn  </div>
+                                                                <div>Đối với mức độ khó : 10 điểm / 1 giây</div>
+                                                                <div>Đối với mức độ trung bình : 5 điểm / 1 giây</div>
+                                                                <div>Đối với mức độ dễ : 2 điểm / 1 giây</div>
+                                                                <div>Số điểm bạn giành được sẽ được quy đổi ra exp để cộng vào điểm level hiện tại</div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div> */}
                                             </div>
                                         </div>}
                                     {site.includes("progress") &&
