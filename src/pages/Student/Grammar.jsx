@@ -32,19 +32,19 @@ class Grammar extends Component {
             <div
                 style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                 <Navigation />
-                <div className="container" style={{ backgroundColor: "#fceced" }}>
+                <div className="container mt-2" style={{ backgroundColor: "#fceced", borderRadius: "15px" }}>
                     <div class="row">
                         <Sidebar />
-                        <div class="col-md-8">
+                        <div class="col-md-8 mx-auto">
                             <h1 class="tit"> Ngữ pháp </h1>
                             <div id="accordion">
                                 {
                                     this.state.grammars.map(
-                                        grammar =>
-                                            <div class="card" key={grammar.id}>
-                                                <div class="card-header">
-                                                    <a class="collapsed btn" data-bs-toggle="collapse" href={"#collapse" + grammar.id}>
-                                                        {grammar.grammar} : {grammar.grammarMeaning}
+                                        (grammar, index) =>
+                                            <div class="card shadow mb-2" key={index + 1}>
+                                                <div class="card-header text-start bg-white">
+                                                    <a class="collapsed btn text-start" data-bs-toggle="collapse" href={"#collapse" + grammar.id}>
+                                                        {index + 1}. {grammar.grammar} : {grammar.grammarMeaning}
                                                     </a>
                                                 </div>
                                                 <div id={"collapse" + grammar.id} class="collapse" data-bs-parent="#accordion">
@@ -53,8 +53,8 @@ class Grammar extends Component {
                                                         <div>{grammar.example}</div>
                                                         <div>{grammar.exampleMeaning}</div>
                                                         <div class="vocabulary-image">
-                                                        <img src={S3Config.baseURLImgForGrammar + grammar.exampleImageLink} alt="hiragana" />
-                                                        {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
+                                                            <img src={S3Config.baseURLImgForGrammar + grammar.exampleImageLink} width="300px" alt="hiragana" />
+                                                            {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
                                                         </div>
                                                     </div>
                                                 </div>

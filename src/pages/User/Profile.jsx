@@ -156,11 +156,9 @@ export default function Profile({ isClicked }) {
             msg.phone = "Không được để trống";
         }
         else if (!validatePhone.test(phone)) {
-            msg.phone = "Độ dài từ 10 số, không bao gồm kí tự đặc biệt và dấu cách";
+            msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
         }
-        if (dateOfBirth.length === 0) {
-            msg.dob = "Không được để trống";
-        } else if (inputDate > today) {
+        if (dateOfBirth.length > 0 && inputDate >= today) {
             msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
         }
         setValidationUpdateMsg(msg);
@@ -373,14 +371,19 @@ export default function Profile({ isClicked }) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {achievement.length === 0 ?
+                                                        <>
+                                                            <tr>
+                                                                <td colspan="3">Bạn chưa đạt thành tựu nào :(</td>
+                                                            </tr>
+                                                        </> : achievement.map((a, index) => (<>
+                                                            <tr>
+                                                                <th scope="row">{index + 1}</th>
+                                                                <td>{a.name}</td>
+                                                                <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
+                                                            </tr></>
+                                                        ))}
 
-                                                    {achievement.map((a, index) => (<>
-                                                        <tr>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>{a.name}</td>
-                                                            <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
-                                                        </tr></>
-                                                    ))}
 
 
 
@@ -462,11 +465,11 @@ export default function Profile({ isClicked }) {
                                 Học xong hết ngữ pháp: Vị thần ngữ pháp<br />
                                 Học xong hết từ vựng : Chúa tể ngôn từ<br />
                                 Học xong hết từ vựng, ngữ pháp, chữ hán: Thần đồng ngôn ngữ<br />
-                                Đạt 1000 điểm (lv6): Hộ vệ level<br />
-                                Đạt 5000 điểm (lv9): Thợ săn level<br />
-                                Đạt 10000 điểm (lv11): Quái thú level<br />
-                                Đạt 20000 điểm (lv13): Kẻ hủy diệt level<br />
-                                Đạt 30000 điểm (lv15): Thần thoại level<br />
+                                Đạt 1000 điểm : Hộ vệ level<br />
+                                Đạt 5000 điểm : Thợ săn level<br />
+                                Đạt 10000 điểm : Quái thú level<br />
+                                Đạt 20000 điểm : Kẻ hủy diệt level<br />
+                                Đạt 30000 điểm : Thần thoại level<br />
                             </div>
                         </div>
                     </div>

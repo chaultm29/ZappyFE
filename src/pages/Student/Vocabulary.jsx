@@ -11,17 +11,22 @@ class Vocabulary extends Component {
         super(props)
         this.changeToCard = this.changeToCard.bind(this);
         this.gotoPractice = this.gotoPractice.bind(this);
+        this.onClickFlip = this.onClickFlip.bind(this);
         //this.addCardDatas = this.addCardDatas.bind(this);
         this.state = {
             vocabularies: [],
             //cardDatas : [],
             index: 0,
-            id: this.props.match.params.id
-
+            id: this.props.match.params.id,
+            isFlipped: false
         }
 
     }
+    onClickFlip = () => {
+        this.setState({ isFlipped: !this.state.isFlipped });
+    }
     onUserClickSpeaker = (e) => {
+        e.stopPropagation();
         let input = e.target.id;
         Speech(input);
     };
@@ -73,6 +78,7 @@ class Vocabulary extends Component {
             cards[this.state.index].style.display = "flex"
         }
         this.countProgress();
+        this.setState({ isFlipped: false })
     }
 
     countProgress() {
@@ -123,7 +129,7 @@ class Vocabulary extends Component {
                                 {
                                     this.state.vocabularies.map(
                                         vocabulary =>
-                                            <div class="row vocabulary-card shadow mx-auto" key={vocabulary.id}>
+                                            <div class={this.state.isFlipped ? "row vocabulary-card flipped shadow mx-auto" : "row vocabulary-card shadow mx-auto"} onClick={this.onClickFlip} key={vocabulary.id}>
                                                 <div class="box-inner">
                                                     <div class="box-front">
                                                         <div class="cha">{vocabulary.vocabulary}
@@ -148,8 +154,8 @@ class Vocabulary extends Component {
                                                             </span>
                                                         </div>
                                                         <div class="vocabulary-image">
-                                                        <img id ="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="hiragana" />
-                                                        {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
+                                                            <img id="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="hiragana" />
+                                                            {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
                                                         </div>
 
                                                     </div>
