@@ -129,7 +129,7 @@ export default function AccountEditModal({ accountDetail }) {
     if (phone.length > 0 && !validatePhone.test(phone)) {
       msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
-    if (dateOfBirth.length > 0 && inputDate > today) {
+    if (dateOfBirth.length > 0 && inputDate >= today) {
       msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
     }
 

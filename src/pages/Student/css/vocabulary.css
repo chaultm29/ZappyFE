@@ -82,10 +82,12 @@ h3 {
   background-color: pink;
 }
 
-.vocabulary-card:hover .box-inner {
+/* .vocabulary-card:hover .box-inner {
+  transform: rotateY(180deg);
+} */
+.vocabulary-card.flipped .box-inner {
   transform: rotateY(180deg);
 }
-
 .box-front,
 .box-back {
   position: absolute;
