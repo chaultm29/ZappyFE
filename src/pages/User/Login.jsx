@@ -151,7 +151,7 @@ export default function Login() {
                                         </form>
 
 
-                                        <div class="text-center fst-italic fst-normal">
+                                        <div class="text-center fst-italic fst-normal mt-2">
                                             <a href="#forgotPassword" onClick={onOptionChange}>quên mật khẩu ? </a>
                                         </div>
                                     </div>

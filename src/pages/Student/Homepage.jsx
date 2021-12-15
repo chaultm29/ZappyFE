@@ -18,7 +18,7 @@ class Homepage extends Component {
                             <div class="col-md-7 col-lg-6 text-md-start text-center py-6">
                                 <h4 class="fw-bold text-danger mb-3" id="homepage-description">Trang web học tiếng Nhật được thiết kế dành riêng cho sinh viên trường Đại học FPT</h4>
                                 <h1 class="homepage-title">Học tập, Kiểm tra Chơi Game</h1>
-                                <p class="mb-4 fw-medium">Nội dung được xây dựng dựa trên giáo trình Dekiru Nihongo.<br class="d-none d-xl-block" />Thích hợp với các bạn sinh viên đang học<br class="d-none d-xl-block" />môn JPD111 và JPD121</p>
+                                <p class="mb-4 fw-medium">Nội dung được xây dựng dựa trên giáo trình Dekiru Nihongo.<br class="d-none d-xl-block" />Thích hợp với các bạn sinh viên đang học<br class="d-none d-xl-block" />môn JPD113 và JPD123</p>
                                 <div class="text-center text-md-start"> <a class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" href="#!" role="btn-homepage">Khám phá</a>
                                     <div class="w-100 d-block d-md-none"></div><span class="fw-medium">Hướng dẫn</span>
 

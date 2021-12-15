@@ -156,11 +156,9 @@ export default function Profile({ isClicked }) {
             msg.phone = "Không được để trống";
         }
         else if (!validatePhone.test(phone)) {
-            msg.phone = "Độ dài từ 10 số, không bao gồm kí tự đặc biệt và dấu cách";
+            msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
         }
-        if (dateOfBirth.length === 0) {
-            msg.dob = "Không được để trống";
-        } else if (inputDate > today) {
+        if (dateOfBirth.length > 0 && inputDate >= today) {
             msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
         }
         setValidationUpdateMsg(msg);
@@ -229,7 +227,7 @@ export default function Profile({ isClicked }) {
     return (
         <>
             {/* Profile Modal */}
-            <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -373,46 +371,26 @@ export default function Profile({ isClicked }) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    {achievement.length === 0 ?
+                                                        <>
+                                                            <tr>
+                                                                <td colspan="3">Bạn chưa đạt thành tựu nào :(</td>
+                                                            </tr>
+                                                        </> : achievement.map((a, index) => (<>
+                                                            <tr>
+                                                                <th scope="row">{index + 1}</th>
+                                                                <td>{a.name}</td>
+                                                                <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
+                                                            </tr></>
+                                                        ))}
 
-                                                    {achievement.map((a, index) => (<>
-                                                        <tr>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>{a.name}</td>
-                                                            <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
-                                                        </tr></>
-                                                    ))}
 
 
 
                                                 </tbody>
                                             </table>
                                             <div class="count-policy position-absolute bottom-0 end-0 mb-3 me-3" >
-                                                <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#achievementExplanation">Cách tính thành tựu</button>
-                                                {/* <div class="modal fade" id="achievementExplanation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Luật chơi</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body text-start">
-                                                                <div>Trò chơi này gồm các thẻ (số lượng thẻ sẽ thay đổi tùy theo mức độ khó). <br />Các thẻ sẽ được chia thành các cặp thẻ gồm thuật ngữ - định nghĩa</div>
-
-                                                                <div>Nhiệm vụ của người chơi là sẽ phải lật các thẻ và tìm ra các thuật ngữ tương ứng với định nghĩa hoặc ngược lại.</div>
-                                                                <div>Ví dụ : わたし - Tôi , おはようございます - Chào buổi sáng</div>
-                                                                <div>Mỗi cặp thẻ được tìm ra đúng sẽ được 100 điểm, trả lời sai sẽ bị trừ 5 điểm</div>
-
-                                                                <div>Thời gian : 6 phút </div>
-                                                                <div>Nếu thắng vẫn còn thời gian thì bạn sẽ nhận được điểm thưởng. Điểm thưởng sẽ thay đổi tùy theo mức độ bạn chọn  </div>
-                                                                <div>Đối với mức độ khó : 10 điểm / 1 giây</div>
-                                                                <div>Đối với mức độ trung bình : 5 điểm / 1 giây</div>
-                                                                <div>Đối với mức độ dễ : 2 điểm / 1 giây</div>
-                                                                <div>Số điểm bạn giành được sẽ được quy đổi ra exp để cộng vào điểm level hiện tại</div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> */}
+                                                <a class="btn btn-link" data-bs-toggle="modal" href="#achievementExplanation">Cách tính thành tựu</a>
                                             </div>
                                         </div>}
                                     {site.includes("progress") &&
@@ -465,17 +443,38 @@ export default function Profile({ isClicked }) {
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                         </div>}
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <div class="modal fade" id="achievementExplanation" aria-labelledby="achievementExplanation" aria-hidden="true" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cách tính thành tựu</h5>
+                            <button type="button" class="btn-close" data-bs-target="#profileModal" data-bs-toggle="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <div>Test 10 bài liên tục được 100 điểm: “Quái vật” kiểm tra <br />
+                                Học xong hết chữ hán: Bậc thầy chữ hán<br />
+                                Học xong hết ngữ pháp: Vị thần ngữ pháp<br />
+                                Học xong hết từ vựng : Chúa tể ngôn từ<br />
+                                Học xong hết từ vựng, ngữ pháp, chữ hán: Thần đồng ngôn ngữ<br />
+                                Đạt 1000 điểm : Hộ vệ level<br />
+                                Đạt 5000 điểm : Thợ săn level<br />
+                                Đạt 10000 điểm : Quái thú level<br />
+                                Đạt 20000 điểm : Kẻ hủy diệt level<br />
+                                Đạt 30000 điểm : Thần thoại level<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </>
