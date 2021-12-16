@@ -1,6 +1,6 @@
 import axiosConfig from './axiosConfig';
 
-const API_BASE_URL = "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com";
+const API_BASE_URL = "https://backend.zappy-js.com";
 class GameService {
     getCurrentQuestion(listQuestionId) {
         return axiosConfig.post("/game/bingo/currentQuestion", listQuestionId);
@@ -25,8 +25,8 @@ function fetchSaveGame(_activityId, _gameName, _timeCreated, _timePlayed, _score
         timePlayed: _timePlayed,
         score: _score
     }
-    return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/saving",
-    //return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/saving",
+    //return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/saving",
+    return fetch(API_BASE_URL+ "/game/saving",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
@@ -40,8 +40,8 @@ function fetchCurrentQuestion(listQuestionId, listLessonId) {
         lessonIds : listLessonId
     }
      //return fetch("http://localhost:5000/game/bingo/currentQuestion",
-     return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/currentQuestion",
-    //return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/bingo/currentQuestion",
+     //return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/currentQuestion",
+    return fetch( API_BASE_URL + "/game/bingo/currentQuestion",
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
@@ -51,8 +51,8 @@ function fetchCurrentQuestion(listQuestionId, listLessonId) {
 
 function fetchResultQuestion(questionId, answerId) {
      //return fetch("http://localhost:5000/game/bingo/result/" + questionId + "/" + answerId, 
-    //return fetch("http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
-    return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
+    return fetch(API_BASE_URL+ "/game/bingo/result/" + questionId + "/" + answerId,
+    //return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
