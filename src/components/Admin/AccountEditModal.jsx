@@ -45,6 +45,8 @@ export default function AccountEditModal({ accountDetail }) {
     if (!isValid) return;
     let account = {
       username: username,
+      passwordOld: "",
+      passwordNew: "",
       dateOfBirth: dateOfBirth,
       email: email,
       fullName: fullname,
@@ -54,11 +56,14 @@ export default function AccountEditModal({ accountDetail }) {
     };
     AccountServices.editAccount(account, accountDetail.id).then((response) => {
       if (response.status === 200) {
-        if (response.data.message.includes("thành công")) {
-          setMsgSuccessResponse(response.data.message);
-        } else if (response.data.message.includes("tồn tại")) {
-          setMsgErrorResponse(response.data.message);
+        if (response.data.includes("thành công")) {
+          setMsgSuccessResponse(response.data);
+        } else if (response.data.includes("tồn tại")) {
+          setMsgErrorResponse(response.data);
         }
+      }
+      else {
+        setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
       }
     })
       .catch((error) => {

@@ -66,6 +66,9 @@ export default function GrammarAddModal() {
                         setMsgErrorResponse(response.data);
                     }
                 }
+                else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
             })
                 .catch((error) => {
                     setMsgErrorResponse(error);

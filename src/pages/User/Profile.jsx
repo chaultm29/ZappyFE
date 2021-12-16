@@ -200,7 +200,11 @@ export default function Profile({ isClicked }) {
         if (uploadImageSuccess) {
             UserServices.updateProfile(profile).then((res) => {
                 if (res.status === 200) {
-                    setMsgAPIUpdate("Cập nhật thành công !");
+                    if (res.data.includes("thành công")) {
+                        setMsgAPIUpdate("Cập nhật thành công !");
+                    } else if (res.data.includes("tồn tại")) {
+                        setMsgAPIUpdate(res.data);
+                    }
                 } else {
                     setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
                 }
