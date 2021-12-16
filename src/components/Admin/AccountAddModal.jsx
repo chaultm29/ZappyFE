@@ -32,6 +32,8 @@ export default function AccountAddModal() {
         } else if (response.data.includes("tồn tại")) {
           setMsgErrorResponse(response.data);
         }
+      } else {
+        setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
       }
     })
       .catch((error) => {

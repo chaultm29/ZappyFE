@@ -68,7 +68,7 @@ export default function PlayGame() {
                                 <div class="card mb-3 shadow">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img src={bingoImage} class="img-fluid rounded-start" width="90%" alt="img" />
+                                            <img src={bingoImage} class="img-fluid rounded-start" width="80%" alt="img" />
 
                                         </div>
                                         <div class="col-md-8">
@@ -90,7 +90,7 @@ export default function PlayGame() {
                                 <div class="card mb-3 shadow">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img src={memoryImage} width="100%" height="150" class="img-fluid rounded-start" alt="..." />
+                                            <img src={memoryImage} width="95%" class="img-fluid rounded-start" alt="..." />
 
                                         </div>
                                         <div class="col-md-8">

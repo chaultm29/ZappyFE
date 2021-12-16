@@ -98,6 +98,8 @@ export default function QuestionAddModal() {
                     } else if (response.data.includes("tồn tại")) {
                         setMsgErrorResponse(response.data);
                     }
+                } else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
                 }
             }).catch((error) => {
                 setMsgErrorResponse(error);
