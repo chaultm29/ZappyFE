@@ -4,8 +4,8 @@ const instance = axios.create({
  //baseURL: "http://localhost:5000"
   //baseURL: "https://backend.zappy-nihongo.com"
   //baseURL: "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com"
-
-  baseURL: "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com"
+baseURL: "https://backend.zappy-js.com"
+  //baseURL: "http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com"
 })
 instance.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getItem("token"));
 //instance.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
