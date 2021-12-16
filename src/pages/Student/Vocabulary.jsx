@@ -5,23 +5,28 @@ import Navigation from '../../components/Student/Navigation';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService';
 import Speech from "../../services/Speech";
-
+import S3Config from "../../services/S3Config";
 class Vocabulary extends Component {
     constructor(props) {
         super(props)
         this.changeToCard = this.changeToCard.bind(this);
         this.gotoPractice = this.gotoPractice.bind(this);
+        this.onClickFlip = this.onClickFlip.bind(this);
         //this.addCardDatas = this.addCardDatas.bind(this);
         this.state = {
             vocabularies: [],
             //cardDatas : [],
             index: 0,
-            id: this.props.match.params.id
-
+            id: this.props.match.params.id,
+            isFlipped: false
         }
 
     }
+    onClickFlip = () => {
+        this.setState({ isFlipped: !this.state.isFlipped });
+    }
     onUserClickSpeaker = (e) => {
+        e.stopPropagation();
         let input = e.target.id;
         Speech(input);
     };
@@ -73,6 +78,7 @@ class Vocabulary extends Component {
             cards[this.state.index].style.display = "flex"
         }
         this.countProgress();
+        this.setState({ isFlipped: false })
     }
 
     countProgress() {
@@ -123,7 +129,7 @@ class Vocabulary extends Component {
                                 {
                                     this.state.vocabularies.map(
                                         vocabulary =>
-                                            <div class="row vocabulary-card shadow mx-auto" key={vocabulary.id}>
+                                            <div class={this.state.isFlipped ? "row vocabulary-card flipped shadow mx-auto" : "row vocabulary-card shadow mx-auto"} onClick={this.onClickFlip} key={vocabulary.id}>
                                                 <div class="box-inner">
                                                     <div class="box-front">
                                                         <div class="cha">{vocabulary.vocabulary}
@@ -147,7 +153,10 @@ class Vocabulary extends Component {
                                                                 ></i>
                                                             </span>
                                                         </div>
-                                                        <div class="vocabulary-image"><img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /></div>
+                                                        <div class="vocabulary-image">
+                                                            <img id="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="hiragana" />
+                                                            {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
+                                                        </div>
 
                                                     </div>
                                                     <div class="box-back">
@@ -159,7 +168,7 @@ class Vocabulary extends Component {
                                             </div>
                                     )}<div id="finishLearning" class="vocabulary-card" style={{ display: "none" }}>
                                     <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
-                                    <button>Luyện tập</button>
+                                    <button onClick={this.gotoPractice}>Luyện tập</button>
                                 </div>
                                 <div>
 
@@ -176,7 +185,8 @@ class Vocabulary extends Component {
 
                                             <div class="row my-card shadow mt-2" key={vocabulary.id}>
                                                 <div class="voca">{vocabulary.vocabulary}</div>
-                                                <div class="des">{vocabulary.meaning}</div>
+                                                <div class="voca-des">{vocabulary.meaning}</div>
+                                                <div class="voca-des">{vocabulary.example} : {vocabulary.exampleMeaning}</div>
                                             </div>
                                     )}
                                 <div class="row">

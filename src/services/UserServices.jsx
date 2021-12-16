@@ -14,10 +14,13 @@ class UserServices {
         return axiosConfig.get("/progress");
     }
     getLevel() {
-        return axiosConfig.get("/level");
+        return axiosConfig.get(USER__API_BASE_URL + "/level");
     }
     getAchievement() {
         return axiosConfig.get("/achievement");
+    }
+    checkAchievement() {
+        return axiosConfig.get("/achievement/check");
     }
     changePassword(password) {
         return axiosConfig.post("/changePassword", password);

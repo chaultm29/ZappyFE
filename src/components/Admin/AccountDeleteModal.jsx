@@ -7,39 +7,49 @@ export default function AccountDeleteModal({ accountDetail }) {
     const [msgErrorResponse, setMsgErrorResponse] = useState("");
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const onClickYesButton = () => {
-        AccountServices.deleteAccount(accountDetail.id).then((response) => {
-            if (response.status === 200) {
-                if (response.data) {
-                    setMsgSuccessResponse("Xóa tài khoản thành công");
-                } else {
-                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+        if (accountDetail.roleDTO.name !== "Admin") {
+            AccountServices.deleteAccount(accountDetail.id).then((response) => {
+                if (response.status === 200) {
+                    if (response.data) {
+                        setMsgSuccessResponse("Xóa tài khoản thành công");
+                    } else {
+                        setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
 
+                    }
                 }
-            }
-        })
-            .catch((error) => {
-                setMsgErrorResponse(error);
-            });
+                else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
+            })
+                .catch((error) => {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                });
+        } else {
+            setMsgErrorResponse("Bạn không thể xóa được tài khoản Admin");
+        }
     };
 
-    const hideAlert = () => {
+    const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+        history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
     }
     return (
         <>
             {/* Delete modal */}
-            {msgSuccessResponse !== "" ?
-                < SweetAlert success title="Xóa tài khoản thành công!" timeout={2000} onConfirm={hideAlert}>
-                    {msgSuccessResponse}
-                </SweetAlert > : ""}
-            {msgErrorResponse !== "" ?
-                < SweetAlert danger title="Xóa tài khoản thất bại!" timeout={2000} onConfirm={hideAlert}>
-                    {msgErrorResponse}
-                </SweetAlert > : ""}
+            <div class="alert-wrapper position-absolute" >
+                {msgSuccessResponse !== "" ?
+                    < SweetAlert success title="Xóa tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+                        {msgSuccessResponse}
+                    </SweetAlert > : ""}
+                {msgErrorResponse !== "" ?
+                    < SweetAlert danger title="Xóa tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
+                        {msgErrorResponse}
+                    </SweetAlert > : ""}
+            </div>
             <div class="modal fade" id="ViewDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">

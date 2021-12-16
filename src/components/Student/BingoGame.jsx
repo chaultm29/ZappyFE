@@ -3,6 +3,8 @@ import Navigation from './Navigation';
 import './css/bingoGame.css';
 import GameService from '../../services/GameService';
 import bingoGif from '../../assets/img/bingo1.gif';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import UserServices from "../../services/UserServices.jsx";
 
 class BingoGame extends Component {
 
@@ -11,6 +13,7 @@ class BingoGame extends Component {
         this.generateTitle = this.generateTitle.bind(this);
         this.generateGameboard = this.generateGameboard.bind(this);
         this.bingo = this.bingo.bind(this);
+        this.hideAlert = this.hideAlert.bind(this);
 
         this.timer = 0;
         // this.startTimer = this.startTimer.bind(this);
@@ -25,7 +28,8 @@ class BingoGame extends Component {
             listCheckAnswer: [],
             time: {}, seconds: 300,
             initseconds: 300,
-            isFinish: false
+            isFinish: false,
+            hasAchievement: [],
         }
 
     }
@@ -86,6 +90,8 @@ class BingoGame extends Component {
             }
             var buttons = document.getElementsByClassName("answer");
             for (var i = 0; i < buttons.length; i++) {
+                if(buttons[i].className.search("answer correct")!=-1)  buttons[i].style.background = "green";
+                else if(buttons[i].className.search("answer incorrect")!=-1)  buttons[i].style.background = "red";
                 buttons[i].disabled = true;
             }
             this.bingo();
@@ -156,7 +162,12 @@ class BingoGame extends Component {
 
             //this.setState({ state: this.state.score += 100 })
             // document.getElementById("isFinish").style.display = "relative";
-            GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            GameService.fetchSaveGame(2, "Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            UserServices.checkAchievement().then((res) => {
+                // console.log(`res`, res)
+                this.setState({ setHasAchievement: res.data });
+                // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
+            })
         }
         else if (this.state.seconds == 0) {
 
@@ -166,7 +177,13 @@ class BingoGame extends Component {
             }
             this.setState({ isFinish: true })
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            UserServices.checkAchievement().then((res) => {
+                // console.log(`res`, res)
+                this.setState({ setHasAchievement: res.data });
+                // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
+            })
         }
+
     }
 
     checkHorizontal() {
@@ -272,14 +289,25 @@ class BingoGame extends Component {
         this.setState({ time: timeLeftVar });
 
     }
+    hideAlert = () => {
+        this.setState({ hasAchievement: [] });
+    }
+
 
     render() {
         return (
             <div class="inner-container">
-                <div class="gameplay">
+                <div class="alert-wrapper position-absolute" >
+                    {this.state.hasAchievement.length !== 0 ?
+                        < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={this.hideAlert}>
+                            <h3> {this.state.hasAchievement[0].name}</h3>
+                            <h4>{this.state.hasAchievement[0].desciption}</h4>
+                        </SweetAlert > : ""}
+                </div>
+                <div class="gameplay" style={{ position: 'relative' }}>
                     {this.state.isFinish ?
                         <div class="overlay-text visible" id="isFinish">
-                            <div class="game-over">Chúc mừng bạn đã hoàn thành game này</div>
+                            <div class="game-over">Kết thúc game</div>
                             <div class="result">
                                 <h4>Tổng điểm : {this.state.score}</h4>
                                 <h4>Thời gian chơi : {this.state.initseconds - this.state.seconds} giây</h4>
@@ -290,17 +318,12 @@ class BingoGame extends Component {
                             <div class="text-play-again" onClick={() => window.location.reload()}  >Click vào đây để chơi lại </div>
 
                         </div> : ""}
-
-                    <div class="content">
-                        {/* <div class="numbertext" id="currentNumber">
-                            Điểm:  {this.state.score}
-                        </div> */}
-                        <div id="timer" class="flex-wrap d-flex justify-content-start">
-                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
+                    {/* content for point and timer */}
+                    <div class="row content">
+                        <div id="score" class="flex-wrap d-flex justify-content-start">
+                            <div class="align-items-center flex-column d-flex justify-content-center">{this.state.score}<span>Điểm</span></div>
                         </div>
-                        {/* <button onClick={this.startTimer}>Start</button> */}
                         {/* timer */}
-                        {/* <div class="timer">Thời gian: :</div> */}
                         <div id="timer" class="flex-wrap d-flex justify-content-end">
                             <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>phút</span></div>
                             {/* <div id ="dotBetween">:</div> */}
@@ -308,6 +331,7 @@ class BingoGame extends Component {
                         </div>
                         {/* timer end */}
                     </div>
+                    <div class="row">
                     <div class="gamearea">
                         <div id="title">
                         </div>
@@ -319,35 +343,24 @@ class BingoGame extends Component {
                     <div class="control">
                         <div class="content">
 
-
                             {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
-                            <div class="selectedQuestion" id="currentQuestion">Question for this part:
-                       {this.state.currentQuestion != null ?
+                            <div class="selectedQuestion" id="currentQuestion">
+                                {this.state.currentQuestion != null ?
 
                                     (<div class="question" key={this.state.currentQuestion.questionID} >
-                                        <div class="questionField">{this.state.currentQuestion.question}</div>
+                                        <div class="questionField"> {this.state.currentQuestion.question}</div>
 
-                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
+
+                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
+
                                         {this.state.currentQuestion.answers.map(
                                             answer =>
                                                 <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
                                         )}
                                     </div>) : ""}
                             </div>
-                            {/* <div class="finishGame">
-                                    <div class="bingo-gif"><img src={bingoGif} alt="image" /></div>
-                                    <div class="congrat">Chúc mừng bạn đã hoàn thành game này</div>
-                                </div> */}
-                            {/* <button onclick="nextNumber()"> Next Number</button>
-                        <div class="label">Goal</div> */}
-                            {/* <select name="goal" id="goal">
-                            <option value="horizontal">Horizontal</option>
-                            <option value="vertical">Vertical</option>
-                            <option value="diagonal">Diagonal</option>
-                        </select>
-                        <button onclick={() => this.bingo()}> Bingo !</button> */}
                         </div>
-                        {/* <button class="newgame" onclick="newGame()">New game</button> */}
+                    </div>
                     </div>
                 </div>
             </div>

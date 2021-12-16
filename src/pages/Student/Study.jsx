@@ -14,7 +14,8 @@ class Study extends Component {
                     <div class="row">
                         <Sidebar />
                         <div class="col-md-9">
-                            <h1>Hướng dẫn học tập cho mọi người</h1>
+                            <h1 class="tit">Hướng dẫn học tập cho mọi người</h1>
+                            
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,5 @@
 import "./App.css";
 import React, { Profiler } from "react";
-import Dashboard from "./pages/Admin/Dashboard";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import AccountManager from "./pages/Admin/AccountManager";
 import Study from "./pages/Student/Study";
@@ -24,8 +23,9 @@ import PageNotFound from "./pages/User/PageNotFound";
 import Game from "./pages/Student/Game";
 // import { Redirect } from "react-router/cjs/react-router.min";
 import Practice from "./pages/Student/Practice";
-import TestMemory from "./pages/Student/TestMemory";
+import MemoryGame from "./pages/Student/MemoryGame";
 import PlayGame from "./pages/Student/PlayGame";
+import ForgotPassword from "./pages/User/ForgotPassword";
 
 
 function generateRoute(username) {
@@ -42,7 +42,7 @@ function generateRoute(username) {
           <Route path="/study/vocabulary/lesson/:id" component={Vocabulary}></Route>
           <Route path="/study/grammar/lesson/:id" component={Grammar}></Route>
           <Route path="/study/practice/:catName/:lessId" component={Practice} />
-          <Route path="/testMemory" component={TestMemory} ></Route>
+          <Route path="/testMemory" component={MemoryGame} ></Route>
           <Route path="/play-game" component={PlayGame}></Route>
           <Route path="/exam" component={Exam}></Route>
           <Route path="/game" component={Game}></Route>
@@ -51,7 +51,6 @@ function generateRoute(username) {
     case "Admin":
       return (
         <Switch>
-          <Route path="/admin/dashboard" component={Dashboard}></Route>
           <Route path="/admin/acc-mng" component={AccountManager}></Route>
           <Route path="*" component={PageNotFound} ></Route>
         </Switch>)
@@ -80,6 +79,7 @@ function App() {
         <Route path="/home" component={Homepage}></Route>
         <Route path="/register" component={Register}></Route>
         <Route path="/profile" component={Profile}></Route>
+        <Route path="/forgot" component={ForgotPassword}></Route>
         <Route path="/notfound" component={NotFoundPage} ></Route>
         {generateRoute(role)}
         <Route path="*" component={PageNotFound} ></Route>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-
+import noImage from "../../assets/img/noImage.png"
+import S3Config from '../../services/S3Config'
 export default function VocabularyViewModal({ vocabDetail }) {
 
     return (
@@ -11,7 +12,7 @@ export default function VocabularyViewModal({ vocabDetail }) {
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Thêm từ vựng
+                                Xem từ vựng
                             </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -40,19 +41,16 @@ export default function VocabularyViewModal({ vocabDetail }) {
                                     <label class="form-label">Giải thích ví dụ</label>
                                     <input type="text" class="form-control" value={vocabDetail.exampleMeaning} disabled />
                                 </div>
-                                <div class="col-8">
-                                    <label class="form-label">Hình ảnh</label>
-                                    <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" disabled />
+                                <div class="col-7">
+                                    <label class="form-label">Hình ảnh<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" value={vocabDetail.imageLink} disabled />
+
+
                                 </div>
-                                <div class="col-4">
-                                    <img src={vocabDetail.imageLink} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
-                                </div>
-                                <div class="col-8">
-                                    <label class="form-label">Cách viết</label>
-                                    <input class="form-control" type="file" accept="image/gif" disabled />
-                                </div>
-                                <div class="col-4">
-                                    <img src={vocabDetail.gifLink} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                <div class="col-5 text-center">
+                                    <img id="imgEdit" src={vocabDetail.imageLink ? S3Config.baseURLVocabulary + vocabDetail.imageLink : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+
+
                                 </div>
                             </form>
                         </div>

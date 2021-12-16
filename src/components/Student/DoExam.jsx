@@ -7,6 +7,8 @@ import FillBlankQuestion from "./FillBlankQuestion.jsx";
 import MultipleChoiceQuestion from "./MultipleChoiceQuestion.jsx";
 import TrueFalseQuestion from "./TrueFalseQuestion.jsx";
 import PracticeServices from "../../services/PracticeServices.jsx";
+import UserServices from "../../services/UserServices.jsx";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function DoExam({ options }) {
   const [listQuestion, setListQuestion] = useState([
@@ -17,6 +19,7 @@ export default function DoExam({ options }) {
   const [isPractice, setIsPractice] = useState(false);
   const [listCorrectQuestion, setListCorrectQuestion] = useState([]);
   const [listCorrectAnswer, setListCorrectAnswer] = useState([]);
+  const [hasAchievement, setHasAchievement] = useState([]);
   const history = useHistory();
   const [minutes, setMinutes] = useState(10);
   const [seconds, setSeconds] = useState(0);
@@ -43,21 +46,41 @@ export default function DoExam({ options }) {
   }
 
   useEffect(() => {
-    ExamServices.getListQuestion(options[0])
-      .then((res) => {
-        setListQuestion(
-          res.data.listQuestions.map((item, index) => ({
-            id: item.questionID,
-            type: item.typeName,
-            question: item.question,
-            imgLink: item.imgeLink,
-            option: item.answer,
-          }))
-        );
-        setMinutes(parseInt(res.data.time / 60));
-        setSeconds(Math.ceil(res.data.time % 60));
-      })
-      .catch((err) => console.error(err));
+    if (location.pathname.includes("exam")) {
+      ExamServices.getListQuestion(options[0])
+        .then((res) => {
+          setListQuestion(
+            res.data.listQuestions.map((item, index) => ({
+              id: item.questionID,
+              type: item.typeName,
+              question: item.question,
+              imgLink: item.imgeLink,
+              option: item.answer,
+            }))
+          );
+          setMinutes(parseInt(res.data.time / 60));
+          setSeconds(Math.ceil(res.data.time % 60));
+        })
+        .catch((err) => console.error(err));
+    }
+    if (location.pathname.includes("practice")) {
+      PracticeServices.getListQuestion(options[0])
+        .then((res) => {
+          setListQuestion(
+            res.data.listQuestions.map((item, index) => ({
+              id: item.questionID,
+              type: item.typeName,
+              question: item.question,
+              imgLink: item.imgeLink,
+              option: item.answer,
+            }))
+          );
+          setMinutes(parseInt(res.data.time / 60));
+          setSeconds(Math.ceil(res.data.time % 60));
+        })
+        .catch((err) => console.error(err));
+      setIsPractice(true);
+    }
   }, []);
 
 
@@ -80,14 +103,18 @@ export default function DoExam({ options }) {
       })
     }
     if (location.pathname.includes("practice")) {
-      console.log(`userSubmit`, userSubmit);
       PracticeServices.getResult(userSubmit).then((res) => {
         setListCorrectAnswer(res.data);
-        console.log(`res.data`, res.data);
       })
       setIsPractice(true);
     }
+    UserServices.checkAchievement().then((res) => {
+      // console.log(`res`, res)
+      setHasAchievement(res.data);
+      // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
+    })
     setIsShow(true);
+
   };
   const [numberOfCorrect, setNumberOfCorrect] = useState("");
   const [proportion, setProportion] = useState("")
@@ -155,32 +182,42 @@ export default function DoExam({ options }) {
         );
     }
   };
+  const hideAlert = () => {
+    setHasAchievement([]);
+  }
 
   return (
     <>
-    <div id="back-to-top"></div>
-    {isShow && (
-      <div class="alert alert-success text-center" role="alert">
-        Số câu đúng : <span class="fw-bold">{numberOfCorrect}</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tỉ lệ đúng :
-          <span class="fw-bold"> {proportion}</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Số điểm :
-          <span class="fw-bold"> {point}</span>
+      <div class="alert-wrapper position-absolute" >
+        {hasAchievement.length !== 0 ?
+          < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={hideAlert}>
+            <h3> {hasAchievement[0].name}</h3>
+            <h4>{hasAchievement[0].desciption}</h4>
+          </SweetAlert > : ""}
       </div>
-    )}
-    <div class="container mx-auto" style={{ width: "98%", backgroundColor: "#fff", borderRadius: "15px " }}>
-      <div class="row mt-2">
-        <div class="col-9">
-          {listQuestion.length > 0 ? listQuestion.map((item, index) => (
-            SwitchCase(item, index + 1))) : "Không có dữ liệu"
-          }
-          <div class="w-50" style={{ margin: "auto" }}>
-            {isShow ? <a
-              class="btn w-100 mt-4 mb-4"
-              onClick={onClickRefresh}
-              style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
-            >
-              Tạo bài kiểm tra mới
+      <div id="back-to-top"></div>
+      {isShow && (
+        <div class="alert alert-success text-center" role="alert">
+          Số câu đúng : <span class="fw-bold">{numberOfCorrect}</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tỉ lệ đúng :
+          <span class="fw-bold"> {proportion}</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Số điểm :
+          <span class="fw-bold"> {point}</span>
+        </div>
+      )}
+      <div class="container mx-auto" style={{ width: "98%", backgroundColor: "#fff", borderRadius: "15px " }}>
+        <div class="row mt-2">
+          <div class="col-9">
+            {listQuestion.length > 0 ? listQuestion.map((item, index) => (
+              SwitchCase(item, index + 1))) : "Không có dữ liệu"
+            }
+            <div class="w-50" style={{ margin: "auto" }}>
+              {isShow ? <a
+                class="btn w-100 mt-4 mb-4"
+                onClick={onClickRefresh}
+                style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+              >
+                Tạo bài kiểm tra mới
               </a> : <a
                 href="#back-to-top"
                 class="btn w-100 mt-4 mb-4"
@@ -189,51 +226,51 @@ export default function DoExam({ options }) {
               >
                 Xem kết quả
               </a>}
+            </div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="card bg-light mb-3 mt-4 sticky-top">
-            <div class="card-header">Danh sách câu hỏi</div>
-            <div class="card-body">
-              <div class="row row-cols-5">
-                {listQuestion.map((item, index) => (
-                  <div class=
-                    {!isPractice && isShow ? (isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
-                      : !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white"
-                        : "col px-1 btn btn-outline-secondary") :
-                      "col px-1 btn btn-outline-secondary"}>
-                    <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
-                  </div>
-                ))}
+          <div class="col-3">
+            <div class="card bg-light mb-3 mt-4 sticky-top">
+              <div class="card-header">Danh sách câu hỏi</div>
+              <div class="card-body">
+                <div class="row row-cols-5">
+                  {listQuestion.map((item, index) => (
+                    <div class=
+                      {!isPractice && isShow ? (isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
+                        : !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white"
+                          : "col px-1 btn btn-outline-secondary") :
+                        "col px-1 btn btn-outline-secondary"}>
+                      <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
+                    </div>
+                  ))}
 
-              </div>
-              <div class="w-100 text-center" style={{ margin: "auto" }}>
-                {isShow ? <a
-                  class="btn btn-link w-100 mt-2 text-decoration-none"
-                  onClick={onClickRefresh}
-                  style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
-                >
-                  Tạo bài kiểm tra mới
-
-                  </a> : <>
-                  <Timer minutes={minutes} seconds={seconds}
-                    setMinutes={setMinutes} setSeconds={setSeconds}
-                    onTimeUp={onClickFinish} />
-                  <a
-                    href="#back-to-top"
+                </div>
+                <div class="w-100 text-center" style={{ margin: "auto" }}>
+                  {isShow ? <a
                     class="btn btn-link w-100 mt-2 text-decoration-none"
-                    onClick={onClickFinish}
+                    onClick={onClickRefresh}
                     style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
                   >
-                    Xem kết quả
+                    Tạo bài kiểm tra mới
+
+                  </a> : <>
+                    {!isPractice && <Timer minutes={minutes} seconds={seconds}
+                      setMinutes={setMinutes} setSeconds={setSeconds}
+                      onTimeUp={onClickFinish} />}
+                    <a
+                      href="#back-to-top"
+                      class="btn btn-link w-100 mt-2 text-decoration-none"
+                      onClick={onClickFinish}
+                      style={{ backgroundColor: "#ec9d9d", color: "#fff" }}
+                    >
+                      Xem kết quả
                     </a></>}
 
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

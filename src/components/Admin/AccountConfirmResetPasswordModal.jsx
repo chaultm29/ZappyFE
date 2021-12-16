@@ -1,54 +1,57 @@
 import React, { useState } from 'react'
-import LessonServices from '../../services/LessonServices'
 import { useHistory } from "react-router-dom";
+import AccountServices from '../../services/AccountServices';
 import SweetAlert from 'react-bootstrap-sweetalert';
-export default function QuestionDeleteModal({ questionDetail }) {
+export default function AccountConfirmResetPasswordModal({ username }) {
     const history = useHistory();
     const [msgErrorResponse, setMsgErrorResponse] = useState("");
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const onClickYesButton = () => {
-        LessonServices.deleteQuestion(questionDetail.questionID).then((response) => {
+        AccountServices.resetPassword(username).then((response) => {
             if (response.status === 200) {
-                setMsgSuccessResponse("Xóa câu hỏi thành công");
+                if (response.data.message.includes("thành công")) {
+                    setMsgSuccessResponse(response.data.message);
+                } else {
+                    setMsgErrorResponse(response.data.message);
+                }
             }
-            else {
-                setMsgErrorResponse("Xóa câu hỏi thất bại");
-            }
-        }
-        ).catch((error) => {
-            setMsgErrorResponse(error);
-        });
+        })
+            .catch((error) => {
+                setMsgErrorResponse(error);
+            });
+    };
 
-    }
     const hideAlertSuccess = () => {
         setMsgSuccessResponse("");
         setMsgErrorResponse("");
-        history.go(0);
+        document.getElementById('close-modal').click();
+
     }
     const hideAlertError = () => {
         setMsgErrorResponse("");
     }
     return (
         <>
-            {/* Delete modal */}
+            {/* confirm modal */}
             <div class="alert-wrapper position-absolute" >
                 {msgSuccessResponse !== "" ?
-                    < SweetAlert success title="Xóa câu hỏi thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+                    < SweetAlert success title="Đặt lại mật khẩu tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
                         {msgSuccessResponse}
                     </SweetAlert > : ""}
                 {msgErrorResponse !== "" ?
-                    < SweetAlert danger title="Xóa câu hỏi thất bại!" timeout={2000} onConfirm={hideAlertError}>
+                    < SweetAlert danger title="Đặt lại mật khẩu tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
                         {msgErrorResponse}
                     </SweetAlert > : ""}
             </div>
-            <div class="modal fade" id="ViewDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="ViewResetPasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">
-                                Xác nhận xóa câu hỏi
+                                Xác nhận đặt lại mật khẩu
                             </h5>
                             <button
+                                id="close-modal"
                                 type="button"
                                 class="btn-close"
                                 data-bs-dismiss="modal"
@@ -56,7 +59,7 @@ export default function QuestionDeleteModal({ questionDetail }) {
                             ></button>
                         </div>
                         <div class="modal-body">
-                            Bạn có chắc muốn xóa câu hỏi "<span class="text-danger">{questionDetail.question}</span>" chứ ?
+                            Bạn có chắc muốn đặt lại mật khẩu của tài khoản "<span class="text-danger">{username}</span>" chứ ?
                         </div>
                         <div class="modal-footer border-0">
                             <button

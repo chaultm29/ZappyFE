@@ -191,3 +191,6 @@ h5 {
 .btnLesson:hover{
 background-color: pink;
 }
+.btnLesson:active{
+  background-color: pink;
+  }

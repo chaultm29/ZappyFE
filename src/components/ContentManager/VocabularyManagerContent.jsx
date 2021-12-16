@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CalendarEmb from "../Admin/Calendar.jsx";
-import Schedule from "../Admin/Schedule.jsx";
 import Table, { SelectColumnFilter } from "../UI/Table.jsx";
 import { useHistory } from "react-router-dom";
 import LessonServices from "../../services/LessonServices.jsx";
@@ -21,9 +20,6 @@ export default function VocabularyManagerContent() {
             })
             .catch((err) => console.error(err));
     }, []);
-    const getData = () => {
-        return [...dataVocab];
-    };
 
     const columns = React.useMemo(
         () => [
@@ -65,7 +61,7 @@ export default function VocabularyManagerContent() {
         ],
         []
     );
-    const data = React.useMemo(() => getData(), []);
+    const data = React.useMemo(() => dataVocab, [dataVocab]);
 
     const onClickGetVocabID = (e) => {
         return e.currentTarget.id;
@@ -85,7 +81,7 @@ export default function VocabularyManagerContent() {
         <div class="container-fluid px-4">
             <div className="row">
                 <div className="col-sm-9 accountManagerContent-wrapper">
-                    {dataVocab.length != 0 ? <>
+                    {dataVocab.length !== 0 ? <>
                         <button
                             class="btn btn-primary"
                             id="addbutton"
@@ -94,7 +90,7 @@ export default function VocabularyManagerContent() {
                             title="Add">
                             Thêm mới
                         </button>
-                        <Table columns={columns} data={dataVocab} />
+                        <Table columns={columns} data={data} />
 
                     </> : <div class="d-flex justify-content-center">
                         <div class="spinner-border" role="status">
@@ -111,7 +107,7 @@ export default function VocabularyManagerContent() {
 
                 <div className="col-sm-3">
                     <CalendarEmb />
-                    <Schedule />
+
                 </div>
             </div>
         </div>

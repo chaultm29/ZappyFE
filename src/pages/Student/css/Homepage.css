@@ -1,0 +1,42 @@
+#homepage-description {
+    color : #DF6951 !important;
+    font-weight: 800 !important;
+    font-size: 25px;
+}
+.homepage-title {
+    font-size: 60px;
+    font-weight: 700;
+    color : #68A39D;
+    position: sticky;
+}
+
+.homepage-title:before {
+ content: '';
+position: absolute;
+right: 2.9375rem;
+top: 3.8rem;
+width: 20rem;
+height: 0.8125rem; 
+background-image: url(../../../assets/img/shape.svg);
+background-size: contain;
+z-index: -1;
+}
+.btn-primary[role="btn-homepage"] {
+    color: #FFFEFE;
+background-color: #F1A501;
+border-color: #F1A501;
+} 
+.btn-primary[role="btn-homepage"]:hover {
+    color: #FFFEFE;
+background-color: #cd8c01;
+border-color: #c18401;
+}
+.primary-btn-shadow{
+    box-shadow: 0 1.25rem 2.1875rem 0 rgba(241, 165, 1, 0.15);
+}
+.fw-medium{
+    font-weight: 600 !important;
+    color : #5E6282;
+    font-size: 20px;
+
+}

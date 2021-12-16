@@ -5,8 +5,10 @@ import UserServices from '../../services/UserServices';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import S3FileUpload from 'react-s3';
-export default function Profile({ isClicked }) {
+import S3Config from '../../services/S3Config.js';
+import noImage from "../../assets/img/noImage.png"
 
+export default function Profile({ isClicked }) {
     const [userRole, setUserRole] = useState(AuthenticationService.getRoleName());
     const [site, setSite] = useState("account");
     const [id, setId] = useState("");
@@ -26,14 +28,31 @@ export default function Profile({ isClicked }) {
     const [validationPassMsg, setValidationPassMsg] = useState('');
     const [progress, setProgress] = useState("");
     const [achievement, setAchievement] = useState("");
-    const baseImg = "https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/Avatar/";
 
-    const config = {
-        bucketName: 'imgzappybucket',
-        dirName: 'Avatar', /* optional */
-        region: 'ap-southeast-1',
-        accessKeyId: 'AKIAUTRYR6GNCV4DERUF',
-        secretAccessKey: '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'
+
+    const [config, setConfig] = useState({});
+    useEffect(() => {
+        if (isClicked) {
+            S3Config.getConfig().then((res) => {
+                setConfig({
+                    bucketName: res.data[0].value,
+                    dirName: 'Avatar',
+                    region: res.data[1].value,
+                    accessKeyId: res.data[2].value,
+                    secretAccessKey: res.data[3].value
+                })
+            });
+        }
+    }, [isClicked])
+
+    const upload = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, config).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
     }
 
     useEffect(() => {
@@ -46,13 +65,15 @@ export default function Profile({ isClicked }) {
                 setPhone(res.data.phone);
                 setAvatar(res.data.avatar);
             });
-            UserServices.getProgress().then((res) => {
-                setProgress(res.data);
-            })
-            UserServices.getAchievement().then((res) => {
-                setAchievement(res.data);
-            })
 
+            if (userRole === "Student") {
+                UserServices.getProgress().then((res) => {
+                    setProgress(res.data);
+                })
+                UserServices.getAchievement().then((res) => {
+                    setAchievement(res.data);
+                })
+            }
         }
     }, [isClicked])
 
@@ -68,27 +89,27 @@ export default function Profile({ isClicked }) {
 
 
     const onEmailChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.toLowerCase().trim();
         setEmail(input);
     }
     const onDateOfBirthChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setDateOfBirth(input);
     }
     const onPhoneChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setPhone(input);
     }
     const onOldPassChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setOldPass(input);
     }
     const onNewPassChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setNewPass(input);
     }
     const onReNewPassChange = (e) => {
-        let input = e.target.value;
+        let input = e.target.value.trim();
         setReNewPass(input);
     }
 
@@ -99,26 +120,23 @@ export default function Profile({ isClicked }) {
             if (reader.readyState === 2) {
                 setImageUpload(e.target.files[0]);
                 setAvatar(e.target.files[0].name);
-                document.getElementById("img").src = reader.result;
+                document.getElementById("imgProfile").src = reader.result;
             }
+
         }
-        reader.readAsDataURL(e.target.files[0]);
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
     }
 
-    const upload = () => {
-        let msg;
-        S3FileUpload.uploadFile(imageUpload, config).then((data) => {
-            msg = true;
-        }).catch((err) => {
-            msg = false;
-        })
-        return msg;
-    }
+
     const validateUpdate = () => {
+        setValidationUpdateMsg('');
         const msg = {};
         var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
         var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-        var validatePhone = /(0[3|5|7|8|9])+([0-9]{8,9})\b/;
+        var validatePhone = /(0)+([0-9]{9})\b/;
         var inputDate = new Date(dateOfBirth);
         var today = new Date();
 
@@ -138,11 +156,9 @@ export default function Profile({ isClicked }) {
             msg.phone = "Không được để trống";
         }
         else if (!validatePhone.test(phone)) {
-            msg.phone = "Độ dài từ 10-11 số, không bao gồm kí tự đặc biệt và dấu cách";
+            msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
         }
-        if (dateOfBirth.length === 0) {
-            msg.dob = "Không được để trống";
-        } else if (inputDate > today) {
+        if (dateOfBirth.length > 0 && inputDate >= today) {
             msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
         }
         setValidationUpdateMsg(msg);
@@ -151,6 +167,7 @@ export default function Profile({ isClicked }) {
     }
 
     const validateChangePass = () => {
+        setValidationPassMsg('');
         const msg = {};
         var validatePassword = /^[a-z\d\S]+$/i;
         if (oldPass.length === 0) {
@@ -179,17 +196,22 @@ export default function Profile({ isClicked }) {
         const isValid = validateUpdate();
         if (!isValid) return;
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
-        console.log(`profile`, profile);
-        const isUploaded = upload();
-        UserServices.updateProfile(profile).then((res) => {
-            console.log(`res`, res);
-            console.log(`isUploaded`, isUploaded);
-            if (res.status === 200) {
-                setMsgAPIUpdate("Cập nhật thành công !");
-            } else {
-                setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
-            }
-        });
+        const uploadImageSuccess = upload(imageUpload);
+        if (uploadImageSuccess) {
+            UserServices.updateProfile(profile).then((res) => {
+                if (res.status === 200) {
+                    if (res.data.includes("thành công")) {
+                        setMsgAPIUpdate("Cập nhật thành công !");
+                    } else if (res.data.includes("tồn tại")) {
+                        setMsgAPIUpdate(res.data);
+                    }
+                } else {
+                    setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
+            });
+        } else {
+            setMsgAPIUpdate("Đã có lỗi xảy ra, vui lòng thử lại");
+        }
     }
     const onSubmitPassword = (e) => {
         e.preventDefault();
@@ -209,7 +231,7 @@ export default function Profile({ isClicked }) {
     return (
         <>
             {/* Profile Modal */}
-            <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModal" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -221,9 +243,11 @@ export default function Profile({ isClicked }) {
                                 <div class="col-md-4 border-end h-100">
                                     <div class="avatar h-50 w-100 text-center" >
 
-                                        <img id="img" src={baseImg + avatar} class="img-fluid rounded mx-auto d-block" alt="..." />
+                                        <img id="imgProfile" src={avatar ? S3Config.baseURLAvatar + avatar : noImage} class="img-fluid rounded mx-auto d-block" alt="..." />
 
-                                        <a href="#upload" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
+                                        <a href="javascript:void(0)" onClick={() => inputFile.current.click()} class="mx-auto">Thay đổi ảnh đại diện</a>
+                                        {avatar && <>     <span class="text-muted px-1">  |  </span>
+                                            <a href="javascript:void(0)" onClick={() => setAvatar("")}>Xóa bỏ</a> </>}
                                         <input type='file' id='file' ref={inputFile} class="d-none" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
                                     </div>
                                     <div class="menu list-group list-group-item-action mt-2">
@@ -249,7 +273,7 @@ export default function Profile({ isClicked }) {
                                                     Họ và tên
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={fullName} onChange={onFullNameChange} />
+                                                    <input type="text" class="form-control" value={fullName} onChange={onFullNameChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.fullName}</p>
                                                 </div>
                                             </div>
@@ -258,7 +282,7 @@ export default function Profile({ isClicked }) {
                                                     Email
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={email} onChange={onEmailChange} />
+                                                    <input type="text" class="form-control" value={email} onChange={onEmailChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.email}</p>
                                                 </div>
                                             </div>
@@ -267,7 +291,7 @@ export default function Profile({ isClicked }) {
                                                     Tên tài khoản
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={AuthenticationService.getCurrentUser()} disabled />
+                                                    <input type="text" class="form-control" value={AuthenticationService.getCurrentUser()} disabled />
 
                                                 </div>
                                             </div>
@@ -276,7 +300,7 @@ export default function Profile({ isClicked }) {
                                                     Ngày sinh
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="date" class="form-control" defaultValue={dateOfBirth} onChange={onDateOfBirthChange} />
+                                                    <input type="date" class="form-control" value={dateOfBirth} onChange={onDateOfBirthChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.dob}</p>
                                                 </div>
                                             </div>
@@ -285,7 +309,7 @@ export default function Profile({ isClicked }) {
                                                     Số điện thoại
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" defaultValue={phone} onChange={onPhoneChange} />
+                                                    <input type="text" class="form-control" value={phone} onChange={onPhoneChange} />
                                                     <p class="text-danger mb-0">{validationUpdateMsg.phone}</p>
                                                 </div>
                                             </div>
@@ -351,20 +375,26 @@ export default function Profile({ isClicked }) {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        {achievement.map((a, index) => (<>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>{a.name}</td>
-                                                            <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
-                                                        </>
+                                                    {achievement.length === 0 ?
+                                                        <>
+                                                            <tr>
+                                                                <td colspan="3">Bạn chưa đạt thành tựu nào :(</td>
+                                                            </tr>
+                                                        </> : achievement.map((a, index) => (<>
+                                                            <tr>
+                                                                <th scope="row">{index + 1}</th>
+                                                                <td>{a.name}</td>
+                                                                <td>{new Intl.DateTimeFormat('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit', }).format(new Date(a.dateCreate))}</td>
+                                                            </tr></>
                                                         ))}
-                                                    </tr>
+
+
 
 
                                                 </tbody>
                                             </table>
                                             <div class="count-policy position-absolute bottom-0 end-0 mb-3 me-3" >
-                                                <button type="button" class="btn btn-link">Cách tính thành tựu</button>
+                                                <a class="btn btn-link" data-bs-toggle="modal" href="#achievementExplanation">Cách tính thành tựu</a>
                                             </div>
                                         </div>}
                                     {site.includes("progress") &&
@@ -375,7 +405,7 @@ export default function Profile({ isClicked }) {
                                                     <div class="card">
                                                         <div class="card-body" style={{ width: "35%", textAlign: "center", margin: "auto" }}>
                                                             <h5 class="card-title text-center"></h5>
-                                                            <CircularProgressbar value={progress.progressAll} text={progress.progressAll + "%"} />
+                                                            <CircularProgressbar value={progress.progressAll * (100 / 21)} text={parseInt(progress.progressAll * (100 / 21)) + "%"} />
                                                             <ul class="list-group list-group-flush">
 
                                                             </ul>
@@ -417,17 +447,38 @@ export default function Profile({ isClicked }) {
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                         </div>}
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
+            <div class="modal fade" id="achievementExplanation" aria-labelledby="achievementExplanation" aria-hidden="true" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Cách tính thành tựu</h5>
+                            <button type="button" class="btn-close" data-bs-target="#profileModal" data-bs-toggle="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-start">
+                            <div>Test 10 bài liên tục được 100 điểm: “Quái vật” kiểm tra <br />
+                                Học xong hết chữ hán: Bậc thầy chữ hán<br />
+                                Học xong hết ngữ pháp: Vị thần ngữ pháp<br />
+                                Học xong hết từ vựng : Chúa tể ngôn từ<br />
+                                Học xong hết từ vựng, ngữ pháp, chữ hán: Thần đồng ngôn ngữ<br />
+                                Đạt 1000 điểm : Hộ vệ level<br />
+                                Đạt 5000 điểm : Thợ săn level<br />
+                                Đạt 10000 điểm : Quái thú level<br />
+                                Đạt 20000 điểm : Kẻ hủy diệt level<br />
+                                Đạt 30000 điểm : Thần thoại level<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </>

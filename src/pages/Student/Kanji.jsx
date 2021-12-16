@@ -117,22 +117,22 @@ class Kanji extends Component {
                               onClick={this.onUserClickSpeaker.bind(this)}
                             ></i>
                           </span></li>
-                          <li>Âm hán: <span>{kanji.chinese}</span></li>
-                          <li>Âm nghĩa: <span>{kanji.vietnamese}</span></li>
+                          <li>Nghĩa: <span>{kanji.chinese}</span></li>
+                          <li>Giải nghĩa: <span>{kanji.vietnamese}</span></li>
                         </ul>
                       </div>
                       {/* <div class="kanji-gif"><img src={require(`https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/${kanji.gifLink == "" ? "1.gif" : kanji.gifLink}`).default} alt="hiragana" /></div> */}
-                      <div class="kanji-gif col-md-4"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiGif/" + kanji.gifLink} alt="hiragana" /></div>
+                      <div class="kanji-gif col-md-4"><img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/KanjiGif/" + kanji.gifLink} alt="hiragana" /></div>
                       <div class="letgo">Cùng nhớ nào ^^</div>
                       <div class="des">{kanji.description}</div>
-                      <div class="kanji-image"><img src={"https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiDes/" + kanji.imageLink} alt="hiragana" /></div>
+                      <div class="kanji-image"><img src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/KanjiDes/" + kanji.imageLink} alt="hiragana" /></div>
                       {/* <div class="kanji-image"><img src={require(`https://imgzappybucket.s3.ap-southeast-1.amazonaws.com/KanjiDes/${kanji.imageLink == "" ? "1.png" : kanji.imageLink}`).default} alt="hiragana" /></div> */}
                     </div>
 
                 )}
               <div id="finishLearning" class="kanji-card" style={{ display: "none" }}>
                 <p>Bạn đã xong phần học rồi đó. Vào luyện tập ngay</p>
-                <button>Luyện tập</button>
+                <button onClick={this.gotoPractice}>Luyện tập</button>
               </div>
               <div>
                 <button id="prevButton" class="btn btn-secondary prev" onClick={() => this.changeToCard(-1)}>Quay lại</button>

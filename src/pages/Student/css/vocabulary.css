@@ -82,10 +82,12 @@ h3 {
   background-color: pink;
 }
 
-.vocabulary-card:hover .box-inner {
+/* .vocabulary-card:hover .box-inner {
+  transform: rotateY(180deg);
+} */
+.vocabulary-card.flipped .box-inner {
   transform: rotateY(180deg);
 }
-
 .box-front,
 .box-back {
   position: absolute;
@@ -113,12 +115,13 @@ h3 {
   text-align: center;
 }
 
-.vocabulary-image {
-  width: 100%;
-  height: auto;
+.vocabulary-image #voca-img{
+  width: 50%;
+  /* height: 30%; */
+  max-height: 350px;
   justify-content: center;
   align-items: center;
-  display: flex;
+  /* display: flex; */
 }
 .my-card img {
   width: 50%;
@@ -141,4 +144,8 @@ h3 {
 }
 .prog {
   margin: 20px 0;
+}
+.voca{
+  font-size: 30px;
+  font-weight: 600;
 }

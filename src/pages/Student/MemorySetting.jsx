@@ -5,7 +5,7 @@ import {
 } from 'react-awesome-button';
 import "react-awesome-button/dist/styles.css";
 
-export default function Start({ isStartedProps, setOptions, setLevel }) {
+export default function MemorySetting({ isStartedProps, setOptions, setLevel }) {
   const [numberOfQuestion, setNumberOfCard] = useState(null);
   const [lessonIds, setLessonIds] = useState([]);
   const [skillIds, setSkillIds] = useState([]);
@@ -200,7 +200,19 @@ export default function Start({ isStartedProps, setOptions, setLevel }) {
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body text-start">
-                      Ghi luật  đây nè
+                      <div>Trò chơi này gồm các thẻ (số lượng thẻ sẽ thay đổi tùy theo mức độ khó). <br />Các thẻ sẽ được chia thành các cặp thẻ gồm thuật ngữ - định nghĩa</div>
+
+                      <div>Nhiệm vụ của người chơi là sẽ phải lật các thẻ và tìm ra các thuật ngữ tương ứng với định nghĩa hoặc ngược lại.</div>
+                      <div>Ví dụ : わたし - Tôi , おはようございます - Chào buổi sáng</div>
+                      <div>Mỗi cặp thẻ được tìm ra đúng sẽ được 100 điểm, trả lời sai sẽ bị trừ 5 điểm</div>
+
+                      <div>Thời gian : 6 phút </div>
+                      <div>Nếu thắng vẫn còn thời gian thì bạn sẽ nhận được điểm thưởng. Điểm thưởng sẽ thay đổi tùy theo mức độ bạn chọn  </div>
+                      <div>Đối với mức độ khó : 10 điểm / 1 giây</div>
+                      <div>Đối với mức độ trung bình : 5 điểm / 1 giây</div>
+                      <div>Đối với mức độ dễ : 2 điểm / 1 giây</div>
+                      <div>Số điểm bạn giành được sẽ được quy đổi ra exp để cộng vào điểm level hiện tại</div>
+
                     </div>
                   </div>
                 </div>

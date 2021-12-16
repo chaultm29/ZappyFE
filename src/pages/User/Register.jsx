@@ -24,9 +24,8 @@ export default function Register() {
     const isValid = validateAll();
     if (!isValid) return;
     let account = { username: username, passwordOld: "", passwordNew: password, dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
-    console.log(`account`, account);
     AuthenticationService.register(account).then((response) => {
-      console.log(`response`, response);
+
       if (response.status === 200) {
         if (response.data.includes("thành công")) {
           setMsgSuccessResponse(response.data);
@@ -42,12 +41,12 @@ export default function Register() {
   }
 
   const onUsernameChange = (e) => {
-    let input = e.target.value;
-    setUsername(input.toLowerCase());
+    let input = e.target.value.toLowerCase().trim();
+    setUsername(input);
   }
   const onFullnameChange = (e) => {
-    let input = e.target.value;
-    setFullname(input.toUpperCase());
+    let input = e.target.value.toUpperCase().trim();
+    setFullname(input);
   }
   const onEmailChange = (e) => {
     let input = e.target.value;
@@ -71,14 +70,12 @@ export default function Register() {
     setRepassword(input);
   }
 
-
-
   const validateAll = () => {
     const msg = {};
     var validateUsername = /^[a-z\d]+$/i;
     var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
     var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-    var validatePhone = /(0[3|5|7|8|9])+([0-9]{8,9})\b/;
+    var validatePhone = /(0)+([0-9]{9})\b/;
     var inputDate = new Date(dateOfBirth);
     var validatePassword = /^[a-z\d\S]+$/i;
     var today = new Date();
@@ -105,7 +102,7 @@ export default function Register() {
       msg.phone = "Không được để trống";
     }
     else if (!validatePhone.test(phone)) {
-      msg.phone = "Độ dài từ 10-11 số, không bao gồm kí tự đặc biệt và dấu cách";
+      msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
     if (dateOfBirth.length === 0) {
       msg.dob = "Không được để trống";
@@ -211,7 +208,6 @@ export default function Register() {
                   </div>
                   <div class="text-start mb-2">
                     <p class="text-danger mb-0">{validationMsg.email}</p>
-
                   </div>
                   <div class="form-group input-group mb-0">
                     <div class="input-group-prepend d-flex">

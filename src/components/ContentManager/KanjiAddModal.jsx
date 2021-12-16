@@ -1,42 +1,263 @@
-import React, { useState } from 'react'
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState, useRef } from 'react'
+
 import { useHistory } from "react-router-dom";
 import LessonServices from '../../services/LessonServices';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import S3FileUpload from 'react-s3';
+import S3Config from "../../services/S3Config.js";
+import noImage from "../../assets/img/noImage.png"
 
 export default function KanjiAddModal() {
+    const [character, setCharacter] = useState("");
+    const [chinese, setChinese] = useState("");
+    const [vietnamese, setVietnamese] = useState("");
+    const [description, setDescription] = useState("");
+    const [kunyomi, setKunyomi] = useState("");
+    const [onyomi, setOnyomi] = useState("");
+    const [lessonName, setLessonName] = useState("");
+    const [image, setImage] = useState("");
+    const [imageUpload, setImageUpload] = useState("");
+    const [gif, setGif] = useState("");
+    const [gifUpload, setGifUpload] = useState("");
+    const inputImageFile = useRef(null);
+    const inputGifFile = useRef(null);
+    const [validationMsg, setValidationMsg] = useState('');
+    const [resetSelect, setResetSelect] = useState(true);
+    const [msgErrorResponse, setMsgErrorResponse] = useState("");
+    const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
     const history = useHistory();
-    const [image, setImage] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
-    const [gif, setGif] = useState("https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png");
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const onSubmit = (data) => {
-        console.log(`data`, data)
-        LessonServices.addKanji(data);
-        setTimeout(() => {
-            history.go(0);
-        }, 1000);
+    const [lessonList, setLessonList] = useState(["Bài 1", "Bài 2", "Bài 3", "Bài 4", "Bài 5", "Bài 6", "Bài 7"]);
+
+    const [configImg, setConfigImg] = useState({});
+    const [configGif, setConfigGif] = useState({});
+    useEffect(() => {
+        S3Config.getConfig().then((res) => {
+            setConfigImg({
+                bucketName: res.data[0].value,
+                dirName: 'KanjiDes',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+        S3Config.getConfig().then((res) => {
+            setConfigGif({
+                bucketName: res.data[0].value,
+                dirName: 'KanjiGif',
+                region: res.data[1].value,
+                accessKeyId: res.data[2].value,
+                secretAccessKey: res.data[3].value
+            })
+        });
+    }, [])
+
+
+    const uploadImg = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, configImg).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
+    }
+    const uploadGif = (file) => {
+        const msg = {};
+        S3FileUpload.uploadFile(file, configGif).then((data) => {
+        }).catch((err) => {
+            msg.err = err;
+        })
+        if (Object.keys(msg).length === 1) return false;
+        return true;
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const isValid = validateAll();
+        if (!isValid) return;
+        let kanjiAdd = {
+            character: character,
+            chinese: chinese.toUpperCase(),
+            vietnamese: vietnamese,
+            description: description,
+            kunyomi: kunyomi,
+            onyomi: onyomi,
+            lessonName: lessonName,
+            imageLink: image,
+            gifLink: gif
+        };
+        const uploadImageSuccess = uploadImg(imageUpload);
+        const uploadGifSuccess = uploadGif(gifUpload);
+        if (uploadImageSuccess && uploadGifSuccess) {
+            LessonServices.addKanji(kanjiAdd).then((response) => {
+                if (response.status === 200) {
+                    if (response.data.includes("thành công")) {
+                        setMsgSuccessResponse(response.data);
+                    } else if (response.data.includes("tồn tại")) {
+                        setMsgErrorResponse(response.data);
+                    }
+                } else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
+            })
+                .catch((error) => {
+                    setMsgErrorResponse(error);
+                });
+        } else {
+            setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+        }
+
+    }
     const imageHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setImage(reader.result)
+                setImage(e.target.files[0].name);
+                setImageUpload(e.target.files[0]);
+                document.getElementById("imgEdit").src = reader.result;
             }
         }
-        reader.readAsDataURL(e.target.files[0]);
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
     }
     const gifHandler = (e) => {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setGif(reader.result)
+                setGif(e.target.files[0].name);
+                setGifUpload(e.target.files[0]);
+                document.getElementById("gifEdit").src = reader.result;
+
             }
         }
-        reader.readAsDataURL(e.target.files[0]);
+        if (e.target.files[0]) {
+            reader.readAsDataURL(e.target.files[0]);
+        }
     }
+
+    const onChangeLesson = (e) => {
+        let lessonUser = e.target.value;
+        setLessonName(lessonUser);
+        setResetSelect(true);
+    }
+
+    const onChangeCharacter = (e) => {
+        let characterUser = e.target.value.trim();
+        setCharacter(characterUser);
+    }
+
+    const onChangeChinese = (e) => {
+        let valueUser = e.target.value.trim();
+        setChinese(valueUser);
+    }
+    const onChangeVietnamese = (e) => {
+        let valueUser = e.target.value.trim();
+        setVietnamese(valueUser);
+    }
+    const onChangeOnyomi = (e) => {
+        let valueUser = e.target.value.trim();
+        setOnyomi(valueUser);
+    }
+    const onChangeKunyomi = (e) => {
+        let valueUser = e.target.value.trim();
+        setKunyomi(valueUser);
+    }
+
+    const onChangeDescription = (e) => {
+        let valueUser = e.target.value.trim();
+        setDescription(valueUser);
+    }
+
+    const validateAll = () => {
+        const msg = {};
+        var validateCharacter = /[\u4e00-\u9faf]/;
+        var validateChinese = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\w]+$/;
+        var validateOnyomi = /^[\u30a0-\u30ff,、・/／]+/;
+        var validateKunyomi = /^[\u3040-\u309f,、・/／]+/;
+        if (lessonName.length === 0) {
+            msg.lessonName = "Vui lòng chọn bài";
+        }
+        if (character.length === 0) {
+            msg.character = "Không được để trống";
+        }
+        else if (character.length > 1) {
+            msg.character = "Chỉ chứa 1 ký tự";
+        }
+        else if (!validateCharacter.test(character)) {
+            msg.character = "Chỉ nhập Hán tự";
+        }
+        if (chinese.length === 0) {
+            msg.chinese = "Không được để trống";
+        } else if (!validateChinese.test(chinese)) {
+            msg.chinese = "Không bao gồm ký tự đặc biệt và dấu cách.";
+        }
+        if (vietnamese.length === 0) {
+            msg.vietnamese = "Không được để trống";
+        }
+        if (onyomi.length !== 0 && !validateOnyomi.test(onyomi)) {
+            msg.onyomi = "Chỉ nhập katakana và các ký tự ,、・/／";
+        }
+        if (kunyomi.length === 0) {
+            msg.kunyomi = "Không được để trống";
+        } else if (!validateKunyomi.test(kunyomi)) {
+            msg.kunyomi = "Chỉ nhập hiragana và các ký tự ,、・/／";
+        }
+        if (description.length === 0) {
+            msg.description = "Không được để trống";
+        }
+        if (image.length === 0) {
+            msg.image = "Vui lòng chọn 1 ảnh (Định dạng: .png.jpeg.jpg";
+        }
+        if (gif.length === 0) {
+            msg.gif = "Vui lòng chọn 1 ảnh (Định dạng: .gif)";
+        }
+        setValidationMsg(msg);
+        if (Object.keys(msg).length > 0) return false;
+        return true;
+    }
+    const onReset = () => {
+        setCharacter("");
+        setChinese("");
+        setVietnamese("");
+        setLessonName("");
+        setDescription("");
+        setGif("");
+        setImage("");
+        setKunyomi("");
+        setOnyomi("");
+        setValidationMsg('');
+        setResetSelect(false);
+        let itemSelect = document.querySelectorAll('select option');
+        for (var i = 0; i < itemSelect.length; i++) {
+            itemSelect[i].selected = itemSelect[i].defaultSelected;
+        }
+
+    }
+    const hideAlertSuccess = () => {
+        setMsgSuccessResponse("");
+        setMsgErrorResponse("");
+        history.go(0);
+    }
+    const hideAlertError = () => {
+        setMsgErrorResponse("");
+    }
+
+
     return (
         <>
-            {/* add kanji */}
+
+            {/* Edit modal */}
+            <div class="alert-wrapper position-absolute" >
+                {msgSuccessResponse !== "" ?
+                    < SweetAlert success title="Thêm chữ Hán thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+                        {msgSuccessResponse}
+                    </SweetAlert > : ""}
+                {msgErrorResponse !== "" ?
+                    < SweetAlert danger title="Thêm chữ Hán thất bại!" timeout={2000} onConfirm={hideAlertError}>
+                        {msgErrorResponse}
+                    </SweetAlert > : ""}
+            </div>
             <div class="modal fade" id="ViewAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -47,133 +268,90 @@ export default function KanjiAddModal() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" onSubmit={handleSubmit(onSubmit)}>
+                            <form class="row g-3" onSubmit={onSubmit}>
                                 <div class="col-md-3">
+
                                     <label for="inputLesson" class="form-label">Bài<span class="text-danger">*</span></label>
-                                    <select id="inputLesson" class="form-select"  {...register("lessonName", {
-                                        required: "Không được để trống"
-                                    })}>
-                                        <option value="" selected disabled>Bài học</option>
-                                        <option value="Bài 1">Bài 1</option>
-                                        <option value="Bài 2">Bài 2</option>
-                                        <option value="Bài 3">Bài 3</option>
-                                        <option value="Bài 4">Bài 4</option>
-                                        <option value="Bài 5">Bài 5</option>
-                                        <option value="Bài 6">Bài 6</option>
-                                        <option value="Bài 7">Bài 7</option>
+                                    <select id="inputLesson" class="form-select" onChange={onChangeLesson}>
+                                        <option value="" disabled={resetSelect} selected>Chọn bài</option>
+                                        {lessonList.map((lesson) => (
+                                            <option value={lesson}>{lesson}</option>
+                                        ))}
                                     </select>
-                                    {errors.lessonName && (
-                                        <span class="text-danger">{errors.lessonName.message}</span>
-                                    )}
+                                    <p class="text-danger mb-0">{validationMsg.lessonName}</p>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="inputCharacter" class="form-label">Hán tự<span class="text-danger">*</span></label>
-                                    <input name="character" type="text" class="form-control" id="inputCharacter"
-                                        {...register("character", {
-                                            required: "Không được để trống",
-                                            maxLength: { value: 1, message: "Chỉ chứa 1 ký tự" },
-                                            pattern: {
-                                                value: /[\u4e00-\u9faf]/,
-                                                message: "Chỉ nhập Hán tự",
-                                            },
-                                        })} />
-                                    {errors.character && (
-                                        <span class="text-danger">{errors.character.message}</span>
-                                    )}
+                                    <input name="character" type="text" class="form-control" onChange={onChangeCharacter} id="inputCharacter" />
+                                    <p class="text-danger mb-0">{validationMsg.character}</p>
                                 </div>
+
                                 <div class="col-md-3">
+
                                     <label for="inputChinese" class="form-label">Âm Hán<span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="inputChinese"
-                                        style={{ textTransform: "uppercase" }}
-                                        {...register("chinese", {
-                                            required: "Không được để trống",
-                                            pattern: {
-                                                value: /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\w]+$/,
-                                                message: "Không bao gồm ký tự đặc biệt và dấu cách.",
-                                            },
-                                        })} />
-                                    {errors.chinese && (
-                                        <span class="text-danger">{errors.chinese.message}</span>
-                                    )}
+                                        style={{ textTransform: "uppercase" }} onChange={onChangeChinese} />
+                                    <p class="text-danger mb-0">{validationMsg.chinese}</p>
                                 </div>
                                 <div class="col-md-3">
+
                                     <label for="inputVietnamese" class="form-label">Nghĩa<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="inputVietnamese"
-                                        {...register("vietnamese", {
-                                            required: "Không được để trống"
-                                        })} />
-                                    {errors.vietnamese && (
-                                        <span class="text-danger">{errors.vietnamese.message}</span>
-                                    )}
+                                    <input type="text" class="form-control" id="inputVietnamese" onChange={onChangeVietnamese} />
+                                    <p class="text-danger mb-0">{validationMsg.vietnamese}</p>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="inputOnyomi" class="form-label">Âm Ôn</label>
-                                    <input type="text" class="form-control" id="inputOnyomi"
-                                        {...register("onyomi", {
-                                            pattern: {
-                                                value: /^[\u30a0-\u30ff,、・/／]+/,
-                                                message: "Chỉ nhập katakana và các ký tự ,、・/／",
-                                            },
-                                        })} />
-                                    {errors.onyomi && (
-                                        <span class="text-danger">{errors.onyomi.message}</span>
-                                    )}
-
+                                    <input type="text" class="form-control" id="inputOnyomi" onChange={onChangeOnyomi} />
+                                    <p class="text-danger mb-0">{validationMsg.onyomi}</p>
                                 </div>
                                 <div class="col-md-6">
+
                                     <label for="inputKunyomi" class="form-label">Âm Kun<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="inputKunyomi"
-                                        {...register("kunyomi", {
-                                            required: "Không được để trống",
-                                            pattern: {
-                                                value: /^[\u3040-\u309f,、・/／]+/,
-                                                message: "Chỉ nhập hiragana và các ký tự ,、・/／",
-                                            },
-                                        })} />
-                                    {errors.kunyomi && (
-                                        <span class="text-danger">{errors.kunyomi.message}</span>
-                                    )}
+                                    <input type="text" class="form-control" id="inputKunyomi" onChange={onChangeKunyomi}
+                                    />
+                                    <p class="text-danger mb-0">{validationMsg.kunyomi}</p>
                                 </div>
                                 <div class="col-12">
+
                                     <label for="inputDescription" class="form-label">Mô tả<span class="text-danger">*</span></label>
                                     <textarea type="text" class="form-control" id="inputDescription"
-                                        {...register("description", {
-                                            required: "Không được để trống",
-                                        })} />
-                                    {errors.description && (
-                                        <span class="text-danger">{errors.description.message}</span>
-                                    )}
+                                        onChange={onChangeDescription} />
+                                    <p class="text-danger mb-0">{validationMsg.description}</p>
                                 </div>
+
                                 <div class="col-8">
                                     <label for="inputImageLink" class="form-label">Hình ảnh<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler}
-                                        {...register("imageLink", {
-                                            required: "Vui lòng chọn 1 ảnh (Định dạng: .png.jpeg.jpg)",
-                                        })}
-                                    />
-                                    {errors.imageLink && (
-                                        <span class="text-danger">{errors.imageLink.message}</span>
-                                    )}
+                                    <input class="d-none" type="file" ref={inputImageFile} id="inputImageLink" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
+                                    <br />
+                                    <input name="imageLink" value={image ? image : "Không có hình ảnh"} disabled />
+                                    <p class="text-danger mb-0">{validationMsg.image}</p>
                                 </div>
-                                <div class="col-4">
-                                    <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+                                <div class="col-4 text-center">
+                                    <img src={image ? image : noImage} id="imgEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <a href="javascript:void(0)" onClick={() => inputImageFile.current.click()}>Thay đổi</a>
+                                    {image && <> <span class="text-muted px-1">  |  </span>
+                                        <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
                                 </div>
+
                                 <div class="col-8">
+
                                     <label for="inputGifLink" class="form-label">Cách viết<span class="text-danger">*</span></label>
-                                    <input class="form-control" type="file" id="inputGifLink" accept="image/gif" onChange={gifHandler}
-                                        {...register("gifLink", {
-                                            required: "Vui lòng chọn 1 ảnh (Định dạng: .gif)",
-                                        })} />
-                                    {errors.gifLink && (
-                                        <span class="text-danger">{errors.gifLink.message}</span>
-                                    )}
+                                    <input class="d-none" type="file" ref={inputGifFile} id="inputGifLink" accept="image/gif" onChange={gifHandler} />
+                                    <br />
+                                    <input value={gif ? gif : "Không có gif"} disabled />
+                                    <p class="text-danger mb-0">{validationMsg.gif}</p>
                                 </div>
-                                <div class="col-4">
-                                    <img src={gif} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
+
+                                <div class="col-4 text-center">
+                                    <img src={gif ? gif : noImage} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                    <a href="javascript:void(0)" onClick={() => inputGifFile.current.click()}>Thay đổi</a>
+                                    {gif && <> <span class="text-muted px-1">  |  </span>
+                                        <a href="javascript:void(0)" onClick={() => setGif("")}>Xóa bỏ</a></>}
                                 </div>
-                                <div class="col-6"><button type="reset" class="btn btn-secondary w-100">
+                                <div class="col-6"><button type="reset" class="btn btn-secondary w-100" onClick={onReset}>
                                     Làm mới
-                                </button></div>
+                                </button>
+                                </div>
                                 <div class="col-6">
                                     <button type="submit" class="btn btn-primary w-100">
                                         Lưu
@@ -184,6 +362,7 @@ export default function KanjiAddModal() {
                     </div>
                 </div>
             </div>
+
         </>
     )
 }
