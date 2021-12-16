@@ -17,6 +17,9 @@ export default function AccountDeleteModal({ accountDetail }) {
 
                     }
                 }
+                else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
             })
                 .catch((error) => {
                     setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");

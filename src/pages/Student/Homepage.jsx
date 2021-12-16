@@ -4,6 +4,8 @@ import Sidebar from '../../components/Student/Sidebar';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import homepage from "../../assets/img/homepage.png"
 import "./css/Homepage.css";
+import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-router-dom";
+import AuthenticationService from '../../services/AuthenticationService';
 class Homepage extends Component {
     render() {
         return (
@@ -19,8 +21,16 @@ class Homepage extends Component {
                                 <h4 class="fw-bold text-danger mb-3" id="homepage-description">Trang web học tiếng Nhật được thiết kế dành riêng cho sinh viên trường Đại học FPT</h4>
                                 <h1 class="homepage-title">Học tập, Kiểm tra Chơi Game</h1>
                                 <p class="mb-4 fw-medium">Nội dung được xây dựng dựa trên giáo trình Dekiru Nihongo.<br class="d-none d-xl-block" />Thích hợp với các bạn sinh viên đang học<br class="d-none d-xl-block" />môn JPD113 và JPD123</p>
-                                <div class="text-center text-md-start"> <a class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" href="#!" role="btn-homepage">Khám phá</a>
-                                    <div class="w-100 d-block d-md-none"></div><span class="fw-medium">Hướng dẫn</span>
+                                <div class="text-center text-md-start">
+
+                                    {!AuthenticationService.getToken() ? <>
+                                        <a class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" href="" data-toggle="modal"
+                                            data-target="#loginModal" role="btn-homepage">Khám phá</a>
+                                        <div class="w-100 d-block d-md-none"></div><a href="" class="fw-medium">Hướng dẫn</a>
+                                    </>
+                                        : <> <Link to="/study" class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" href="" data-toggle="modal"
+                                            data-target="#loginModal" role="btn-homepage">Khám phá</Link>
+                                            <div class="w-100 d-block d-md-none"></div><Link to="/study" class="fw-medium">Hướng dẫn</Link> </>}
 
                                 </div>
                             </div>
