@@ -49,11 +49,11 @@ export default function Register() {
     setFullname(input);
   }
   const onEmailChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setEmail(input);
   }
   const onPhoneChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setPhone(input);
   }
   const onDateOfBirthChange = (e) => {
@@ -62,11 +62,11 @@ export default function Register() {
   }
 
   const onPasswordChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setPassword(input);
   }
   const onRepasswordChange = (e) => {
-    let input = e.target.value;
+    let input = e.target.value.trim();
     setRepassword(input);
   }
 

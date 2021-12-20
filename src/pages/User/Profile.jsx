@@ -89,27 +89,27 @@ export default function Profile({ isClicked }) {
 
 
     const onEmailChange = (e) => {
-        let input = e.target.value.toLowerCase().trim();
+        let input = e.target.value.toLowerCase();
         setEmail(input);
     }
     const onDateOfBirthChange = (e) => {
-        let input = e.target.value.trim();
+        let input = e.target.value;
         setDateOfBirth(input);
     }
     const onPhoneChange = (e) => {
-        let input = e.target.value.trim();
+        let input = e.target.value;
         setPhone(input);
     }
     const onOldPassChange = (e) => {
-        let input = e.target.value.trim();
+        let input = e.target.value;
         setOldPass(input);
     }
     const onNewPassChange = (e) => {
-        let input = e.target.value.trim();
+        let input = e.target.value;
         setNewPass(input);
     }
     const onReNewPassChange = (e) => {
-        let input = e.target.value.trim();
+        let input = e.target.value;
         setReNewPass(input);
     }
 
@@ -195,7 +195,7 @@ export default function Profile({ isClicked }) {
         e.preventDefault();
         const isValid = validateUpdate();
         if (!isValid) return;
-        let profile = { id: id, dateOfBirth: dateOfBirth, email: email, fullName: fullName, phone: phone, avatar: avatar };
+        let profile = { id: id, dateOfBirth: dateOfBirth, email: email.trim(), fullName: fullName.trim(), phone: phone.trim(), avatar: avatar };
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
             UserServices.updateProfile(profile).then((res) => {
@@ -219,7 +219,6 @@ export default function Profile({ isClicked }) {
         if (!isValid) return;
         let changePassword = { newPassword: newPass, oldPassword: oldPass };
         UserServices.changePassword(changePassword).then((res) => {
-            console.log(`res`, res);
             if (res.data === true) {
                 setMsgAPIPass("Cập nhật mật khẩu thành công !");
             } else {

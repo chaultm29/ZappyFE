@@ -99,7 +99,7 @@ class Kanji extends Component {
                       <div class="cha col-md-4">{kanji.character}</div>
                       <div class="kanji-attribute col-md-4">
                         <ul>
-                          <li>Âm on: <span>{kanji.onyomi}</span> <span
+                          {kanji.onyomi && <><li>Âm on: <span>{kanji.onyomi}</span> <span
                             class=" p-2 bg-white ms-4 rounded-circle fs-6 "
                             style={{ top: "30px" }}>
                             <i
@@ -107,8 +107,8 @@ class Kanji extends Component {
                               id={kanji.onyomi}
                               onClick={this.onUserClickSpeaker.bind(this)}
                             ></i>
-                          </span></li>
-                          <li>Âm kun: <span>{kanji.kunyomi}</span> <span
+                          </span></li> </>}
+                          {kanji.kunyomi && <> <li>Âm kun: <span>{kanji.kunyomi}</span> <span
                             class=" p-2 bg-white ms-4 rounded-circle fs-6 "
                             style={{ top: "30px" }}>
                             <i
@@ -116,7 +116,7 @@ class Kanji extends Component {
                               id={kanji.kunyomi}
                               onClick={this.onUserClickSpeaker.bind(this)}
                             ></i>
-                          </span></li>
+                          </span></li> </>}
                           <li>Nghĩa: <span>{kanji.chinese}</span></li>
                           <li>Giải nghĩa: <span>{kanji.vietnamese}</span></li>
                         </ul>
