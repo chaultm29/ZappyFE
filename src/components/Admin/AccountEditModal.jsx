@@ -44,13 +44,13 @@ export default function AccountEditModal({ accountDetail }) {
     const isValid = validateAll();
     if (!isValid) return;
     let account = {
-      username: username,
+      username: username.trim(),
       passwordOld: "",
       passwordNew: "",
-      dateOfBirth: dateOfBirth,
-      email: email,
-      fullName: fullname,
-      phone: phone,
+      dateOfBirth: dateOfBirth.trim(),
+      email: email.trim(),
+      fullName: fullname.trim(),
+      phone: phone.trim(),
       roleDTO: { id: roleId, name: roleName },
       avatar: image
     };
@@ -79,19 +79,19 @@ export default function AccountEditModal({ accountDetail }) {
     setRoleName(selectRoleName);
   }
   const onUsernameChange = (e) => {
-    let input = e.target.value.trim();
+    let input = e.target.value;
     setUsername(input);
   }
   const onFullnameChange = (e) => {
-    let input = e.target.value.trim();
+    let input = e.target.value;
     setFullname(input);
   }
   const onEmailChange = (e) => {
-    let input = e.target.value.toLowerCase().trim();
+    let input = e.target.value.toLowerCase();
     setEmail(input);
   }
   const onPhoneChange = (e) => {
-    let input = e.target.value.trim();
+    let input = e.target.value;
     setPhone(input);
   }
   const onDateOfBirthChange = (e) => {

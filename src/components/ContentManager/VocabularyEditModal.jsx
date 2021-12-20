@@ -61,11 +61,11 @@ export default function VocabularyEditModal({ vocabDetail }) {
         if (!isValid) return;
         let vocabUpdate = {
             lessonName: lessonName,
-            vocabulary: vocabulary,
-            meaning: meaning,
+            vocabulary: vocabulary.trim(),
+            meaning: meaning.trim(),
             imageLink: image,
-            example: example,
-            exampleMeaning: exampleMeaning,
+            example: example.trim(),
+            exampleMeaning: exampleMeaning.trim(),
         };
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
@@ -104,19 +104,19 @@ export default function VocabularyEditModal({ vocabDetail }) {
         setLessonName(inputUser);
     }
     const onChangeVocabulary = (e) => {
-        let inputUser = e.target.value.trim();
+        let inputUser = e.target.value;
         setVocabulary(inputUser);
     }
     const onChangeMeaning = (e) => {
-        let inputUser = e.target.value.trim();
+        let inputUser = e.target.value;
         setMeaning(inputUser);
     }
     const onChangeExample = (e) => {
-        let inputUser = e.target.value.trim();
+        let inputUser = e.target.value;
         setExample(inputUser);
     }
     const onChangeExampleMeaning = (e) => {
-        let inputUser = e.target.value.trim();
+        let inputUser = e.target.value;
         setExampleMeaning(inputUser);
     }
     const validateAll = () => {

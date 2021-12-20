@@ -124,7 +124,7 @@ export default function Login() {
                                                     type="password"
                                                     {...register("password", {
                                                         required: "Không được để trống",
-                                                        minLength: { value: 6, message: "Chưa đủ độ dài" },
+                                                        minLength: { value: 8, message: "Chưa đủ độ dài" },
                                                         maxLength: { value: 20, message: "Quá dài" },
                                                         pattern: {
                                                             value: /^[a-z\d\S]+$/i,
