@@ -50,12 +50,12 @@ export default function GrammarEditModal({ grammarDetail }) {
         if (!isValid) return;
         let grammarUpdate = {
             lessonName: lessonName,
-            grammar: grammar,
-            explanation: explanation,
-            grammarMeaning: grammarMeaning,
-            example: example,
+            grammar: grammar.trim(),
+            explanation: explanation.trim(),
+            grammarMeaning: grammarMeaning.trim(),
+            example: example.trim(),
             exampleImageLink: exampleImageLink,
-            exampleMeaning: exampleMeaning,
+            exampleMeaning: exampleMeaning.trim(),
         };
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
@@ -107,27 +107,27 @@ export default function GrammarEditModal({ grammarDetail }) {
     }
 
     const onChangeGrammar = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setGrammar(valueUser);
     }
 
     const onChangeExplanation = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setExplanation(valueUser);
     }
 
     const onChangeGrammarMeaning = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setGrammarMeaning(valueUser);
     }
 
     const onChangeExample = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setExample(valueUser);
     }
 
     const onChangeExampleMeaning = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setExampleMeaning(valueUser);
     }
 

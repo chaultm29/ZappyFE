@@ -75,12 +75,12 @@ export default function KanjiEditModal({ kanjiDetail }) {
         const isValid = validateAll();
         if (!isValid) return;
         let kanjiUpdate = {
-            character: character,
-            chinese: chinese.toUpperCase(),
-            vietnamese: vietnamese,
-            description: description,
-            kunyomi: kunyomi,
-            onyomi: onyomi,
+            character: character.trim(),
+            chinese: chinese.toUpperCase().trim(),
+            vietnamese: vietnamese.trim(),
+            description: description.trim(),
+            kunyomi: kunyomi.trim(),
+            onyomi: onyomi.trim(),
             lessonName: lessonName,
             imageLink: image,
             gifLink: gif
@@ -152,29 +152,29 @@ export default function KanjiEditModal({ kanjiDetail }) {
     }
 
     const onChangeCharacter = (e) => {
-        let characterUser = e.target.value.trim();
+        let characterUser = e.target.value;
         setCharacter(characterUser);
     }
 
     const onChangeChinese = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setChinese(valueUser);
     }
     const onChangeVietnamese = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setVietnamese(valueUser);
     }
     const onChangeOnyomi = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setOnyomi(valueUser);
     }
     const onChangeKunyomi = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setKunyomi(valueUser);
     }
 
     const onChangeDescription = (e) => {
-        let valueUser = e.target.value.trim();
+        let valueUser = e.target.value;
         setDescription(valueUser);
     }
 

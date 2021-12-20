@@ -83,7 +83,7 @@ export default function QuestionEditModal({ questionDetail }) {
             typeName: typeName,
             lessonName: lesson,
             skillName: skill,
-            question: question,
+            question: question.trim(),
             answer: answer,
             imgeLink: image
         };
@@ -120,7 +120,7 @@ export default function QuestionEditModal({ questionDetail }) {
     }
 
     const onChangeQuestion = (e) => {
-        let questionUser = e.target.value.trim();
+        let questionUser = e.target.value;
         setQuestion(questionUser);
     }
 
@@ -129,7 +129,7 @@ export default function QuestionEditModal({ questionDetail }) {
         const answers = answer.slice();
         answers.map((item) => {
             if (item.id == id) {
-                item.answer = value.trim();
+                item.answer = value;
             }
         })
         setAnswer(answers);
