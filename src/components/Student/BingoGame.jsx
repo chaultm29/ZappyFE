@@ -325,7 +325,7 @@ class BingoGame extends Component {
                         </div>
                         {/* timer */}
                         <div id="timer" class="flex-wrap d-flex justify-content-end">
-                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>minutes</span></div>
+                            <div id="minutes" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.m}<span>phút</span></div>
                             {/* <div id ="dotBetween">:</div> */}
                             <div id="seconds" class="align-items-center flex-column d-flex justify-content-center">{this.state.time.s}<span>seconds</span></div>
                         </div>
@@ -350,7 +350,9 @@ class BingoGame extends Component {
                                     (<div class="question" key={this.state.currentQuestion.questionID} >
                                         <div class="questionField"> {this.state.currentQuestion.question}</div>
 
+
                                         {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
+
                                         {this.state.currentQuestion.answers.map(
                                             answer =>
                                                 <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>

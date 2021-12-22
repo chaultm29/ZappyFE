@@ -90,7 +90,7 @@ export default function PlayGame() {
                                 <div class="card mb-3 shadow">
                                     <div class="row g-0">
                                         <div class="col-md-4">
-                                            <img src={memoryImage} width="95%" class="img-fluid rounded-start" alt="..." />
+                                            <img src="https://i.ibb.co/rwTnNzT/memory-Game.jpg" width="95%" class="img-fluid rounded-start" alt="..." />
 
                                         </div>
                                         <div class="col-md-8">

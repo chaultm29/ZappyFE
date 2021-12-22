@@ -27,6 +27,7 @@ function fetchSaveGame(_activityId, _gameName, _timeCreated, _timePlayed, _score
     }
     //return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/saving",
     return fetch(API_BASE_URL+ "/game/saving",
+
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': JSON.parse(localStorage.getItem("token")) },
@@ -34,12 +35,14 @@ function fetchSaveGame(_activityId, _gameName, _timeCreated, _timePlayed, _score
         }).then((res) => res.json())
 }
 
+
 function fetchCurrentQuestion(listQuestionId, listLessonId) {
     let list = {
         questionIds : listQuestionId,
         lessonIds : listLessonId
     }
      //return fetch("http://localhost:5000/game/bingo/currentQuestion",
+
      //return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/currentQuestion",
     return fetch( API_BASE_URL + "/game/bingo/currentQuestion",
         {
@@ -51,6 +54,7 @@ function fetchCurrentQuestion(listQuestionId, listLessonId) {
 
 function fetchResultQuestion(questionId, answerId) {
      //return fetch("http://localhost:5000/game/bingo/result/" + questionId + "/" + answerId, 
+
     return fetch(API_BASE_URL+ "/game/bingo/result/" + questionId + "/" + answerId,
     //return fetch("http://zappybackend-env.eba-6zuhdgfk.us-east-2.elasticbeanstalk.com/game/bingo/result/" + questionId + "/" + answerId,
         {
