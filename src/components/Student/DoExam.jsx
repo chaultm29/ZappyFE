@@ -30,6 +30,7 @@ export default function DoExam({ options }) {
     let result = { id, answer };
     let list = listResult.filter((x) => x.id !== result.id);
     setListResult([...list, result]);
+    console.log(`listResult`, listResult);
   };
 
   // const onHandlePracticeResult = (id, isCorrect) => {
@@ -236,9 +237,7 @@ export default function DoExam({ options }) {
                   {listQuestion.map((item, index) => (
                     <div class=
                       {!isPractice && isShow ? (isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
-                        : !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white"
-                          : "col px-1 btn btn-outline-secondary") :
-                        "col px-1 btn btn-outline-secondary"}>
+                        : !listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-danger border border-white" : "col px-1 btn btn-outline-secondary") : !isShow && listResult.includes(item.id) ? "col px-1 btn btn-success border border-white" : "col px-1 btn btn-outline-secondary"}>
                       <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
                     </div>
                   ))}

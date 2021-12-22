@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import noImage from "../../assets/img/noImage.png"
 import S3Config from '../../services/S3Config'
 export default function QuestionViewModal({ questionDetail }) {
-
+    console.log(`questionDetail`, questionDetail);
     return (
 
         <>
