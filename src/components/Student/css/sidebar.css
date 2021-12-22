@@ -188,6 +188,17 @@ h5 {
   margin-top: 10px;
   height: 50px;
 }
+.boxBig-btn2 {
+  border-radius: 10px;
+  border: white;
+  background-color: skyblue;
+  /* box-shadow: 2px 2px 5px 1px; */
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+  height: 50px;
+}
 .btnLesson:hover{
 background-color: pink;
 }

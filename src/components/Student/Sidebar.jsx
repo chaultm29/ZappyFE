@@ -12,7 +12,9 @@ class Sidebar extends Component {
     this.renderDefault = this.renderDefault.bind(this);
     this.gotoLesson = this.gotoLesson.bind(this);
     this.state = {
-      lessons: [],
+      kanjilessons: [],
+      vocalessons: [],
+      gramlessons: [],
       currentSkill: "",
       displaySkill: "",
       progress: [],
@@ -95,9 +97,17 @@ class Sidebar extends Component {
   }
 
   componentDidMount() {
-    StudyService.getLesson().then((res) => {
+    StudyService.getLesson(1).then((res) => {
       if (res != null)
-        this.setState({ lessons: res.data })
+        this.setState({ vocalessons: res.data })
+    });
+    StudyService.getLesson(2).then((res) => {
+      if (res != null)
+        this.setState({ gramlessons: res.data })
+    });
+    StudyService.getLesson(3).then((res) => {
+      if (res != null)
+        this.setState({ kanjilessons: res.data })
     });
     var elem = window.location.pathname.split("/");
     if (elem.length >= 3 && (elem[2] === "vocabulary" || elem[2] === "grammar" || elem[2] === "kanji")) {
@@ -234,11 +244,12 @@ class Sidebar extends Component {
             class="row mx-0 mb-2"
             style={{ display: "none" }}
           >
-            {this.state.lessons.map((lesson) => (
+            {this.state.vocalessons.map((lesson) => (
               <button
-                class="col-md-12 boxBig-btn btnLesson"
+                class={lesson.isLearnt?"col-md-12 boxBig-btn2 btnLesson": "col-md-12 boxBig-btn btnLesson"}
                 key={lesson.id}
                 onClick={() => this.gotoLesson("vocabulary", lesson.id)}
+                
               >
                 <h5>{lesson.lessonName}</h5>
               </button>
@@ -249,9 +260,9 @@ class Sidebar extends Component {
             class="row mx-0 mb-2"
             style={{ display: "none" }}
           >
-            {this.state.lessons.map((lesson) => (
+            {this.state.gramlessons.map((lesson) => (
               <button
-                class="col-md-12 boxBig-btn btnLesson"
+                class={lesson.isLearnt?"col-md-12 boxBig-btn2 btnLesson": "col-md-12 boxBig-btn btnLesson"}
                 key={lesson.id}
                 onClick={() => this.gotoLesson("grammar", lesson.id)}
               >
@@ -264,9 +275,9 @@ class Sidebar extends Component {
             class="row mx-0 mb-2"
             style={{ display: "none" }}
           >
-            {this.state.lessons.map((lesson) => (
+            {this.state.kanjilessons.map((lesson) => (
               <button
-                class="col-md-12 boxBig-btn btnLesson"
+                class={lesson.isLearnt?"col-md-12 boxBig-btn2 btnLesson": "col-md-12 boxBig-btn btnLesson"}
                 key={lesson.id}
                 onClick={() => this.gotoLesson("kanji", lesson.id)}
               >

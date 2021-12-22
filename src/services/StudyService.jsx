@@ -24,8 +24,8 @@ const STUDY_API_BASE_URL = ""
   getGrammar(id) {
     return axiosConfig.get(STUDY_API_BASE_URL + "/grammar/lesson/"+id);
   }
-  getLesson(){
-    return axiosConfig.get(STUDY_API_BASE_URL + "/lesson");
+  getLesson(skillId){
+    return axiosConfig.get(STUDY_API_BASE_URL + "/lesson?skid=" + skillId);
   }
 }
 
