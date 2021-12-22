@@ -139,11 +139,11 @@ export default function Register() {
   return (
     <div>
       {msgSuccessResponse !== "" ?
-        < SweetAlert success title="Thêm tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
+        < SweetAlert success title="Tạo tài khoản thành công!" timeout={2000} onConfirm={hideAlertSuccess}>
           {msgSuccessResponse}
         </SweetAlert > : ""}
       {msgErrorResponse !== "" ?
-        < SweetAlert danger title="Thêm tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
+        < SweetAlert danger title="Tạo tài khoản thất bại!" timeout={2000} onConfirm={hideAlertError}>
           {msgErrorResponse}
         </SweetAlert > : ""}
       <div

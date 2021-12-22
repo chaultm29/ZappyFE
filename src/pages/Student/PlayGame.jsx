@@ -49,7 +49,7 @@ export default function PlayGame() {
                                                 {listHistory.length > 0 ? (listHistory.map((history, index) => (
                                                     <>
                                                         <tr key={index}>
-                                                            <th scope="row">{index}</th>
+                                                            <th scope="row">{index + 1}</th>
                                                             <td>{history.gameName}</td>
                                                             <td>{history.score}</td>
                                                             <td class="text-center">{parseInt(history.timePlayed / 60) + ":" + (history.timePlayed % 60 < 10 ? "0" + history.timePlayed % 60 : history.timePlayed % 60)}</td>
