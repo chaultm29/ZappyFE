@@ -162,10 +162,11 @@ class BingoGame extends Component {
 
             //this.setState({ state: this.state.score += 100 })
             // document.getElementById("isFinish").style.display = "relative";
+            
             GameService.fetchSaveGame(2, "Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
             UserServices.checkAchievement().then((res) => {
                 // console.log(`res`, res)
-                this.setState({ setHasAchievement: res.data });
+                this.setState({ hasAchievement: res.data });
                 // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
             })
         }
@@ -179,7 +180,7 @@ class BingoGame extends Component {
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
             UserServices.checkAchievement().then((res) => {
                 // console.log(`res`, res)
-                this.setState({ setHasAchievement: res.data });
+                this.setState({ hasAchievement: res.data });
                 // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
             })
         }
