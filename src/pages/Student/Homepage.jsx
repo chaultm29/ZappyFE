@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navigation from "../../components/Student/Navigation";
 import Sidebar from '../../components/Student/Sidebar';
+import Footer from '../../components/Student/Footer';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import homepage from "../../assets/img/homepage.png"
 import "./css/Homepage.css";
@@ -61,6 +62,7 @@ class Homepage extends Component {
 
                         </div>
                     </div>
+                    <Footer/>
                 </div>
 
             </>
