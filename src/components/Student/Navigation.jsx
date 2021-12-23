@@ -7,10 +7,11 @@ import Login from "../../pages/User/Login.jsx";
 import Register from "../../pages/User/Register";
 import UserServices from "../../services/UserServices";
 import S3config from '../../services/S3Config.js';
+import defaultAvatar from '../../assets/img/default.png'
 class Navigation extends Component {
   constructor(props) {
     super(props);
-    this.state = { isClicked: false, level: [], percentage:0, avaLink: "" };
+    this.state = { isClicked: false, level: [], percentage: 0, avaLink: "" };
   }
 
   componentDidMount() {
@@ -23,7 +24,7 @@ class Navigation extends Component {
     }
     if (AuthenticationService.getRoleName() === "Student") {
       UserServices.getLevel().then((res) => {
-        this.setState({ level: (res? res.data: 0), percentage: (res.data.currentExp*100/res.data.levelExp)});
+        this.setState({ level: (res ? res.data : 0), percentage: (res.data.currentExp * 100 / res.data.levelExp) });
         console.log(res)
       });
 
@@ -116,9 +117,9 @@ class Navigation extends Component {
             {AuthenticationService.getCurrentUser() !== null && AuthenticationService.getRoleName() === "Student" ? <>
               <div class="d-flex align-items-center" style={{ width: "20%" }}>
                 <div class="nav-item container">
-                  <center style={{ color: "#4890E4" }}>Level {this.state.level.level} &nbsp;&nbsp;&nbsp;   {typeof (this.state.level.curentExp) !== "undefined" ? this.state.level.curentExp + "/" + this.state.level.levelExp : ""}</center>
+                  <center style={{ color: "#4890E4" }}>Level {this.state.level.level} &nbsp;&nbsp;&nbsp;   {typeof (this.state.level.currentExp) !== "undefined" ? this.state.level.currentExp + "/" + this.state.level.levelExp + " EXP" : ""}</center>
                   <div class="progress progress-striped">
-                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: this.state.percentage + "%" }} aria-valuemin="0" aria-valuemax="100">{this.state.level.currentExp+"/"+this.state.level.levelExp} EXP
+                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style={{ width: this.state.percentage + "%" }} aria-valuemin="0" aria-valuemax="100">{this.state.level.currentExp + "/" + this.state.level.levelExp} EXP
 
                     </div>
                   </div>
@@ -139,7 +140,7 @@ class Navigation extends Component {
                     aria-expanded="true"
                   >
                     <img
-                      src={this.state.avaLink}
+                      src={this.state.avaLink ? this.state.avaLink : defaultAvatar}
                       class="rounded-circle"
                       height="25"
                       alt=""
@@ -182,7 +183,7 @@ class Navigation extends Component {
                     aria-expanded="true"
                   >
                     <img
-                      src={this.state.avaLink}
+                      src={this.state.avaLink ? this.state.avaLink : defaultAvatar}
                       class="rounded-circle"
                       height="25"
                       alt=""

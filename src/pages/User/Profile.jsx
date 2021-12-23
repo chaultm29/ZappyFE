@@ -195,7 +195,7 @@ export default function Profile({ isClicked }) {
         e.preventDefault();
         const isValid = validateUpdate();
         if (!isValid) return;
-        let profile = { id: id, dateOfBirth: dateOfBirth, email: email.trim(), fullName: fullName.trim(), phone: phone.trim(), avatar: avatar };
+        let profile = { id: id, dateOfBirth: dateOfBirth, email: email.trim(), fullName: fullName.trim(), phone: phone, avatar: avatar };
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
             UserServices.updateProfile(profile).then((res) => {
