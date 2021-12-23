@@ -3,6 +3,7 @@ import DoExam from "../../components/Student/DoExam";
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
+import Footer from "../../components/Student/Footer";
 
 export default function Exam() {
   const [typeIds, setTypeIds] = useState([]);
@@ -225,7 +226,7 @@ export default function Exam() {
             </div>
           </div>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </>
   );

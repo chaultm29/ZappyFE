@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navigation from "../../components/Student/Navigation";
+import Footer from "../../components/Student/Footer";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import bingoImage from "../../assets/img/bingo-games.jpg";
 import memoryImage from "../../assets/img/memoryGame.jpeg"
@@ -108,14 +109,11 @@ export default function PlayGame() {
                                 </div>
                             </div>
 
-
-
-
-
                         </div>
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     )
 }
