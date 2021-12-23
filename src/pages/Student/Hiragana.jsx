@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./css/alphabet.css";
 import Sidebar from "../../components/Student/Sidebar";
+import Footer from "../../components/Student/Footer";
 import Navigation from "../../components/Student/Navigation";
 import StudyService from "../../services/StudyService";
 import Speech from "../../services/Speech";
@@ -66,6 +67,7 @@ class Hiragana extends Component {
             </div>
           </div>
         </div>
+        <Footer/>
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './css/alphabet.css';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
+import Footer from '../../components/Student/Footer';
 import StudyService from '../../services/StudyService';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import Speech from "../../services/Speech";
@@ -64,6 +65,7 @@ class Katakana extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </div>
         );
     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './css/vocabulary.css';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
+import Footer from '../../components/Student/Footer';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService';
 import Speech from "../../services/Speech";
@@ -195,7 +196,8 @@ class Vocabulary extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+              </div>
+                <Footer/>  
             </div>
         );
     }

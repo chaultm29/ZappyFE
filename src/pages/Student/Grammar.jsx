@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './css/grammar.css';
 import Sidebar from '../../components/Student/Sidebar';
 import Navigation from '../../components/Student/Navigation';
+import Footer from '../../components/Student/Footer';
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 import StudyService from '../../services/StudyService';
 import S3Config from "../../services/S3Config";
@@ -67,6 +68,7 @@ class Grammar extends Component {
                         </div>
                     </div>
                 </div>
+                <Footer/>?
             </div>
         );
     }

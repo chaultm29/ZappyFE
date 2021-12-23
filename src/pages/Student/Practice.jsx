@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import DoExam from '../../components/Student/DoExam';
 import Sidebar from "../../components/Student/Sidebar";
 import Navigation from "../../components/Student/Navigation";
+import Footer from "../../components/Student/Footer";
 import bg from "../../assets/img/bg-home-scene-winter.svg";
 
 export default function Practice() {
@@ -21,7 +22,7 @@ export default function Practice() {
                     </div>
                 </div>
             </div>
-
+        <Footer/>
         </div>
     )
 }
