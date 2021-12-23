@@ -90,8 +90,8 @@ class BingoGame extends Component {
             }
             var buttons = document.getElementsByClassName("answer");
             for (var i = 0; i < buttons.length; i++) {
-                if(buttons[i].className.search("answer correct")!=-1)  buttons[i].style.background = "green";
-                else if(buttons[i].className.search("answer incorrect")!=-1)  buttons[i].style.background = "red";
+                if (buttons[i].className.search("answer correct") != -1) buttons[i].style.background = "green";
+                else if (buttons[i].className.search("answer incorrect") != -1) buttons[i].style.background = "red";
                 buttons[i].disabled = true;
             }
             this.bingo();
@@ -164,11 +164,11 @@ class BingoGame extends Component {
             // document.getElementById("isFinish").style.display = "relative";
             
             GameService.fetchSaveGame(2, "Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
-            UserServices.checkAchievement().then((res) => {
-                // console.log(`res`, res)
-                this.setState({ hasAchievement: res.data });
-                // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
-            })
+            setTimeout(() => {
+                UserServices.checkAchievement().then((res) => {
+                    this.setState({ hasAchievement: res.data });
+                })
+            }, 1000);
         }
         else if (this.state.seconds == 0) {
 
@@ -178,11 +178,11 @@ class BingoGame extends Component {
             }
             this.setState({ isFinish: true })
             GameService.fetchSaveGame("Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
-            UserServices.checkAchievement().then((res) => {
-                // console.log(`res`, res)
-                this.setState({ hasAchievement: res.data });
-                // this.setState({ hasAchievement: [{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }] })
-            })
+            setTimeout(() => {
+                UserServices.checkAchievement().then((res) => {
+                    this.setState({ hasAchievement: res.data });
+                })
+            }, 1000);
         }
 
     }
@@ -300,10 +300,13 @@ class BingoGame extends Component {
             <div class="inner-container">
                 <div class="alert-wrapper position-absolute" >
                     {this.state.hasAchievement.length !== 0 ?
-                        < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={this.hideAlert}>
-                            <h3> {this.state.hasAchievement[0].name}</h3>
-                            <h4>{this.state.hasAchievement[0].desciption}</h4>
-                        </SweetAlert > : ""}
+                        <> {this.state.hasAchievement.map((item) => (
+                            < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" onConfirm={this.hideAlert}>
+                                <h3> {item.name}</h3>
+                                <h4>{item.desciption}</h4>
+                            </SweetAlert >
+                        ))}
+                        </> : ""}
                 </div>
                 <div class="gameplay" style={{ position: 'relative' }}>
                     {this.state.isFinish ?
@@ -333,35 +336,35 @@ class BingoGame extends Component {
                         {/* timer end */}
                     </div>
                     <div class="row">
-                    <div class="gamearea">
-                        <div id="title">
-                        </div>
+                        <div class="gamearea">
+                            <div id="title">
+                            </div>
 
-                        <div id="gameboard">
+                            <div id="gameboard">
 
-                        </div>
-                    </div>
-                    <div class="control">
-                        <div class="content">
-
-                            {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
-                            <div class="selectedQuestion" id="currentQuestion">
-                                {this.state.currentQuestion != null ?
-
-                                    (<div class="question" key={this.state.currentQuestion.questionID} >
-                                        <div class="questionField"> {this.state.currentQuestion.question}</div>
-
-
-                                        {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
-
-                                        {this.state.currentQuestion.answers.map(
-                                            answer =>
-                                                <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
-                                        )}
-                                    </div>) : ""}
                             </div>
                         </div>
-                    </div>
+                        <div class="control">
+                            <div class="content">
+
+                                {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
+                                <div class="selectedQuestion" id="currentQuestion">
+                                    {this.state.currentQuestion != null ?
+
+                                        (<div class="question" key={this.state.currentQuestion.questionID} >
+                                            <div class="questionField"> {this.state.currentQuestion.question}</div>
+
+
+                                            {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
+
+                                            {this.state.currentQuestion.answers.map(
+                                                answer =>
+                                                    <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
+                                            )}
+                                        </div>) : ""}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

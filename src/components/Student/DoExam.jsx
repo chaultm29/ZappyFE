@@ -115,11 +115,12 @@ export default function DoExam({ options }) {
       })
       setIsPractice(true);
     }
-    UserServices.checkAchievement().then((res) => {
-      // console.log(`res`, res)
-      setHasAchievement(res.data);
-      // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
-    })
+    setTimeout(() => {
+      UserServices.checkAchievement().then((res) => {
+        setHasAchievement(res.data);
+        // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
+      })
+    }, 1000);
     setIsShow(true);
 
   };
@@ -197,10 +198,13 @@ export default function DoExam({ options }) {
     <>
       <div class="alert-wrapper position-absolute" >
         {hasAchievement.length !== 0 ?
-          < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={hideAlert}>
-            <h3> {hasAchievement[0].name}</h3>
-            <h4>{hasAchievement[0].desciption}</h4>
-          </SweetAlert > : ""}
+          <> {hasAchievement.map((item) => (
+            < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" onConfirm={hideAlert}>
+              <h3> {item.name}</h3>
+              <h4>{item.desciption}</h4>
+            </SweetAlert >
+          ))}
+          </> : ""}
       </div>
       <div id="back-to-top"></div>
       {isShow && (
