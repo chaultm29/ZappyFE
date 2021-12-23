@@ -161,11 +161,13 @@ export default function MemoryGame() {
         setTotal(point + bonusCurrent);
         document.getElementById("flips").innerHTML = point;
         GameService.fetchSaveGame(3, "Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
-        UserServices.checkAchievement().then((res) => {
-            // console.log(`res`, res)
-            setHasAchievement(res.data);
-            // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
-        })
+        setTimeout(() => {
+            UserServices.checkAchievement().then((res) => {
+                console.log(`res`, res);
+                setHasAchievement(res.data);
+                // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
+            })
+        }, 1000);
     }
     const hideAlert = () => {
         setHasAchievement([]);
@@ -177,10 +179,13 @@ export default function MemoryGame() {
         <div>
             <div class="alert-wrapper position-absolute" >
                 {hasAchievement.length !== 0 ?
-                    < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" timeout={10000} onConfirm={hideAlert}>
-                        <h3> {hasAchievement[0].name}</h3>
-                        <h4>{hasAchievement[0].desciption}</h4>
-                    </SweetAlert > : ""}
+                    <> {hasAchievement.map((item) => (
+                        < SweetAlert success title="Chúc mừng bạn đạt được thành tựu mới!" onConfirm={hideAlert}>
+                            <h3> {item.name}</h3>
+                            <h4>{item.desciption}</h4>
+                        </SweetAlert >
+                    ))}
+                    </> : ""}
             </div>
             <div
                 style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>

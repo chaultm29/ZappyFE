@@ -89,11 +89,20 @@ export default function KanjiEditModal({ kanjiDetail }) {
         const uploadGifSuccess = uploadGif(gifUpload);
         if (uploadImageSuccess && uploadGifSuccess) {
             LessonServices.editKanji(kanjiUpdate, kanjiDetail.id).then((response) => {
-                if (response.status === 200) {
-                    setMsgSuccessResponse("Sửa chữ Hán thành công");
-                } else {
-                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
-                }
+                console.log(`response`, response);
+                // if (response.status === 200) {
+                //     if (response.data.includes("thành công")) {
+                //         setMsgSuccessResponse("Sửa chữ Hán thành công");
+                //     } else if (response.data.includes("tồn tại")) {
+                //         setMsgErrorResponse(response.data);
+                //     }
+                //     else {
+                //         setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                //     }
+
+                // } else {
+                //     setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                // }
             })
                 .catch((error) => {
                     setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
