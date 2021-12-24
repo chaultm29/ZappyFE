@@ -9,6 +9,9 @@ import GameService from '../../services/GameService';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import UserServices from "../../services/UserServices.jsx";
 import MemorySetting from './MemorySetting';
+import useSound from 'use-sound';
+import flip from '../../assets/sound/flip.mp3'
+import gameOver from '../../assets/sound/gameOver.mp3'
 
 export default function MemoryGame() {
     const [isStarted, setStart] = useState(false);
@@ -27,6 +30,8 @@ export default function MemoryGame() {
     const [num, setNum] = useState(100);
     const [hasAchievement, setHasAchievement] = useState([]);
     const history = useHistory();
+    const [playFlip] = useSound(flip);
+    const [playGameOver] = useSound(gameOver);
 
     let myInterval = useRef();
 
@@ -192,7 +197,7 @@ export default function MemoryGame() {
                 <Navigation />
                 <div className="container" role="game" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", position: "relative" }}>
                     <div class="row mt-2" >
-                        {isFinish ? <div class="overlay-text visible">
+                        {isFinish ? <div class="overlay-text visible" onAnimationStart={playGameOver}>
                             <div class="game-over">Kết thúc</div>
                             <div class="result">
                                 <h4>Điểm bonus : {bonus}</h4>
@@ -220,7 +225,7 @@ export default function MemoryGame() {
                                     </div>
                                     {cards.map((card, index) => (
                                         <div className={card === choiceOne || card === choiceTwo ? "card flipped" : card.matched ? "card flipped matched" : "card"} role="game" key={index}>
-                                            <div className="card-back card-face shadow-lg" onClick={() => !disabled ? handleChoice(card) : ""}>
+                                            <div className="card-back card-face shadow-lg" onClick={() => !disabled ? handleChoice(card) : ""} onMouseDown={playFlip}>
                                                 <img class="imgCenter" src={imgCenter} />
                                             </div>
                                             <div className="card-front card-face shadow-lg">

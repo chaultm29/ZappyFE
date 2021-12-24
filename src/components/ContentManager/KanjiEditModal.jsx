@@ -89,20 +89,19 @@ export default function KanjiEditModal({ kanjiDetail }) {
         const uploadGifSuccess = uploadGif(gifUpload);
         if (uploadImageSuccess && uploadGifSuccess) {
             LessonServices.editKanji(kanjiUpdate, kanjiDetail.id).then((response) => {
-                console.log(`response`, response);
-                // if (response.status === 200) {
-                //     if (response.data.includes("thành công")) {
-                //         setMsgSuccessResponse("Sửa chữ Hán thành công");
-                //     } else if (response.data.includes("tồn tại")) {
-                //         setMsgErrorResponse(response.data);
-                //     }
-                //     else {
-                //         setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
-                //     }
+                if (response.status === 200) {
+                    if (response.data === "") {
+                        setMsgSuccessResponse("Sửa chữ Hán thành công");
+                    } else if (response.data.includes("tồn tại")) {
+                        setMsgErrorResponse(response.data);
+                    }
+                    else {
+                        setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                    }
 
-                // } else {
-                //     setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
-                // }
+                } else {
+                    setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
+                }
             })
                 .catch((error) => {
                     setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
@@ -117,7 +116,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
             if (reader.readyState === 2) {
                 setImage(e.target.files[0].name);
                 setImageUpload(e.target.files[0]);
-                document.getElementById("imgEdit").src = reader.result;
+                document.getElementById("imgKanjiEdit").src = reader.result;
             }
         }
         if (e.target.files[0]) {
@@ -128,10 +127,9 @@ export default function KanjiEditModal({ kanjiDetail }) {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setGif(e.target.files[0].name);
+                // setGif(e.target.files[0].name);
                 setGifUpload(e.target.files[0]);
-                document.getElementById("gifEdit").src = reader.result;
-
+                document.getElementById("gifKanjiEdit").src = reader.result;
             }
         }
         if (e.target.files[0]) {
@@ -328,7 +326,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                         <p class="text-danger mb-0">{validationMsg.image}</p>
                                     </div>
                                     <div class="col-4 text-center">
-                                        <img src={image ? S3Config.baseURLKanjiDes + image : noImage} id="imgEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                        <img src={image ? S3Config.baseURLKanjiDes + image : noImage} id="imgKanjiEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                         <a href="javascript:void(0)" onClick={() => inputImageFile.current.click()}>Thay đổi</a>
                                         {image && <> <span class="text-muted px-1">  |  </span>
                                             <a href="javascript:void(0)" onClick={() => setImage("")}>Xóa bỏ</a></>}
@@ -344,7 +342,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                     </div>
 
                                     <div class="col-4 text-center">
-                                        <img src={gif ? S3Config.baseURLKanjiGif + gif : noImage} id="gifEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
+                                        <img src={gif ? S3Config.baseURLKanjiGif + gif : noImage} id="gifKanjiEdit" class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
                                         <a href="javascript:void(0)" onClick={() => inputGifFile.current.click()}>Thay đổi</a>
                                         {gif && <> <span class="text-muted px-1">  |  </span>
                                             <a href="javascript:void(0)" onClick={() => setGif("")}>Xóa bỏ</a></>}

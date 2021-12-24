@@ -25,7 +25,6 @@ class Navigation extends Component {
     if (AuthenticationService.getRoleName() === "Student") {
       UserServices.getLevel().then((res) => {
         this.setState({ level: (res ? res.data : 0), percentage: (res.data.currentExp * 100 / res.data.levelExp) });
-        console.log(res)
       });
 
     }
