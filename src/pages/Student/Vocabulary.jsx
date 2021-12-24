@@ -104,7 +104,6 @@ class Vocabulary extends Component {
         //this.addCardDatas();this.setState({ kanjis: res.data })
         StudyService.getVocabulary(this.state.id).then((res) => {
             this.setState({ vocabularies: res.data })
-            console.log(res);
             if (res.data != "") {
                 var cards = document.getElementsByClassName("vocabulary-card")
                 cards[this.state.index].style.display = "flex"
@@ -135,20 +134,20 @@ class Vocabulary extends Component {
                                                     <div class="box-front">
                                                         <div class="cha">{vocabulary.vocabulary}
                                                             <span
-                                                                class="position-absolute translate-middle p-2 bg-white ms-4 rounded-circle fs-6 "
+                                                                class="position-absolute translate-middle p-2 bg-transperent ms-4 rounded-circle fs-6 "
                                                                 style={{ top: "30px" }}>
                                                                 <i
-                                                                    class="fas fa-volume-up fs-5 text-secondary"
+                                                                    class="fas fa-volume-up fs-5 text-white"
                                                                     id={vocabulary.vocabulary}
                                                                     onClick={this.onUserClickSpeaker.bind(this)}
                                                                 ></i>
                                                             </span></div>
                                                         <div class="example">{vocabulary.example}
                                                             <span
-                                                                class="position-absolute translate-middle p-2 bg-white ms-4 rounded-circle fs-6 "
+                                                                class="position-absolute translate-middle p-2 bg-transperent ms-4 rounded-circle fs-6 "
                                                                 style={{}}>
                                                                 <i
-                                                                    class="fas fa-volume-up fs-6 text-secondary"
+                                                                    class="fas fa-volume-up fs-6 text-white"
                                                                     id={vocabulary.example}
                                                                     onClick={this.onUserClickSpeaker.bind(this)}
                                                                 ></i>
@@ -196,8 +195,8 @@ class Vocabulary extends Component {
                             </div>
                         </div>
                     </div>
-              </div>
-                <Footer/>  
+                </div>
+                <Footer />
             </div>
         );
     }

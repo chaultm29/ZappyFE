@@ -106,6 +106,7 @@ h3 {
   /* background-color: dodgerblue; */
   /* color: white; */
   transform: rotateY(180deg);
+  z-index:100;
 }
 
 .vocabulary-card .cha {

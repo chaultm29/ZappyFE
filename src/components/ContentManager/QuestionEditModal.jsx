@@ -22,10 +22,10 @@ export default function QuestionEditModal({ questionDetail }) {
     const [typeList, setTypeList] = useState(["Chọn đáp án đúng", "Điền vào chỗ trống", "Đúng/Sai", "Nối từ"])
     const [msgErrorResponse, setMsgErrorResponse] = useState("");
     const [msgSuccessResponse, setMsgSuccessResponse] = useState("");
-
     // questionDetail.answer
     const [answer, setAnswer] = useState([]);
     const [config, setConfig] = useState({});
+
     useEffect(() => {
         S3Config.getConfig().then((res) => {
             setConfig({
@@ -77,6 +77,7 @@ export default function QuestionEditModal({ questionDetail }) {
     const onSubmit = (e) => {
         e.preventDefault();
         const isValid = validateAll();
+        // let answers = answer.map((item) => { return { ...item, answer: item.answer.trim() }});
         if (!isValid) return;
         let questionUpdate = {
             questionID: questionDetail.questionID,
@@ -84,7 +85,7 @@ export default function QuestionEditModal({ questionDetail }) {
             lessonName: lesson,
             skillName: skill,
             question: question.trim(),
-            answer: answer,
+            answer: answer.map((item) => { return { ...item, answer: item.answer.trim() } }),
             imgeLink: image
         };
         const uploadImageSuccess = upload(imageUpload);
