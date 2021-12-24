@@ -7,11 +7,12 @@ import QuestionViewModal from "./QuestionViewModal.jsx";
 import QuestionEditModal from "./QuestionEditModal.jsx";
 import LessonServices from "../../services/LessonServices.jsx";
 import QuestionDeleteModal from "./QuestionDeleteModal.jsx";
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 export default function QuestionManagerContent() {
   const [dataQuestion, setDataQuestion] = useState([]);
   const [questionDetail, setQuestionDetail] = useState([]);
-
+  const [msgErrorResponse, setMsgErrorResponse] = useState("");
   const history = useHistory();
 
   const onClickGetQuestionID = (e) => {
@@ -21,6 +22,8 @@ export default function QuestionManagerContent() {
   const getQuestionDetailByID = (questionId) => {
     LessonServices.getQuestionByID(questionId).then((res) => {
       setQuestionDetail(res.data)
+    }).catch((error) => {
+      setMsgErrorResponse("Đã có lỗi xảy ra, vui lòng thử lại");
     });
   }
   const onClickButton = (e) => {
@@ -76,8 +79,19 @@ export default function QuestionManagerContent() {
     ],
   );
   const data = React.useMemo(() => dataQuestion, [dataQuestion]);
+  const hideAlertError = () => {
+    setMsgErrorResponse("");
+  }
+
   return (
+
     <div class="container-fluid px-4">
+      <div class="alert-wrapper position-absolute" >
+        {msgErrorResponse !== "" ?
+          < SweetAlert danger title="Oupppss!" timeout={2000} onConfirm={hideAlertError}>
+            {msgErrorResponse}
+          </SweetAlert > : ""}
+      </div>
       <div className="row">
         <div className="col-sm-9 accountManagerContent-wrapper">
           {dataQuestion.length != 0 ? <>

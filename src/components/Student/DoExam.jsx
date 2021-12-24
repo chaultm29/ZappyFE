@@ -20,6 +20,7 @@ export default function DoExam({ options }) {
   const [isPractice, setIsPractice] = useState(false);
   const [listCorrectQuestion, setListCorrectQuestion] = useState([]);
   const [listCorrectAnswer, setListCorrectAnswer] = useState([]);
+  const [listCorrectQuestionIds, setListCorrectQuestionIds] = useState([]);
   const [hasAchievement, setHasAchievement] = useState([]);
   const history = useHistory();
   const [minutes, setMinutes] = useState(10);
@@ -112,6 +113,8 @@ export default function DoExam({ options }) {
     if (location.pathname.includes("practice")) {
       PracticeServices.getResult(userSubmit).then((res) => {
         setListCorrectAnswer(res.data);
+        setListCorrectQuestionIds(res.data.questionIds);
+        console.log(`res`, res);
       })
       setIsPractice(true);
     }
@@ -245,12 +248,20 @@ export default function DoExam({ options }) {
               <div class="card-body">
                 <div class="row row-cols-5">
                   {listQuestion.map((item, index) => (
-
-                    <div class=
-                      {!isPractice && isShow ?
-                        (isShow && listCorrectQuestion.includes(item.id) ? "col px-1 btn btn-success text-white border border-white"
-                          : !listCorrectQuestion.includes(item.id)
-                            ? "col px-1 btn btn-danger border border-white" : "col px-1 btn btn-outline-secondary") : !isShow && listResult.map(a => a.id).includes(item.id) ? "col px-1 btn btn-primary border border-white" : "col px-1 btn btn-outline-secondary"}>
+                    <div class={!isPractice && isShow ?
+                      (isShow && listCorrectQuestion.includes(item.id)
+                        ? "col px-1 btn btn-success text-white border border-white"
+                        : !listCorrectQuestion.includes(item.id)
+                          ? "col px-1 btn btn-danger border border-white" : "col px-1 btn btn-outline-secondary")
+                      : isPractice && isShow
+                        ? (isShow && listCorrectQuestionIds.includes(item.id)
+                          ? "col px-1 btn btn-success text-white border border-white"
+                          : !listCorrectQuestionIds.includes(item.id)
+                            ? "col px-1 btn btn-danger border border-white" : "col px-1 btn btn-outline-secondary")
+                        : !isShow && listResult.map(a => a.id).includes(item.id)
+                          ? "col px-1 btn btn-primary border border-white"
+                          : "col px-1 btn btn-outline-secondary"}
+                    >
                       <a class="text-black" href={"#question" + (index + 1)}>{index + 1}</a>
                     </div>
                   ))}
