@@ -30,6 +30,7 @@ class BingoGame extends Component {
             initseconds: 300,
             isFinish: false,
             hasAchievement: [],
+            hasQuestion: true
         }
 
     }
@@ -121,9 +122,15 @@ class BingoGame extends Component {
                 //call api to call question and set into question index.
                 GameService.fetchCurrentQuestion(this.state.listQuestionId, this.props.lessons).then(data => {
                     console.log(data)
+                    if(!data.questionID){
+                        this.setState({ hasQuestion: false })
+                        console.log(this.state.hasQuestion)
+                    }
+                    else{
                     this.setState({ currentQuestion: data })
                     this.state.questions.push({ index: this.state.currentIndex, question: this.state.currentQuestion });
-                    this.state.listQuestionId.push(this.state.currentQuestion.questionID)
+                    this.state.listQuestionId.push(this.state.currentQuestion.questionID)}
+                    
                 })
 
                 //this.getCurrentQuestion3(this.state.listQuestionId, textIndex)
@@ -349,19 +356,16 @@ class BingoGame extends Component {
 
                                 {/* <div class="selectedQuestion" id="currentQuestion" style={{ display: "none" }}>Question for this part: */}
                                 <div class="selectedQuestion" id="currentQuestion">
-                                    {this.state.currentQuestion != null ?
-
+                                    {this.state.hasQuestion?
+                                        (this.state.currentQuestion != null ? 
                                         (<div class="question" key={this.state.currentQuestion.questionID} >
                                             <div class="questionField"> {this.state.currentQuestion.question}</div>
-
-
                                             {this.state.currentQuestion.imageLink ? <div><img class="imgBingo" src={"https://zappy-image.s3.ap-southeast-1.amazonaws.com/ImgForQuestion/" + this.state.currentQuestion.imageLink} alt="hiragana" /></div> : ""}
-
                                             {this.state.currentQuestion.answers.map(
                                                 answer =>
                                                     <button class="answer" id={"answer " + answer.id} key={answer.id} onClick={(e) => this.checkResult(e, this.state.currentQuestion.questionID, answer.id)}>{answer.answer}</button>
                                             )}
-                                        </div>) : ""}
+                                        </div>):"") : <div>Bài này không có câu hỏi nha</div>}
                                 </div>
                             </div>
                         </div>

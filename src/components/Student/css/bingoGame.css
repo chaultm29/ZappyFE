@@ -10,7 +10,7 @@
 }
 .gameplay {
     
-    height: 880px;
+    height: 1600px;
     background: none;
     margin: 20px;
   
@@ -22,7 +22,7 @@
 }
 
 .control {
-    width: 55%;
+    width: 50%;
     float: right;
     /* padding: 10px; */
 }
@@ -35,7 +35,7 @@
     font-size: 60px;
     margin-bottom: 5px;
     user-select: none;
-    width: 40%;
+    width: 30%;
     float: left;
     display: flex;
     font-weight: 600;
@@ -46,15 +46,15 @@
     font-size: 40px;
 }
 .gamearea {
-    width: 520px;
+    width: 470px;
     float: left;
     padding: 10px;
     margin: 10px;
 }
 
 .word0{
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     text-align: center;
     color: black;
     font-size: 30px;
@@ -62,13 +62,13 @@
     background-color: pink;
     display: inline-block;
     background-image: url("/src/assets/img/z.jpg");
-    background-size: 100px 100px;
+    background-size: 90px 90px;
     /* background-position: right bottom; */
     background-repeat: no-repeat;
 }
 .word1{
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     text-align: center;
     color: black;
     font-size: 30px;
@@ -76,13 +76,13 @@
     background-color: pink;
     display: inline-block;
     background-image: url("/src/assets/img/a.jpg");
-    background-size: 100px 100px;
+    background-size: 90px 90px;
     /* background-position: right bottom; */
     background-repeat: no-repeat;
 }
 .word3, .word2{
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
         text-align: center;
         color: black;
         font-size: 30px;
@@ -90,13 +90,13 @@
         background-color: pink;
         display: inline-block;
         background-image: url("/src/assets/img/p.jpg");
-        background-size: 100px 100px;
+        background-size: 90px 90px;
         /* background-position: right bottom; */
         background-repeat: no-repeat;
 }
 .word4{
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     text-align: center;
     color: black;
     font-size: 30px;
@@ -104,7 +104,7 @@
     background-color: pink;
     display: inline-block;
     background-image: url("/src/assets/img/y.jpg");
-    background-size: 100px 100px;
+    background-size: 90px 90px;
     /* background-position: right bottom; */
     background-repeat: no-repeat;
 }
@@ -115,8 +115,8 @@
     /* background-repeat: no-repeat;
 } */
 .square {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     text-align: center;
     color: black;
     font-size: 30px;
@@ -145,7 +145,7 @@
 }
 
 .square .numbertext {
-    padding: 30px 0;
+    padding: 22px 0;
 }
 .selectedQuestion{
     font-weight: 600;

@@ -1,6 +1,7 @@
 import axiosConfig from './axiosConfig';
 
 const API_BASE_URL = "https://backend.zappy-js.com";
+//const API_BASE_URL = "http://localhost:5000";
 class GameService {
     getCurrentQuestion(listQuestionId) {
         return axiosConfig.post("/game/bingo/currentQuestion", listQuestionId);
