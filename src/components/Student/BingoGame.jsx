@@ -190,6 +190,23 @@ class BingoGame extends Component {
                     this.setState({ hasAchievement: res.data });
                 })
             }, 1000);
+        } else if(document.getElementsByClassName("correct").length + document.getElementsByClassName("incorrect").length === 26){
+            clearInterval(this.timer);
+            //console.log("time " + this.state.seconds)
+
+            // disable button after win
+            var buttons = document.getElementsByClassName("square number");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].onclick = null;
+            }
+            this.setState({ score: this.state.score + this.state.seconds * this.props.bonus, isFinish: true })
+            
+            GameService.fetchSaveGame(2, "Bingo Game", "", (this.state.initseconds - this.state.seconds), this.state.score)
+            setTimeout(() => {
+                UserServices.checkAchievement().then((res) => {
+                    this.setState({ hasAchievement: res.data });
+                })
+            }, 1000);
         }
 
     }
@@ -243,7 +260,9 @@ class BingoGame extends Component {
         }
         return true
     }
-
+    // checkAllAnswered(){
+    //     document.getElementsByClassName("correct").length + document.getElementsByClassName("incorrect").length === 25;
+    // }
     //Time zone
 
     secondsToTime(secs) {
@@ -295,7 +314,7 @@ class BingoGame extends Component {
         this.state.seconds = this.state.initseconds
         let timeLeftVar = this.secondsToTime(this.state.seconds);
         this.setState({ time: timeLeftVar });
-
+        console.log(document.getElementsByClassName("correct").length + document.getElementsByClassName("incorrect").length)
     }
     hideAlert = () => {
         this.setState({ hasAchievement: [] });
