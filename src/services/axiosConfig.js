@@ -2,7 +2,7 @@ import axios from "axios";
 import { AxiosResponse, AxiosError } from 'axios'
 const instance = axios.create({
 
- //baseURL: "http://localhost:5000"
+// baseURL: "http://localhost:5000"
   //baseURL: "https://backend.zappy-nihongo.com"
   //baseURL: "http://springbootzappy-env.eba-iqgf4tse.us-east-2.elasticbeanstalk.com"
 
