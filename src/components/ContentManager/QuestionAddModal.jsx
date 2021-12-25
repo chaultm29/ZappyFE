@@ -79,8 +79,6 @@ export default function QuestionAddModal() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const isValid = validateAll();
-        if (!isValid) return;
         let questionAdd = {
             typeName: typeName,
             lessonName: lesson,
@@ -156,7 +154,7 @@ export default function QuestionAddModal() {
         if (skill.length === 0) {
             msg.skill = "Vui lòng chọn kĩ năng";
         }
-        if (question.length === 0) {
+        if (question.trim().length === 0) {
             msg.question = "Không được để trống";
         }
         if (answer.length === 0) {
@@ -313,11 +311,50 @@ export default function QuestionAddModal() {
                                         Làm mới
                                     </button></div>
                                 <div class="col-6">
-                                    <button type="submit" class="btn btn-primary w-100">
-                                        Lưu
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                        Thêm mới
                                     </button>
+                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ViewConfirmAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận thêm câu hỏi
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn thêm câu hỏi này chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ViewAddModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onClick={onSubmit}
+                            >
+                                Có
+                            </button>
                         </div>
                     </div>
                 </div>

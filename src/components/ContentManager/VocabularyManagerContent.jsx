@@ -74,7 +74,6 @@ export default function VocabularyManagerContent() {
     }
     const onClickButton = (e) => {
         let vocabId = onClickGetVocabID(e);
-        console.log(vocabId);
         getVocabDetailByID(vocabId);
     }
     return (

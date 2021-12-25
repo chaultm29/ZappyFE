@@ -73,15 +73,13 @@ export default function KanjiAddModal() {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const isValid = validateAll();
-        if (!isValid) return;
         let kanjiAdd = {
-            character: character,
-            chinese: chinese.toUpperCase(),
-            vietnamese: vietnamese,
-            description: description,
-            kunyomi: kunyomi,
-            onyomi: onyomi,
+            character: character.trim(),
+            chinese: chinese.toUpperCase().trim(),
+            vietnamese: vietnamese.trim(),
+            description: description.trim(),
+            kunyomi: kunyomi.trim(),
+            onyomi: onyomi.trim(),
             lessonName: lessonName,
             imageLink: image,
             gifLink: gif
@@ -178,32 +176,32 @@ export default function KanjiAddModal() {
         if (lessonName.length === 0) {
             msg.lessonName = "Vui lòng chọn bài";
         }
-        if (character.length === 0) {
+        if (character.trim().length === 0) {
             msg.character = "Không được để trống";
         }
-        else if (character.length > 1) {
+        else if (character.trim().length > 1) {
             msg.character = "Chỉ chứa 1 ký tự";
         }
-        else if (!validateCharacter.test(character)) {
+        else if (!validateCharacter.test(character.trim())) {
             msg.character = "Chỉ nhập Hán tự";
         }
-        if (chinese.length === 0) {
+        if (chinese.trim().length === 0) {
             msg.chinese = "Không được để trống";
         } else if (!validateChinese.test(chinese)) {
             msg.chinese = "Không bao gồm ký tự đặc biệt và dấu cách.";
         }
-        if (vietnamese.length === 0) {
+        if (vietnamese.trim().length === 0) {
             msg.vietnamese = "Không được để trống";
         }
-        if (onyomi.length !== 0 && !validateOnyomi.test(onyomi)) {
+        if (onyomi.trim().length !== 0 && !validateOnyomi.test(onyomi)) {
             msg.onyomi = "Chỉ nhập katakana và các ký tự ,、・/／";
         }
-        if (kunyomi.length === 0) {
+        if (kunyomi.trim().length === 0) {
             msg.kunyomi = "Không được để trống";
-        } else if (!validateKunyomi.test(kunyomi)) {
+        } else if (!validateKunyomi.test(kunyomi.trim())) {
             msg.kunyomi = "Chỉ nhập hiragana và các ký tự ,、・/／";
         }
-        if (description.length === 0) {
+        if (description.trim().length === 0) {
             msg.description = "Không được để trống";
         }
         if (image.length === 0) {
@@ -268,7 +266,7 @@ export default function KanjiAddModal() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" onSubmit={onSubmit}>
+                            <form class="row g-3">
                                 <div class="col-md-3">
 
                                     <label for="inputLesson" class="form-label">Bài<span class="text-danger">*</span></label>
@@ -353,11 +351,50 @@ export default function KanjiAddModal() {
                                 </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="submit" class="btn btn-primary w-100">
-                                        Lưu
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                        Thêm mới
                                     </button>
+                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ViewConfirmAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận thêm chữ Hán
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn thêm chữ Hán này chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ViewAddModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onClick={onSubmit}
+                            >
+                                Có
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,7 @@ import bg from "../../assets/img/bg-home-scene-winter.svg";
 import "./css/memory.css"
 import imgCenter from "../../assets/img/imgCenter.png"
 import ExamServices from '../../services/ExamServices';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from "react-router-dom";
 import GameService from '../../services/GameService';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import UserServices from "../../services/UserServices.jsx";
@@ -12,6 +12,7 @@ import MemorySetting from './MemorySetting';
 import useSound from 'use-sound';
 import flip from '../../assets/sound/flip.mp3'
 import gameOver from '../../assets/sound/gameOver.mp3'
+import backgroundSound from '../../assets/sound/backgroundMemory.mp3'
 
 export default function MemoryGame() {
     const [isStarted, setStart] = useState(false);
@@ -30,10 +31,15 @@ export default function MemoryGame() {
     const [num, setNum] = useState(100);
     const [hasAchievement, setHasAchievement] = useState([]);
     const history = useHistory();
-    const [playFlip] = useSound(flip);
+    const [playFlip] = useSound(flip, { volume: 1.5 });
     const [playGameOver] = useSound(gameOver);
+    const [playBgSound, { stop }] = useSound(backgroundSound, {
+        volume: 0.25, interrupt: true,
+    });
+
 
     let myInterval = useRef();
+    const location = useLocation();
 
     useEffect(() => {
         switch (level) {
@@ -68,6 +74,19 @@ export default function MemoryGame() {
         document.getElementById("minute").innerHTML = minute;
         document.getElementById("second").innerHTML = (second < 10 ? `0${second}` : second);
     }
+    useEffect(() => {
+        console.log(`location.pathname`, location.pathname)
+        if (isStarted) {
+            playBgSound();
+        }
+        if (isFinish) {
+            stop();
+        }
+        if (!location.pathname.includes("testMemory")) {
+            console.log(`location.pathname`, location.pathname)
+            stop();
+        }
+    }, [isStarted, isFinish, location.pathname])
     useEffect(() => {
         if (isStarted) {
             if (isFinish) {
@@ -153,7 +172,6 @@ export default function MemoryGame() {
     const resetTurn = () => {
         setChoiceOne(null);
         setChoiceTwo(null);
-        // setPoint(prevPoint => prevPoint - 10);
         setDisabled(false);
     }
 
@@ -168,9 +186,7 @@ export default function MemoryGame() {
         GameService.fetchSaveGame(3, "Memory Game", "", (num - (minuteLeft * 60 + secondLeft)), totalScore);
         setTimeout(() => {
             UserServices.checkAchievement().then((res) => {
-                console.log(`res`, res);
                 setHasAchievement(res.data);
-                // setHasAchievement([{ name: "Thợ săn level", desciption: "Đạt 5000 điểm (Lv9)" }])
             })
         }, 1000);
     }
@@ -195,7 +211,7 @@ export default function MemoryGame() {
             <div
                 style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                 <Navigation />
-                <div className="container" role="game" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", position: "relative" }}>
+                <div className="container" role="game" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", position: "relative" }} onChange={stop}>
                     <div class="row mt-2" >
                         {isFinish ? <div class="overlay-text visible" onAnimationStart={playGameOver}>
                             <div class="game-over">Kết thúc</div>
@@ -207,7 +223,7 @@ export default function MemoryGame() {
                             <div class="text-play-again" onClick={() => history.go(0)}>Click vào đây để chơi lại </div>
 
                         </div> : ""}
-                        <div class="col-md-12" >
+                        <div class="col-md-12">
                             <h1 class="page-title"> Memory Game </h1>
                             {!isStarted ? <MemorySetting isStartedProps={setStart} setOptions={setOptions} setLevel={setLevel} /> : (<>
                                 <div className="game-container">
@@ -240,7 +256,6 @@ export default function MemoryGame() {
                     </div>
                 </div>
 
-                {/* <Footer /> */}
             </div>
         </div>
     )

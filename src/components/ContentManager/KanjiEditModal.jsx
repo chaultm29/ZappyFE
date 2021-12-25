@@ -72,8 +72,6 @@ export default function KanjiEditModal({ kanjiDetail }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const isValid = validateAll();
-        if (!isValid) return;
         let kanjiUpdate = {
             character: character.trim(),
             chinese: chinese.toUpperCase().trim(),
@@ -114,8 +112,8 @@ export default function KanjiEditModal({ kanjiDetail }) {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                setImage(e.target.files[0].name);
                 setImageUpload(e.target.files[0]);
+                setImage(e.target.files[0].name);
                 document.getElementById("imgKanjiEdit").src = reader.result;
             }
         }
@@ -127,8 +125,8 @@ export default function KanjiEditModal({ kanjiDetail }) {
         const reader = new FileReader();
         reader.onload = () => {
             if (reader.readyState === 2) {
-                // setGif(e.target.files[0].name);
                 setGifUpload(e.target.files[0]);
+                setGif(e.target.files[0].name);
                 document.getElementById("gifKanjiEdit").src = reader.result;
             }
         }
@@ -194,32 +192,32 @@ export default function KanjiEditModal({ kanjiDetail }) {
         if (lessonName.length === 0) {
             msg.lessonName = "Vui lòng chọn bài";
         }
-        if (character.length === 0) {
+        if (character.trim().length === 0) {
             msg.character = "Không được để trống";
         }
-        else if (character.length > 1) {
+        else if (character.trim().length > 1) {
             msg.character = "Chỉ chứa 1 ký tự";
         }
-        else if (!validateCharacter.test(character)) {
+        else if (!validateCharacter.test(character.trim())) {
             msg.character = "Chỉ nhập Hán tự";
         }
-        if (chinese.length === 0) {
+        if (chinese.trim().length === 0) {
             msg.chinese = "Không được để trống";
-        } else if (!validateChinese.test(chinese)) {
+        } else if (!validateChinese.test(chinese.trim())) {
             msg.chinese = "Không bao gồm ký tự đặc biệt và dấu cách.";
         }
-        if (vietnamese.length === 0) {
+        if (vietnamese.trim().length === 0) {
             msg.vietnamese = "Không được để trống";
         }
-        if (onyomi.length !== 0 && !validateOnyomi.test(onyomi)) {
+        if (onyomi.trim().length !== 0 && !validateOnyomi.test(onyomi.trim())) {
             msg.onyomi = "Chỉ nhập katakana và các ký tự ,、・/／";
         }
-        if (kunyomi.length === 0) {
+        if (kunyomi.trim().length === 0) {
             msg.kunyomi = "Không được để trống";
-        } else if (!validateKunyomi.test(kunyomi)) {
+        } else if (!validateKunyomi.test(kunyomi.trim())) {
             msg.kunyomi = "Chỉ nhập hiragana và các ký tự ,、・/／";
         }
-        if (description.length === 0) {
+        if (description.trim().length === 0) {
             msg.description = "Không được để trống";
         }
         if (image.length === 0) {
@@ -268,7 +266,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
                         </div>
                         {kanjiDetail &&
                             <div class="modal-body">
-                                <form class="row g-3" onSubmit={onSubmit}>
+                                <form class="row g-3">
                                     <div class="col-md-3">
 
                                         <label for="inputLesson" class="form-label">Bài<span class="text-danger">*</span></label>
@@ -353,13 +351,52 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                         </button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="submit" class="btn btn-primary w-100">
+                                        <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
                                             Lưu thay đổi
                                         </button>
+                                        <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
                                     </div>
                                 </form>
                             </div>
                         }
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ViewConfirmEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận chỉnh sửa chữ Hán
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn chỉnh sửa chữ Hán này chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ViewEditModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onClick={onSubmit}
+                            >
+                                Có
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
