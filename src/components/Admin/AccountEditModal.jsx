@@ -41,8 +41,6 @@ export default function AccountEditModal({ accountDetail }) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const isValid = validateAll();
-    if (!isValid) return;
     let account = {
       username: username.trim(),
       passwordOld: "",
@@ -112,26 +110,26 @@ export default function AccountEditModal({ accountDetail }) {
     if (roleId.length === 0) {
       msg.roleId = "Vui lòng chọn chức năng";
     }
-    if (username.length === 0) {
+    if (username.trim().length === 0) {
       msg.username = "Không được để trống";
     } else if (!validateUsername.test(username)) {
       msg.username = "Không bao gồm dấu cách hoặc kí tự đặc biệt ";
-    } else if (username.length < 4 || username.length > 20) {
+    } else if (username.trim().length < 4 || username.trim().length > 20) {
       msg.username = "Độ dài từ 4-20 kí tự";
     }
-    if (fullname.length === 0) {
+    if (fullname.trim().length === 0) {
       msg.fullname = "Không được để trống";
-    } else if (!validateFullname.test(fullname)) {
+    } else if (!validateFullname.test(fullname.trim())) {
       msg.fullname = "Không được bao gồm số và kí tự đặc biệt";
     } else if (fullname.length < 1 || fullname.length > 50) {
       msg.fullname = "Độ dài từ 1-50 kí tự";
     }
-    if (email.length === 0) {
+    if (email.trim().length === 0) {
       msg.email = "Không được để trống";
     } else if (!validateEmail.test(email)) {
       msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
     }
-    if (phone.length > 0 && !validatePhone.test(phone)) {
+    if (phone.trim().length > 0 && !validatePhone.test(phone)) {
       msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
     if (dateOfBirth.length > 0 && inputDate >= today) {
@@ -178,7 +176,7 @@ export default function AccountEditModal({ accountDetail }) {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <form class="row g-3" onSubmit={onSubmit}>
+              <form class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label">Vai trò<span class="text-danger">*</span></label>
                   <select id="role" class="form-select" onChange={onRoleIdChange} disabled={roleName === "Admin" ? true : false}>
@@ -187,34 +185,34 @@ export default function AccountEditModal({ accountDetail }) {
                         <option value={role.id} selected={role.name === roleName}>{role.name}</option>
                       ))
                     }
-
-
                   </select>
+                  <p class="text-danger mb-0">{validationMsg.roleId}</p>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Tài khoản<span class="text-danger">*</span></label>
                   <input name="username" class="form-control" type="text" value={username} onChange={onUsernameChange} />
-
+                  <p class="text-danger mb-0">{validationMsg.username}</p>
                 </div>
                 <div class="col-md-12">
                   <label class="form-label">Họ và tên<span class="text-danger">*</span></label>
                   <input name="fullname" type="text" class="form-control" value={fullname} onChange={onFullnameChange} />
-
+                  <p class="text-danger mb-0">{validationMsg.fullname}</p>
                 </div>
 
                 <div class="col-md-6">
                   <label class="form-label">Email<span class="text-danger">*</span></label>
                   <input name="email" type="email" class="form-control" style={{ textTransform: "lowercase" }} value={email} onChange={onEmailChange} />
-
+                  <p class="text-danger mb-0">{validationMsg.email}</p>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Số điện thoại<span class="text-danger"></span></label>
                   <input name="phone" type="text" class="form-control" value={phone} onChange={onPhoneChange} />
-
+                  <p class="text-danger mb-0">{validationMsg.phone}</p>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Ngày sinh</label>
                   <input name="date" class="form-control" type="date" value={dateOfBirth} onChange={onDateOfBirthChange} />
+                  <p class="text-danger mb-0">{validationMsg.dob}</p>
                 </div>
 
                 <div class="col-12">
@@ -227,14 +225,53 @@ export default function AccountEditModal({ accountDetail }) {
                   </button>
                 </div>
                 <div class="col-6">
-                  <button type="submit" class="btn btn-primary w-100">
+                  <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
                     Lưu thay đổi
                   </button>
+                  <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
                 </div>
               </form>
             </div>
           </div>
         </div>}
+      </div>
+      <div class="modal fade" id="ViewConfirmEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Xác nhận chỉnh sửa tài khoản
+              </h5>
+              <button
+                id="close-modal"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Bạn có chắc muốn chỉnh sửa tài khoản này chứ ?
+            </div>
+            <div class="modal-footer border-0">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#ViewConfirmEditModal"
+              >
+                Không
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                onClick={onSubmit}
+              >
+                Có
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
     </>

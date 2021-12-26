@@ -14,10 +14,6 @@ export default function Footer() {
                 <a href="#">Về chúng tôi</a>
               </li>
               <li>
-                <a href="#">Music by <a href="/users/brolefilmer-24731381/?tab=audio&amp;utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=audio&amp;utm_content=12255">brolefilmer</a> from <a href="https://pixabay.com/music/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=music&amp;utm_content=12255">Pixabay</a></a>
-              </li>
-
-              <li>
                 <a href="#">Tầm nhìn</a>
               </li>
               <li>
