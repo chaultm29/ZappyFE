@@ -20,11 +20,17 @@ class Navigation extends Component {
         this.setState({
           avaLink: S3config.baseURLAvatar + res.data.avatar
         });
+      }).catch((erorr) => {
+        window.location.href = "/*"
       })
+
+
     }
     if (AuthenticationService.getRoleName() === "Student") {
       UserServices.getLevel().then((res) => {
         this.setState({ level: (res ? res.data : 0), percentage: (res.data.currentExp * 100 / res.data.levelExp) });
+      }).catch((error) => {
+        window.location.href = "/*"
       });
 
     }

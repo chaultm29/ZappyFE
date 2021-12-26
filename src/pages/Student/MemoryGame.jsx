@@ -27,6 +27,7 @@ export default function MemoryGame() {
     const [disabled, setDisabled] = useState(false);
     const [isFinish, setIsFinish] = useState(false);
     const [bonus, setBonus] = useState(0);
+    const [bonusPoint, setBonusPoint] = useState(0);
     const [total, setTotal] = useState(0);
     const [num, setNum] = useState(100);
     const [hasAchievement, setHasAchievement] = useState([]);
@@ -44,16 +45,18 @@ export default function MemoryGame() {
     useEffect(() => {
         switch (level) {
             case 12:
-                setNum(180);
+                setNum(270);
+                setBonusPoint(2);
                 break;
             case 18:
                 setNum(270);
+                setBonusPoint(5);
                 break;
             case 24:
-                setNum(360);
+                setNum(270);
+                setBonusPoint(10);
                 break;
         }
-
     }, [level])
 
     let minute = parseInt(num / 60);
@@ -83,10 +86,9 @@ export default function MemoryGame() {
             stop();
         }
         if (!location.pathname.includes("testMemory")) {
-            console.log(`location.pathname`, location.pathname)
             stop();
         }
-    }, [isStarted, isFinish, location.pathname])
+    }, [isStarted, isFinish, location])
     useEffect(() => {
         if (isStarted) {
             if (isFinish) {
@@ -178,7 +180,7 @@ export default function MemoryGame() {
     const saveResult = () => {
         let secondLeft = parseInt(document.getElementById("second").innerHTML);
         let minuteLeft = parseInt(document.getElementById("minute").innerHTML);
-        let bonusCurrent = (minuteLeft * 60 + secondLeft) * 10;
+        let bonusCurrent = (minuteLeft * 60 + secondLeft) * bonusPoint;
         let totalScore = point + bonusCurrent;
         setBonus(bonusCurrent);
         setTotal(point + bonusCurrent);
@@ -211,7 +213,7 @@ export default function MemoryGame() {
             <div
                 style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
                 <Navigation />
-                <div className="container" role="game" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", position: "relative" }} onChange={stop}>
+                <div className="container" role="game" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", position: "relative" }}>
                     <div class="row mt-2" >
                         {isFinish ? <div class="overlay-text visible" onAnimationStart={playGameOver}>
                             <div class="game-over">Kết thúc</div>

@@ -311,10 +311,10 @@ export default function QuestionAddModal() {
                                         Làm mới
                                     </button></div>
                                 <div class="col-6">
-                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide-add-question").click() }} class="btn btn-primary w-100">
                                         Thêm mới
                                     </button>
-                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
+                                    <button type="button" class="d-none" id="btn-save-hide-add-question" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
                                 </div>
                             </form>
                         </div>
