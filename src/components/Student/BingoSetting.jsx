@@ -157,7 +157,7 @@ class BingoSetting extends Component {
 
                             <div className="col-md-6 mt-3">
                                 <h5 class="card-title fw-bold">CHỌN BÀI</h5>
-                                <p class="text-muted">Nội dung tương ứng của từng bài sẽ ở mặt sau của thẻ</p>
+                                <p class="text-muted">Câu hỏi sẽ là nội dung tương ứng của các bài</p>
                                 <p class="text-danger mb-0" id="dangerLessons">{this.state.messageValidate2}</p>
                                 <div class="row row-cols-2">
                                     <div class="col">
