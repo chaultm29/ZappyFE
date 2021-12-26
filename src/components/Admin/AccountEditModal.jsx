@@ -225,10 +225,10 @@ export default function AccountEditModal({ accountDetail }) {
                   </button>
                 </div>
                 <div class="col-6">
-                  <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                  <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide-edit-acc").click() }} class="btn btn-primary w-100">
                     Lưu thay đổi
                   </button>
-                  <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
+                  <button type="button" class="d-none" id="btn-save-hide-edit-acc" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
                 </div>
               </form>
             </div>

@@ -320,8 +320,8 @@ export default function Profile({ isClicked }) {
                                             </div>
                                             <div class="row mt-4">
                                                 <div class="col-12 text-center">
-                                                    <button type="button" class="btn btn-light" onClick={() => { if (!validateUpdate()) return; else document.getElementById("btn-save-hide").click() }} >Cập nhật</button>
-                                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmUpdateProfileModal"></button>
+                                                    <button type="button" class="btn btn-light" onClick={() => { if (!validateUpdate()) return; else document.getElementById("btn-save-hide-profile").click() }} >Cập nhật</button>
+                                                    <button type="button" class="d-none" id="btn-save-hide-profile" data-bs-toggle="modal" data-bs-target="#ViewConfirmUpdateProfileModal"></button>
                                                 </div>
                                                 <div class="col-12 text-center">
                                                     <a href="#changePassword" type="button" class="btn btn-link" onClick={onOptionChange}>Cập nhật mật khẩu</a>
@@ -363,8 +363,8 @@ export default function Profile({ isClicked }) {
 
                                             <div class="row mt-4">
                                                 <div class="col-12 text-center">
-                                                    <button type="button" class="btn btn-light" onClick={() => { if (!validateChangePass()) return; else document.getElementById("btn-save-hide").click() }}  >Cập nhật</button>
-                                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmUpdatePassModal"></button>
+                                                    <button type="button" class="btn btn-light" onClick={() => { if (!validateChangePass()) return; else document.getElementById("btn-save-hide-pass").click() }}  >Cập nhật</button>
+                                                    <button type="button" class="d-none" id="btn-save-hide-pass" data-bs-toggle="modal" data-bs-target="#ViewConfirmUpdatePassModal"></button>
                                                 </div>
                                                 <div class="col-12 text-center">
                                                     <a href="#account" type="button" class="btn btn-link" onClick={onOptionChange}>Quay lại</a>

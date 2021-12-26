@@ -185,7 +185,7 @@ export default function KanjiAddModal() {
         else if (!validateCharacter.test(character.trim())) {
             msg.character = "Chỉ nhập Hán tự";
         }
-        if (chinese.trim().length === 0) {
+        if (chinese.length === 0) {
             msg.chinese = "Không được để trống";
         } else if (!validateChinese.test(chinese)) {
             msg.chinese = "Không bao gồm ký tự đặc biệt và dấu cách.";
@@ -196,9 +196,7 @@ export default function KanjiAddModal() {
         if (onyomi.trim().length !== 0 && !validateOnyomi.test(onyomi)) {
             msg.onyomi = "Chỉ nhập katakana và các ký tự ,、・/／";
         }
-        if (kunyomi.trim().length === 0) {
-            msg.kunyomi = "Không được để trống";
-        } else if (!validateKunyomi.test(kunyomi.trim())) {
+        if (kunyomi.trim().length !== 0 && !validateKunyomi.test(kunyomi.trim())) {
             msg.kunyomi = "Chỉ nhập hiragana và các ký tự ,、・/／";
         }
         if (description.trim().length === 0) {
@@ -304,7 +302,7 @@ export default function KanjiAddModal() {
                                 </div>
                                 <div class="col-md-6">
 
-                                    <label for="inputKunyomi" class="form-label">Âm Kun<span class="text-danger">*</span></label>
+                                    <label for="inputKunyomi" class="form-label">Âm Kun</label>
                                     <input type="text" class="form-control" id="inputKunyomi" onChange={onChangeKunyomi}
                                     />
                                     <p class="text-danger mb-0">{validationMsg.kunyomi}</p>
@@ -351,10 +349,10 @@ export default function KanjiAddModal() {
                                 </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide-add-kanji").click() }} class="btn btn-primary w-100">
                                         Thêm mới
                                     </button>
-                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
+                                    <button type="button" class="d-none" id="btn-save-hide-add-kanji" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
                                 </div>
                             </form>
                         </div>

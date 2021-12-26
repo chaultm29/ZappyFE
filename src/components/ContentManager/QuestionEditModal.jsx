@@ -300,10 +300,10 @@ export default function QuestionEditModal({ questionDetail }) {
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide-edit-question").click() }} class="btn btn-primary w-100">
                                         Lưu thay đổi
                                     </button>
-                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
+                                    <button type="button" class="d-none" id="btn-save-hide-edit-question" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
                                 </div>
                             </form>
                         </div>
