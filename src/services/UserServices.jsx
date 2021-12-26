@@ -25,8 +25,9 @@ class UserServices {
     changePassword(password) {
         return axiosConfig.post("/changePassword", password);
     }
-
-
+    getRanking(){
+        return axiosConfig.get(USER__API_BASE_URL + "/ranking");
+    }
 }
 
 export default new UserServices();
