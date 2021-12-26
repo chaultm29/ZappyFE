@@ -1,16 +1,20 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import useSound from 'use-sound';
 import {
   AwesomeButton,
 } from 'react-awesome-button';
 import "react-awesome-button/dist/styles.css";
+import flip from '../../assets/sound/flip.mp3'
 
 export default function MemorySetting({ isStartedProps, setOptions, setLevel }) {
   const [numberOfQuestion, setNumberOfCard] = useState(null);
+  const [playFlip] = useSound(flip, { volume: 1.5 });
   const [lessonIds, setLessonIds] = useState([]);
   const [skillIds, setSkillIds] = useState([]);
   const typeIds = [5];
   const [validationMsg, setValidationMsg] = useState('');
+
 
   const onClickStart = (e) => {
     const isValid = validateAll();
@@ -67,7 +71,8 @@ export default function MemorySetting({ isStartedProps, setOptions, setLevel }) 
                 name="radioCheck"
                 class="d-none"
                 id="radioEasy"
-                onClick={() => { setNumberOfCard(12); setLevel(12); }}
+                onClick={() => { setNumberOfCard(12); setLevel(12); playFlip() }}
+                onMouseDown={playFlip}
               ></input>
               <label
                 for="radioEasy"
@@ -83,7 +88,8 @@ export default function MemorySetting({ isStartedProps, setOptions, setLevel }) 
                 name="radioCheck"
                 class="d-none"
                 id="radioMedium"
-                onClick={() => { setNumberOfCard(18); setLevel(18); }}
+                onClick={() => { setNumberOfCard(18); setLevel(18); playFlip() }}
+                onMouseDown={playFlip}
               ></input>
               <label
                 for="radioMedium"
@@ -100,7 +106,8 @@ export default function MemorySetting({ isStartedProps, setOptions, setLevel }) 
                 name="radioCheck"
                 class="d-none"
                 id="radioHard"
-                onClick={() => { setNumberOfCard(24); setLevel(24) }}
+                onClick={() => { setNumberOfCard(24); setLevel(24); playFlip() }}
+                onMouseDown={playFlip}
               ></input>
               <label
                 for="radioHard"
@@ -117,39 +124,39 @@ export default function MemorySetting({ isStartedProps, setOptions, setLevel }) 
               <div class="row row-cols-2">
                 <div class="col">
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx1" value="1" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx1" value="1" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx1"></label>
                     <label class="lbl" for="cbx1">Bài 1</label>
                   </div>
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx2" value="2" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx2" value="2" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx2"></label>
                     <label class="lbl" for="cbx2">Bài 2</label>
                   </div>
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx3" value="3" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx3" value="3" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx3"></label>
                     <label class="lbl" for="cbx3">Bài 3</label>
                   </div>
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx4" value="4" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx4" value="4" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx4"></label>
                     <label class="lbl" for="cbx4">Bài 4</label>
                   </div>
                 </div>
                 <div class="col">
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx5" value="5" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx5" value="5" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx5"></label>
                     <label class="lbl" for="cbx5">Bài 5</label>
                   </div>
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx6" value="6" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx6" value="6" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx6"></label>
                     <label class="lbl" for="cbx6">Bài 6</label>
                   </div>
                   <div class="cntr">
-                    <input class="hidden-xs-up d-none" id="cbx7" value="7" type="checkbox" onChange={onHandleChangeLessonIds} />
+                    <input class="hidden-xs-up d-none" id="cbx7" value="7" type="checkbox" onChange={onHandleChangeLessonIds} onClick={playFlip} />
                     <label class="cbx" for="cbx7"></label>
                     <label class="lbl" for="cbx7">Bài 7</label>
                   </div>
@@ -164,17 +171,17 @@ export default function MemorySetting({ isStartedProps, setOptions, setLevel }) 
               <p class="text-danger mb-0">{validationMsg.skillIds}</p>
               <div class="wrapper mx-auto" style={{ width: "20%" }}>
                 <div class="cntr text-start mx-1">
-                  <input class="hidden-xs-up d-none" id="cbxVocab" value="1" type="checkbox" onChange={onHandleChangeSkillIds} />
+                  <input class="hidden-xs-up d-none" id="cbxVocab" value="1" type="checkbox" onChange={onHandleChangeSkillIds} onClick={playFlip} />
                   <label class="cbx" for="cbxVocab"></label>
                   <label class="lbl" for="cbxVocab">Từ vựng</label>
                 </div>
                 <div class="cntr text-start mx-1">
-                  <input class="hidden-xs-up d-none" id="cbxGrammar" value="2" type="checkbox" onChange={onHandleChangeSkillIds} />
+                  <input class="hidden-xs-up d-none" id="cbxGrammar" value="2" type="checkbox" onChange={onHandleChangeSkillIds} onClick={playFlip} />
                   <label class="cbx" for="cbxGrammar"></label>
                   <label class="lbl" for="cbxGrammar">Ngữ pháp</label>
                 </div>
                 <div class="cntr text-start mx-1">
-                  <input class="hidden-xs-up d-none" id="cbxKanji" value="3" type="checkbox" onChange={onHandleChangeSkillIds} />
+                  <input class="hidden-xs-up d-none" id="cbxKanji" value="3" type="checkbox" onChange={onHandleChangeSkillIds} onClick={playFlip} />
                   <label class="cbx" for="cbxKanji"></label>
                   <label class="lbl" for="cbxKanji">Chữ hán</label>
                 </div>
@@ -187,7 +194,7 @@ export default function MemorySetting({ isStartedProps, setOptions, setLevel }) 
                 BẮT ĐẦU
               </button>   
             </div> */}
-            <AwesomeButton type="secondary" onPress={onClickStart}><span class="text-light">BẮT ĐẦU</span></AwesomeButton>
+            <AwesomeButton type="secondary" onPress={onClickStart} onClick={playFlip}><span class="text-light">BẮT ĐẦU</span></AwesomeButton>
             <div class="count-policy position-absolute bottom-0 end-0 mb-3 me-3" >
               <button type="button" id="popoverExample" class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="#tutorial">
                 Luật chơi

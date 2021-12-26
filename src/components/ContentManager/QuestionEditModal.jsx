@@ -76,9 +76,6 @@ export default function QuestionEditModal({ questionDetail }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const isValid = validateAll();
-        // let answers = answer.map((item) => { return { ...item, answer: item.answer.trim() }});
-        if (!isValid) return;
         let questionUpdate = {
             questionID: questionDetail.questionID,
             typeName: typeName,
@@ -148,7 +145,7 @@ export default function QuestionEditModal({ questionDetail }) {
         if (skill.length === 0) {
             msg.skill = "Vui lòng chọn kĩ năng";
         }
-        if (question.length === 0) {
+        if (question.trim().length === 0) {
             msg.question = "Không được để trống";
         }
         if (answer.length === 0) {
@@ -197,7 +194,7 @@ export default function QuestionEditModal({ questionDetail }) {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form class="row g-3" method="post" onSubmit={onSubmit} autocomplete="off" >
+                            <form class="row g-3" method="post" autocomplete="off" >
                                 <div class="col-8">
                                     <label class="form-label">Loại câu hỏi<span class="text-danger">*</span></label>
                                     <select class="form-select" name="typeName" onChange={onChangeQuestionType} value={typeName} autocomplete="off" disabled>
@@ -303,15 +300,55 @@ export default function QuestionEditModal({ questionDetail }) {
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="submit" class="btn btn-primary w-100">
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
                                         Lưu thay đổi
                                     </button>
+                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            } </>
+            }
+            <div class="modal fade" id="ViewConfirmEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận chỉnh sửa câu hỏi
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn chỉnh sửa câu hỏi này chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ViewEditModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onClick={onSubmit}
+                            >
+                                Có
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }

@@ -14,6 +14,7 @@ export default function Profile({ isClicked }) {
     const [id, setId] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [fullName, setFullName] = useState("");
     const [phone, setPhone] = useState("");
     const [avatar, setAvatar] = useState("");
@@ -58,7 +59,9 @@ export default function Profile({ isClicked }) {
     useEffect(() => {
         if (isClicked) {
             UserServices.getProfile().then((res) => {
+                console.log(`res`, res);
                 setId(res.data.id);
+                setUsername(AuthenticationService.getCurrentUser());
                 setDateOfBirth(res.data.dateOfBirth);
                 setEmail(res.data.email);
                 setFullName(res.data.fullName);
@@ -134,25 +137,32 @@ export default function Profile({ isClicked }) {
     const validateUpdate = () => {
         setValidationUpdateMsg('');
         const msg = {};
+        var validateUsername = /^[a-z\d]+$/i;
         var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
         var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
         var validatePhone = /(0)+([0-9]{9})\b/;
         var inputDate = new Date(dateOfBirth);
         var today = new Date();
-
-        if (fullName.length === 0) {
+        if (username.trim().length === 0) {
+            msg.username = "Không được để trống";
+        } else if (!validateUsername.test(username)) {
+            msg.username = "Không bao gồm dấu cách hoặc kí tự đặc biệt ";
+        } else if (username.trim().length < 4 || username.trim().length > 20) {
+            msg.username = "Độ dài từ 4-20 kí tự";
+        }
+        if (fullName.trim().length === 0) {
             msg.fullName = "Không được để trống";
-        } else if (!validateFullname.test(fullName)) {
+        } else if (!validateFullname.test(fullName.trim())) {
             msg.fullName = "Không được bao gồm số và kí tự đặc biệt";
-        } else if (fullName.length < 1 || fullName.length > 50) {
+        } else if (fullName.trim().length < 1 || fullName.trim().length > 50) {
             msg.fullName = "Độ dài từ 1-50 kí tự";
         }
-        if (email.length === 0) {
+        if (email.trim().length === 0) {
             msg.email = "Không được để trống";
         } else if (!validateEmail.test(email)) {
             msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
         }
-        if (phone.length === 0) {
+        if (phone.trim().length === 0) {
             msg.phone = "Không được để trống";
         }
         else if (!validatePhone.test(phone)) {
@@ -193,8 +203,6 @@ export default function Profile({ isClicked }) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const isValid = validateUpdate();
-        if (!isValid) return;
         let profile = { id: id, dateOfBirth: dateOfBirth, email: email.trim(), fullName: fullName.trim(), phone: phone, avatar: avatar };
         const uploadImageSuccess = upload(imageUpload);
         if (uploadImageSuccess) {
@@ -215,8 +223,6 @@ export default function Profile({ isClicked }) {
     }
     const onSubmitPassword = (e) => {
         e.preventDefault();
-        const isValid = validateChangePass();
-        if (!isValid) return;
         let changePassword = { newPassword: newPass, oldPassword: oldPass };
         UserServices.changePassword(changePassword).then((res) => {
             if (res.data === true) {
@@ -290,8 +296,8 @@ export default function Profile({ isClicked }) {
                                                     Tên tài khoản
                                                 </div>
                                                 <div class="col-8">
-                                                    <input type="text" class="form-control" value={AuthenticationService.getCurrentUser()} disabled />
-
+                                                    <input type="text" class="form-control" value={username} disabled />
+                                                    <p class="text-danger mb-0">{validationUpdateMsg.username}</p>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -314,12 +320,14 @@ export default function Profile({ isClicked }) {
                                             </div>
                                             <div class="row mt-4">
                                                 <div class="col-12 text-center">
-                                                    <button type="button" class="btn btn-light" onClick={onSubmit}>Cập nhật</button>
+                                                    <button type="button" class="btn btn-light" onClick={() => { if (!validateUpdate()) return; else document.getElementById("btn-save-hide").click() }} >Cập nhật</button>
+                                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmUpdateProfileModal"></button>
                                                 </div>
                                                 <div class="col-12 text-center">
                                                     <a href="#changePassword" type="button" class="btn btn-link" onClick={onOptionChange}>Cập nhật mật khẩu</a>
                                                 </div>
                                             </div>
+
                                         </div>}
                                     {site.includes("changePassword") &&
                                         <div class="card-body" >
@@ -355,12 +363,14 @@ export default function Profile({ isClicked }) {
 
                                             <div class="row mt-4">
                                                 <div class="col-12 text-center">
-                                                    <button type="button" class="btn btn-light" onClick={onSubmitPassword}>Cập nhật</button>
+                                                    <button type="button" class="btn btn-light" onClick={() => { if (!validateChangePass()) return; else document.getElementById("btn-save-hide").click() }}  >Cập nhật</button>
+                                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmUpdatePassModal"></button>
                                                 </div>
                                                 <div class="col-12 text-center">
                                                     <a href="#account" type="button" class="btn btn-link" onClick={onOptionChange}>Quay lại</a>
                                                 </div>
                                             </div>
+
                                         </div>}
                                     {site.includes("achievement") &&
                                         <div class="card-body">
@@ -451,6 +461,87 @@ export default function Profile({ isClicked }) {
 
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="ViewConfirmUpdateProfileModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận cập nhật thông tin tài khoản
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn cập nhật thông tin tài khoản chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#profileModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#profileModal"
+                                onClick={onSubmit}
+                            >
+                                Có
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ViewConfirmUpdatePassModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận cập nhật mật khẩu
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn cập nhật mật khẩu chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#profileModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#profileModal"
+                                onClick={onSubmitPassword}
+                            >
+                                Có
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -46,8 +46,6 @@ export default function VocabularyAddModal() {
     }
     const onSubmit = (e) => {
         e.preventDefault();
-        const isValid = validateAll();
-        if (!isValid) return;
         let vocabAdd = {
             lessonName: lessonName,
             vocabulary: vocabulary,
@@ -117,20 +115,17 @@ export default function VocabularyAddModal() {
         if (lessonName.length === 0) {
             msg.lessonName = "Vui lòng chọn bài";
         }
-        if (vocabulary.length === 0) {
+        if (vocabulary.trim().length === 0) {
             msg.vocabulary = "Không được để trống";
         }
-        if (meaning.length === 0) {
+        if (meaning.trim().length === 0) {
             msg.meaning = "Không được để trống";
-        } if (example.length === 0) {
+        } if (example.trim().length === 0) {
             msg.example = "Không được để trống";
         }
-        if (exampleMeaning.length === 0) {
+        if (exampleMeaning.trim().length === 0) {
             msg.exampleMeaning = "Không được để trống";
         }
-        // if (image.length === 0) {
-        //     msg.image = "Vui lòng chọn 1 ảnh (Định dạng: .png.jpeg.jpg)";
-        // }
         setValidationMsg(msg);
         if (Object.keys(msg).length > 0) return false;
         return true;
@@ -219,7 +214,7 @@ export default function VocabularyAddModal() {
                                     <input type="text" class="form-control" value={image ? image : "Không có hình ảnh"} disabled />
 
                                     <input ref={inputFile} class="d-none" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
-                                    <p class="text-danger mb-0">{validationMsg.image}</p>
+
                                 </div>
                                 <div class="col-5 text-center">
                                     <img id="imgAdd" src={image ? image : noImage} class="rounded img-thumbnail mx-auto d-block" width="100px" height="100px" />
@@ -234,13 +229,52 @@ export default function VocabularyAddModal() {
                                     </button>
                                 </div>
                                 <div class="col-6">
-                                    <button type="submit" class="btn btn-primary w-100" onClick={onSubmit}>
-                                        Lưu
+                                    <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                        Thêm mới
                                     </button>
+                                    <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
                                 </div>
                             </form>
                         </div>
 
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="ViewConfirmAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                Xác nhận thêm từ vựng
+                            </h5>
+                            <button
+                                id="close-modal"
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc muốn thêm từ vựng này chứ ?
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ViewAddModal"
+                            >
+                                Không
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-danger"
+                                onClick={onSubmit}
+                            >
+                                Có
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

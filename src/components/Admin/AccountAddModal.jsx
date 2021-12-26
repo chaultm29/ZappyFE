@@ -22,8 +22,6 @@ export default function AccountAddModal() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const isValid = validateAll();
-    if (!isValid) return;
     let account = { username: username, passwordOld: "", passwordNew: "abcd@1234", dateOfBirth: dateOfBirth, email: email, fullName: fullname, phone: phone, roleDTO: { id: roleId, name: roleName }, avatar: "default.png" };
     AccountServices.addAccount(account).then((response) => {
       if (response.status === 200) {
@@ -84,26 +82,26 @@ export default function AccountAddModal() {
     if (roleId.length === 0) {
       msg.roleId = "Vui lòng chọn chức năng";
     }
-    if (username.length === 0) {
+    if (username.trim().length === 0) {
       msg.username = "Không được để trống";
     } else if (!validateUsername.test(username)) {
       msg.username = "Không bao gồm dấu cách hoặc kí tự đặc biệt ";
-    } else if (username.length < 4 || username.length > 20) {
+    } else if (username.trim().length < 4 || username.trim().length > 20) {
       msg.username = "Độ dài từ 4-20 kí tự";
     }
-    if (fullname.length === 0) {
+    if (fullname.trim().length === 0) {
       msg.fullname = "Không được để trống";
-    } else if (!validateFullname.test(fullname)) {
+    } else if (!validateFullname.test(fullname.trim())) {
       msg.fullname = "Không được bao gồm số và kí tự đặc biệt";
-    } else if (fullname.length < 1 || fullname.length > 50) {
+    } else if (fullname.trim().length < 1 || fullname.trim().length > 50) {
       msg.fullname = "Độ dài từ 1-50 kí tự";
     }
-    if (email.length === 0) {
+    if (email.trim().length === 0) {
       msg.email = "Không được để trống";
     } else if (!validateEmail.test(email)) {
       msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
     }
-    if (phone.length > 0 && !validatePhone.test(phone)) {
+    if (phone.trim().length > 0 && !validatePhone.test(phone)) {
       msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
     }
     if (dateOfBirth.length > 0 && inputDate > today || inputDate == today) {
@@ -204,23 +202,54 @@ export default function AccountAddModal() {
                   <p class="text-danger mb-0">{validationMsg.dob}</p>
                 </div>
 
-                {/* <div class="col-8">
-                  <label class="form-label">Ảnh đại diện</label>
-                  <input class="form-control" type="file" accept="image/jpeg, image/png, image/jpg" onChange={imageHandler} />
-                  <input id="imageFieldHidden" onChange={onImageChange} />
-                </div>
-                <div class="col-4">
-                  <img src={image} class="rounded img-thumbnail mx-auto d-block" alt="..." width="100px" height="100px" />
-                </div> */}
                 <div class="col-6"><button type="reset" class="btn btn-secondary w-100" onClick={onReset}>
                   Làm mới
                 </button></div>
                 <div class="col-6">
-                  <button type="submit" class="btn btn-primary w-100" onClick={onSubmit}>
-                    Lưu
+                  <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                    Thêm mới
                   </button>
+                  <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmAddModal"></button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="ViewConfirmAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Xác nhận thêm tài khoản
+              </h5>
+              <button
+                id="close-modal"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Bạn có chắc muốn thêm tài khoản này chứ ?
+            </div>
+            <div class="modal-footer border-0">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#ViewAddModal"
+              >
+                Không
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                onClick={onSubmit}
+              >
+                Có
+              </button>
             </div>
           </div>
         </div>
