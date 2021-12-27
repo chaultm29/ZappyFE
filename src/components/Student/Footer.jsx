@@ -9,7 +9,7 @@ export default function Footer() {
             <div class="footer-site-logo mb-4">
               <a href="#">Zappy</a>
             </div>
-            <ul class="list-unstyled nav-links mb-5">
+            <ul class="list-unstyled nav-links mb-3">
               <li>
                 <a href="#">Về chúng tôi</a>
               </li>
@@ -26,39 +26,11 @@ export default function Footer() {
                 <a href="#">Liên lạc</a>
               </li>
             </ul>
-            <div class="social mb-4">
-              <h3>Chúng tôi </h3>
-              <ul class="list-unstyled">
-                <li class="in">
-                  <a href="#">
-                    <span class="icon-instagram"></span>
-                  </a>
-                </li>
-                <li class="fb">
-                  <a href="#">
-                    <span class="icon-facebook"></span>
-                  </a>
-                </li>
-                <li class="tw">
-                  <a href="#">
-                    <span class="icon-twitter"></span>
-                  </a>
-                </li>
-                <li class="pin">
-                  <a href="#">
-                    <span class="icon-pinterest"></span>
-                  </a>
-                </li>
-                <li class="dr">
-                  <a href="#">
-                    <span class="icon-dribbble"></span>
-                  </a>
-                </li>
-              </ul>
-            </div>
             <div class="copyright">
-              <p class="mb-0">
-                <small>© Zappy Team. All Rights Reserved.</small>
+              <p class="mb-1">
+                <small style={{ paddingRight: "0px" }}>
+                  Trong quá trình làm chúng mình không tránh được khỏi những sai sót nhất định. <br />Nếu có gì thắc mắc hoặc phản hồi, vui lòng gửi đến hòm thư: zappy-js@gmail.com</small>
+                {/* <small style={{ paddingRight: "0px" }}>© Zappy Team. All Rights Reserved.</small> */}
               </p>
             </div>
           </div>
