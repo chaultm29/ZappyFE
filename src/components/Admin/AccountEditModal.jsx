@@ -190,7 +190,7 @@ export default function AccountEditModal({ accountDetail }) {
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Tài khoản<span class="text-danger">*</span></label>
-                  <input name="username" class="form-control" type="text" value={username} onChange={onUsernameChange} />
+                  <input name="username" class="form-control" type="text" value={username} onChange={onUsernameChange} disabled />
                   <p class="text-danger mb-0">{validationMsg.username}</p>
                 </div>
                 <div class="col-md-12">
