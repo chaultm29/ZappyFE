@@ -149,37 +149,37 @@ class BingoSetting extends Component {
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx1" value="1" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx1"></label>
-                                                <label class="lbl" for="cbx1">Bài 1</label>
+                                                <label class="lbl fw-bold" for="cbx1">Bài 1</label>
                                             </div>
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx2" value="2" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx2"></label>
-                                                <label class="lbl" for="cbx2">Bài 2</label>
+                                                <label class="lbl fw-bold" for="cbx2">Bài 2</label>
                                             </div>
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx3" value="3" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx3"></label>
-                                                <label class="lbl" for="cbx3">Bài 3</label>
+                                                <label class="lbl fw-bold" for="cbx3">Bài 3</label>
                                             </div>
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx4" value="4" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx4"></label>
-                                                <label class="lbl" for="cbx4">Bài 4</label>
+                                                <label class="lbl fw-bold" for="cbx4">Bài 4</label>
                                             </div>
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx5" value="5" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx5"></label>
-                                                <label class="lbl" for="cbx5">Bài 5</label>
+                                                <label class="lbl fw-bold" for="cbx5">Bài 5</label>
                                             </div>
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx6" value="6" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx6"></label>
-                                                <label class="lbl" for="cbx6">Bài 6</label>
+                                                <label class="lbl fw-bold" for="cbx6">Bài 6</label>
                                             </div>
                                             <div class="cntr">
                                                 <input class="hidden-xs-up d-none" id="cbx7" value="7" type="checkbox" onChange={this.onHandleChangeLessonIds} />
                                                 <label class="cbx" for="cbx7"></label>
-                                                <label class="lbl" for="cbx7">Bài 7</label>
+                                                <label class="lbl fw-bold" for="cbx7">Bài 7</label>
                                             </div>
                                         </div>
                                     </div>

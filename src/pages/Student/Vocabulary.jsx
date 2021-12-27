@@ -154,7 +154,7 @@ class Vocabulary extends Component {
                                                             </span>
                                                         </div>
                                                         <div class="vocabulary-image">
-                                                            <img id="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="hiragana" />
+                                                            <img id="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="Không có hình ảnh" />
                                                             {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
                                                         </div>
 
@@ -163,6 +163,10 @@ class Vocabulary extends Component {
                                                         <div class="meaning">{vocabulary.meaning}
                                                         </div>
                                                         <div class="exampleMean">{vocabulary.exampleMeaning}</div>
+                                                        <div class="vocabulary-image">
+                                                            <img id="voca-img" src={S3Config.baseURLVocabulary + vocabulary.imageLink} alt="Không có hình ảnh" />
+                                                            {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

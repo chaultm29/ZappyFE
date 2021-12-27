@@ -6,7 +6,7 @@ import bingoImage from "../../assets/img/bingo-games.jpg";
 import memoryImage from "../../assets/img/memoryGame.jpeg"
 import { BrowserRouter as Router, Switch, Route, Link, NavLink } from "react-router-dom";
 import GameService from "../../services/GameService";
-
+import gameBg from "../../assets/img/fish.png";
 
 
 export default function PlayGame() {
@@ -19,9 +19,9 @@ export default function PlayGame() {
         <div
             style={{ backgroundImage: `url(${bg})`, backgroundAttachment: "fixed", backgroundRepeat: "no-repeat", backgroundPosition: "bottom" }}>
             <Navigation />
-            <div className="container" style={{ backgroundColor: "#fceced", borderRadius: "15px 15px 0px 0px", minHeight: "100vh" }}>
-                <div class="row mt-2">
-                    <div class="col-md-12">
+            <div className="container" style={{backgroundImage: `url(${gameBg})`, backgroundAttachment: "fixed", backgroundRepeat: "repeat", borderRadius: "15px 15px 0px 0px", minHeight: "100vh" }}>
+                <div class="row mt-2" >
+                    <div class="col-md-12" >
                         <h1 class="tit"> Danh sách game </h1>
                         <div class="button-history d-md-flex justify-content-md-end mt-3">
                             <button class="btn btn-secondary me-md-2 rounded-pill" type="button" data-bs-toggle="modal" data-bs-target="#historyModal" onClick={onClickShowHistory}>Xem lịch sử</button>
