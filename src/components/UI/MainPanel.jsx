@@ -30,15 +30,6 @@ export default function MainPanel({ username, site, siteContent }) {
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <a
-              class="nav-link second-text fw-bold me-2"
-              id="navbarDropdown"
-              href="#"
-              role="button"
-            >
-              <i class="fas fa-bell px-1"></i>
-            </a>
-
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle second-text fw-bold"

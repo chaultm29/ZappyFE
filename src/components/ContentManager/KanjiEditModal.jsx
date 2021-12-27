@@ -212,9 +212,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
         if (onyomi.trim().length !== 0 && !validateOnyomi.test(onyomi.trim())) {
             msg.onyomi = "Chỉ nhập katakana và các ký tự ,、・/／";
         }
-        if (kunyomi.trim().length === 0) {
-            msg.kunyomi = "Không được để trống";
-        } else if (!validateKunyomi.test(kunyomi.trim())) {
+        if (kunyomi.trim().length !== 0 && !validateKunyomi.test(kunyomi.trim())) {
             msg.kunyomi = "Chỉ nhập hiragana và các ký tự ,、・/／";
         }
         if (description.trim().length === 0) {
@@ -303,7 +301,7 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                     </div>
                                     <div class="col-md-6">
 
-                                        <label for="inputKunyomi" class="form-label">Âm Kun<span class="text-danger">*</span></label>
+                                        <label for="inputKunyomi" class="form-label">Âm Kun</label>
                                         <input type="text" class="form-control" id="inputKunyomi" value={kunyomi} onChange={onChangeKunyomi}
                                         />
                                         <p class="text-danger mb-0">{validationMsg.kunyomi}</p>
@@ -351,10 +349,10 @@ export default function KanjiEditModal({ kanjiDetail }) {
                                         </button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide").click() }} class="btn btn-primary w-100">
+                                        <button type="button" onClick={() => { if (!validateAll()) return; else document.getElementById("btn-save-hide-edit-kanji").click() }} class="btn btn-primary w-100">
                                             Lưu thay đổi
                                         </button>
-                                        <button type="button" class="d-none" id="btn-save-hide" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
+                                        <button type="button" class="d-none" id="btn-save-hide-edit-kanji" data-bs-toggle="modal" data-bs-target="#ViewConfirmEditModal"></button>
                                     </div>
                                 </form>
                             </div>
