@@ -79,9 +79,7 @@ class Homepage extends Component {
                         <div class="col-md-12 ranking">
                             <div class="leaderboard">
                                 <h1>
-                                    <svg class="ico-cup">
-                                    </svg>
-                                    TOP ACTIVE PLAYERS
+                                    CON ONG CHĂM CHỈ
                                 </h1>
 
                                 <ol>
