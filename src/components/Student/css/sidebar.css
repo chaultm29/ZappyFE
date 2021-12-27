@@ -33,7 +33,6 @@
 
 .box .percent svg circle:nth-child(2) {
   stroke-dashoffset: calc(440 - (440 * 87) / 100);
-  /* stroke: pink; */
   stroke: #f6b0a6;
 }
 
