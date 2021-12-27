@@ -40,14 +40,6 @@ export default function DoExam({ options }) {
 
   };
 
-  // const onHandlePracticeResult = (id, isCorrect) => {
-  //   let result = { id, isCorrect };
-  //   let list = [];
-  //   list.push(result);
-  //   setListPracticeResult(list);
-  //   console.log(`listPracticeResult`, listPracticeResult);
-  // }
-
 
   const onClickRefresh = () => {
     history.go(0);
@@ -109,6 +101,8 @@ export default function DoExam({ options }) {
           window.location.href = "/notfound"
         }
       })
+
+
     }
     if (location.pathname.includes("practice")) {
       PracticeServices.getResult(userSubmit).then((res) => {
