@@ -124,6 +124,16 @@ h3 {
   align-items: center;
   /* display: flex; */
 }
+.box-front .example{
+  font-size: 22px;
+}
+.box-back .meaning{
+  font-size: 33px;
+  font-weight: 600;
+}
+.box-back .exampleMean{
+  font-size: 22px;
+}
 .my-card img {
   width: 50%;
   height: 100%;

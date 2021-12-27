@@ -54,7 +54,7 @@ class Grammar extends Component {
                                                         <div>{grammar.example}</div>
                                                         <div>{grammar.exampleMeaning}</div>
                                                         <div class="vocabulary-image">
-                                                            <img src={S3Config.baseURLImgForGrammar + grammar.exampleImageLink} width="300px" alt="hiragana" />
+                                                            <img src={S3Config.baseURLImgForGrammar + grammar.exampleImageLink} width="300px" alt="không có hình ảnh" />
                                                             {/* <img src={require(`../../assets/img/KanjiDes/1.png`).default} alt="hiragana" /> */}
                                                         </div>
                                                     </div>
