@@ -123,7 +123,7 @@ class Vocabulary extends Component {
                         <div class="row">
                             <Sidebar />
                             <div class="col-md-9 mx-auto" style={{ width: "73%" }}>
-                                <h1 class="tit"> Vocabulary </h1>
+                                <h1 class="tit"> Từ vựng </h1>
                                 {/* <div class= "row"><FlashcardComponent dataSource={cardDatas}/></div> */}
 
                                 {
