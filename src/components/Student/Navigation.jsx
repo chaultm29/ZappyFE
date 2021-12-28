@@ -20,8 +20,6 @@ class Navigation extends Component {
         this.setState({
           avaLink: S3config.baseURLAvatar + res.data.avatar
         });
-      }).catch((erorr) => {
-        window.location.href = "/*"
       })
 
 
@@ -29,10 +27,7 @@ class Navigation extends Component {
     if (AuthenticationService.getRoleName() === "Student") {
       UserServices.getLevel().then((res) => {
         this.setState({ level: (res ? res.data : 0), percentage: (res.data.currentExp * 100 / res.data.levelExp) });
-      }).catch((error) => {
-        window.location.href = "/*"
-      });
-
+      })
     }
   }
   render() {
@@ -231,7 +226,7 @@ class Navigation extends Component {
                       className="nav-link active"
                       data-toggle="modal"
                       data-target="#registerModal"
-                    >Đăng kí</a>
+                    >Đăng ký</a>
                     <Register />
                   </li>
                 </ul>
