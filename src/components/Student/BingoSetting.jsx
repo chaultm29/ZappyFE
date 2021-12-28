@@ -79,6 +79,7 @@ class BingoSetting extends Component {
                     onLoading={this.handleSongLoading}
                     onPlaying={this.handleSongPlaying}
                     onFinishedPlaying={this.handleSongFinishedPlaying}
+                    volume={10}
                     loop={true}
                 />
                 {/* <div class="gameName"> Bingo Game </div> */}
