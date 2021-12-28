@@ -102,7 +102,7 @@ border-color: #c18401;
 
        }
         
-        small {
+    .leaderboard small {
           position: relative;
           z-index: 2;
           display: flex;
