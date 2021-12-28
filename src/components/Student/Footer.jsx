@@ -28,8 +28,8 @@ export default function Footer() {
             </ul>
             <div class="copyright">
               <p class="mb-1">
-                <small style={{ paddingRight: "0px" }}>
-                  Trong quá trình làm chúng mình không tránh được khỏi những sai sót nhất định. <br />Nếu có gì thắc mắc hoặc phản hồi, vui lòng gửi đến hòm thư: zappy-js@gmail.com</small>
+
+                Trong quá trình làm chúng mình không tránh được khỏi những sai sót nhất định. <br />Nếu có gì thắc mắc hoặc phản hồi, vui lòng gửi đến hòm thư: zappy-js@gmail.com
                 {/* <small style={{ paddingRight: "0px" }}>© Zappy Team. All Rights Reserved.</small> */}
               </p>
             </div>

@@ -140,7 +140,7 @@ export default function Profile({ isClicked }) {
         var validateUsername = /^[a-z\d]+$/i;
         var validateFullname = /^[a-zA-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s]+$/;
         var validateEmail = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-        var validatePhone = /(0)+([0-9]{9})\b/;
+        var validatePhone = /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/;
         var inputDate = new Date(dateOfBirth);
         var today = new Date();
         if (username.trim().length === 0) {
@@ -162,11 +162,8 @@ export default function Profile({ isClicked }) {
         } else if (!validateEmail.test(email)) {
             msg.email = "Cần bao gồm '@ .' và không được chứa dấu cách";
         }
-        if (phone.trim().length === 0) {
-            msg.phone = "Không được để trống";
-        }
-        else if (!validatePhone.test(phone)) {
-            msg.phone = "Độ dài 10 số, không bao gồm kí tự đặc biệt và dấu cách";
+        if (phone.trim().length > 0 && !validatePhone.test(phone)) {
+            msg.phone = "Số điện thoại không tồn tại";
         }
         if (dateOfBirth.length > 0 && inputDate >= today) {
             msg.dob = "Cần chọn ngày sinh nhỏ hơn hiện tại";
